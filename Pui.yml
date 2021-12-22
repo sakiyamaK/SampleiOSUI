@@ -1,0 +1,9 @@
+MVC:
+  Target: SampleiOSUI
+  TemplateDirectoryPath: ./templates/PuiTemplate/ios/MVC
+  GenerateRootPath: ./SampleiOSUI
+
+MVC_TABLE:
+  Target: SampleiOSUI
+  TemplateDirectoryPath: ./templates/PuiTemplate/ios/MVC_TABLE
+  GenerateRootPath: ./SampleiOSUI

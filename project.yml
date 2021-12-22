@@ -1,0 +1,79 @@
+name: SampleiOSUI
+# configs:
+#     Debug: debug
+#     Release: release
+# configFiles:
+#   Debug: configs/Debug.xcconfig
+#   Release: configs/Release.xcconfig
+options:
+  bundleIdPrefix: com.sakiyamaK
+  deploymentTarget:
+    iOS: 13.0
+packages:
+  IQKeyboardManagerSwift:
+      url: https://github.com/hackiftekhar/IQKeyboardManager
+      from: 6.5.0
+  SnapKit:
+      url: https://github.com/SnapKit/SnapKit
+      from: 5.0.1
+configs:
+  Debug: debug
+  Release: release
+schemes:
+  SampleiOSUI:
+    build:
+      targets:
+        SampleiOSUI: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      gatherCoverageData: true
+      coverageTargets:
+        - SampleiOSUI
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+
+targets:
+  SampleiOSUI:
+    platform: iOS
+    type: application
+    dependencies:
+        - package: IQKeyboardManagerSwift
+        - package: SnapKit
+    sources:
+      - path: SampleiOSUI/
+      - path: R.generated.swift
+        optional: true
+    preBuildScripts:
+        - path: /bin/sh
+          name: Run Script(Swiftformat)
+          script: |
+            if which mint >/dev/null; then
+              git diff --name-only | grep .swift | while read filename; do
+                mint run swiftformat "$filename" --swiftversion 5
+              done
+            else
+              echo "warning: Mintがインストールされていません。こちらからダウンロードしてください https://github.com/yonaskolb/Mint"
+            fi
+        - path: /bin/sh
+          name: Run Script(SwiftLint.swift)
+          script: |
+            if which swiftlint >/dev/null; then
+              swiftlint autocorrect --format
+              swiftlint
+            else
+              echo "SwiftLint does not exist, download from https://github.com/realm/SwiftLint"
+            fi
+        - path: /bin/sh
+          name: Run Script(R.swift)
+          script: |
+                "$PODS_ROOT/R.swift/rswift" generate "$SRCROOT/R.generated.swift"
+          inputFiles:
+                - $TEMP_DIR/rswift-lastrun
+          outputFiles:
+                - $SRCROOT/R.generated.swift
