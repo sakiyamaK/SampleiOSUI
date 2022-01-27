@@ -5,5 +5,6 @@ use_frameworks!
 target 'SampleiOSUI' do
   
   pod 'R.swift'
+  pod 'DeclarativeUIKit'
 
 end

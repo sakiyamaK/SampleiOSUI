@@ -16,6 +16,9 @@ packages:
   SnapKit:
       url: https://github.com/SnapKit/SnapKit
       from: 5.0.1
+  DeclarativeUIKit:
+      url: https://github.com/sakiyamaK/DeclarativeUIKit
+      from: 0.12.1
 configs:
   Debug: debug
   Release: release
@@ -45,6 +48,7 @@ targets:
     dependencies:
         - package: IQKeyboardManagerSwift
         - package: SnapKit
+        - package: DeclarativeUIKit
     sources:
       - path: SampleiOSUI/
       - path: R.generated.swift

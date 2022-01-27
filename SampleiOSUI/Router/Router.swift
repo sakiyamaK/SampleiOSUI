@@ -11,11 +11,11 @@ import UIKit
  画面遷移を管理
  */
 final class Router {
-
     static let shared: Router = .init()
     private init() {}
 
     private var window: UIWindow!
+
     // MARK: static method
 
     /**
@@ -28,9 +28,9 @@ final class Router {
         //        let vc = R.storyboard.sampleTable.sampleTableViewController()!
         //        let vc = R.storyboard.zoomImage.zoomImageViewController()!
         //        let rootVC = UINavigationController(rootViewController: vc)
-
-        let vc = DeclarativeUIKitViewController()
-        window?.rootViewController = vc
+        window?.rootViewController = UINavigationController(
+            rootViewController: SimpleViewController()
+        )
         window?.makeKeyAndVisible()
         self.window = window
     }

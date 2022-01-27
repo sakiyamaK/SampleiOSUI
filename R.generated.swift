@@ -175,6 +175,30 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
+  /// This `R.image` struct is generated, and contains static references to 2 images.
+  struct image {
+    /// Image `SplashIconW`.
+    static let splashIconW = Rswift.ImageResource(bundle: R.hostingBundle, name: "SplashIconW")
+    /// Image `SplashIcon`.
+    static let splashIcon = Rswift.ImageResource(bundle: R.hostingBundle, name: "SplashIcon")
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "SplashIcon", bundle: ..., traitCollection: ...)`
+    static func splashIcon(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.splashIcon, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "SplashIconW", bundle: ..., traitCollection: ...)`
+    static func splashIconW(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.splashIconW, compatibleWith: traitCollection)
+    }
+    #endif
+
+    fileprivate init() {}
+  }
+
   /// This `R.nib` struct is generated, and contains static references to 1 nibs.
   struct nib {
     /// Nib `SampleTableViewCell`.
@@ -339,7 +363,6 @@ struct _R: Rswift.Validatable {
       let name = "Test"
 
       static func validate() throws {
-        if #available(iOS 13.0, *) { if UIKit.UIImage(systemName: "square.and.arrow.up") == nil { throw Rswift.ValidationError(description: "[R.swift] System image named 'square.and.arrow.up' is used in storyboard 'Test', but couldn't be loaded.") } }
         if #available(iOS 11.0, tvOS 11.0, *) {
         }
       }
