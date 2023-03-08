@@ -12,26 +12,24 @@
 @_exported import SlideFeature
 
 import UIKit
-/**
- 画面遷移を管理
- */
-public final class Router {
-    public static let shared: Router = .init()
+
+public class App {
+    public static let shared: App = .init()
     private init() {}
 
-    private var window: UIWindow!
+    private var window: UIWindow?
+    
+    public func showRoot(window: UIWindow) {
 
-    // MARK: static method
+        //        let navigationBarAppearanceDefault = UINavigationBarAppearance.default
+        //        let navigationBarAppearance = UINavigationBar.appearance()
+        //        navigationBarAppearance.standardAppearance = navigationBarAppearanceDefault
+        //        navigationBarAppearance.compactAppearance = navigationBarAppearanceDefault
+        //        navigationBarAppearance.scrollEdgeAppearance = navigationBarAppearanceDefault
 
-    /**
-     起動直後の画面を表示する
-     - parameter window: UIWindow
-     */
-    public func showRoot(window: UIWindow?) {
-        let vc = SlideViewController.make()
-        window?.rootViewController = UINavigationController(rootViewController: vc)
-        window?.makeKeyAndVisible()
-
+        let vc = SampleAffineViewController()
+        window.rootViewController = UINavigationController(rootViewController: vc)
+        window.makeKeyAndVisible()
         self.window = window
     }
 }
