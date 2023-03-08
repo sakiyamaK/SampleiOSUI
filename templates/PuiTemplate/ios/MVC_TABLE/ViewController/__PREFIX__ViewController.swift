@@ -8,22 +8,19 @@
 import UIKit
 
 final class __PREFIX__ViewController: UIViewController {
-
-  @IBOutlet private weak var tableView: UITableView! {
-    didSet {
-    }
+  @IBOutlet private var tableView: UITableView! {
+    didSet {}
   }
 }
 
-extension __PREFIX__ViewController: UITableViewDelegate {
-}
+extension __PREFIX__ViewController: UITableViewDelegate {}
 
 extension __PREFIX__ViewController: UITableViewDelegate, UITableViewDataSource {
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
     0
   }
 
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  func tableView(_: UITableView, cellForRowAt _: IndexPath) -> UITableViewCell {
     UITableViewCell()
   }
 }

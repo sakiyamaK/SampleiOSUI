@@ -1,10 +1,13 @@
-platform :ios, '13.0'
+platform :ios, '14.0'
 inhibit_all_warnings!
 use_frameworks!
 
 target 'SampleiOSUI' do
   
-  pod 'R.swift'
-  pod 'DeclarativeUIKit'
-
+#  pod 'DeclarativeUIKit'
+  pod 'IQKeyboardManagerSwift'
+  pod 'RangeSeekSlider'
+  pod 'MultiSlider'
+  # pod 'Charts'
+  
 end
