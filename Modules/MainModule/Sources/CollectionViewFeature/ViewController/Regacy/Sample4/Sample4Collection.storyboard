@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nQo-z3-6jk">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Sample4-->
+        <scene sceneID="pTJ-4L-74t">
+            <objects>
+                <viewController title="Sample4" id="nQo-z3-6jk" customClass="Sample4CollectionViewController" customModule="CollectionViewFeature" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Wek-JH-Hog">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yRz-AS-Ugb">
+                                <rect key="frame" x="0.0" y="92" width="414" height="770"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="QD1-sq-103">
+                                    <size key="itemSize" width="0.0" height="0.0"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="nQo-z3-6jk" id="Ayb-5v-g4d"/>
+                                    <outlet property="delegate" destination="nQo-z3-6jk" id="AVs-18-zT9"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="EVO-Y3-3bs"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="yRz-AS-Ugb" firstAttribute="leading" secondItem="EVO-Y3-3bs" secondAttribute="leading" id="1dt-9T-u9Q"/>
+                            <constraint firstItem="EVO-Y3-3bs" firstAttribute="bottom" secondItem="yRz-AS-Ugb" secondAttribute="bottom" id="I1d-yl-a6E"/>
+                            <constraint firstItem="yRz-AS-Ugb" firstAttribute="top" secondItem="EVO-Y3-3bs" secondAttribute="top" id="NVR-X2-9yE"/>
+                            <constraint firstItem="EVO-Y3-3bs" firstAttribute="trailing" secondItem="yRz-AS-Ugb" secondAttribute="trailing" id="sgS-ml-vR6"/>
+                        </constraints>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="collectionView" destination="yRz-AS-Ugb" id="ff2-ab-3o4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RSZ-Jr-6Vl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-343" y="3"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

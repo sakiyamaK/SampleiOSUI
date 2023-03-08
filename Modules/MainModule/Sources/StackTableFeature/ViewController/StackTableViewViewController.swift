@@ -11,7 +11,7 @@ public final class StackTableViewViewController: UIViewController {
     @IBOutlet private var stackView: UIStackView!
 
     public static func make() -> StackTableViewViewController {
-        let vc = UIStoryboard(name: "StackTableView", bundle: nil).instantiateInitialViewController() as! StackTableViewViewController
+        let vc = UIStoryboard(name: "StackTableView", bundle: Bundle.module).instantiateInitialViewController() as! StackTableViewViewController
         return vc
     }
 

@@ -1,32 +1,16 @@
 PODS:
-  - AvailableHapticFeedback (1.0.2)
-  - IQKeyboardManagerSwift (6.5.11)
-  - MultiSlider (1.13.2):
-    - AvailableHapticFeedback
-    - SweeterSwift
   - RangeSeekSlider (1.8.0)
-  - SweeterSwift (1.2.1)
 
 DEPENDENCIES:
-  - IQKeyboardManagerSwift
-  - MultiSlider
   - RangeSeekSlider
 
 SPEC REPOS:
   trunk:
-    - AvailableHapticFeedback
-    - IQKeyboardManagerSwift
-    - MultiSlider
     - RangeSeekSlider
-    - SweeterSwift
 
 SPEC CHECKSUMS:
-  AvailableHapticFeedback: 9b21b9f6d3e4566015988b5de35b40abefe6c09a
-  IQKeyboardManagerSwift: c7955c0bdbf7b2eb29bb7daaa44e3d90f55a9a85
-  MultiSlider: 66271d410330e63ded9e468d4ef420d5dbe31d2e
   RangeSeekSlider: 650b11fa1edcb92e1e0ede797669d98622570fb5
-  SweeterSwift: 61baeda1c0c27d1dc57c8112c3d6a82e5aff3139
 
-PODFILE CHECKSUM: 01d7677fc859a667a875774091b3138aae0eab8a
+PODFILE CHECKSUM: 5ec58eec4c788b705cfd6b11a6d903072a75efe2
 
 COCOAPODS: 1.10.1

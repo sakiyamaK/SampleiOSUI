@@ -10,12 +10,16 @@
 @_exported import StackTableFeature
 @_exported import SampleAffineFeature
 @_exported import SlideFeature
+@_exported import CollectionViewFeature
 
+import IQKeyboardManagerSwift
 import UIKit
 
 public class App {
     public static let shared: App = .init()
-    private init() {}
+    private init() {
+        IQKeyboardManager.shared.enable = true
+    }
 
     private var window: UIWindow?
     
@@ -27,7 +31,7 @@ public class App {
         //        navigationBarAppearance.compactAppearance = navigationBarAppearanceDefault
         //        navigationBarAppearance.scrollEdgeAppearance = navigationBarAppearanceDefault
 
-        let vc = SampleAffineViewController()
+        let vc = RootCollectionViewController()
         window.rootViewController = UINavigationController(rootViewController: vc)
         window.makeKeyAndVisible()
         self.window = window

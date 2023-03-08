@@ -1,5 +1,6 @@
 import DeclarativeUIKit
 import UIKit
+import Extensions
 
 public final class AnimatedFloatingActionButton: UIView {
     required init?(coder: NSCoder) {
@@ -13,7 +14,7 @@ public final class AnimatedFloatingActionButton: UIView {
         super.init(frame: frame)
         //        NotificationCenter.default.addObserver(self,
         //                                               selector: #selector(updateLayout),
-        //                                               name: Notification.Name("INJECTION_BUNDLE_NOTIFICATION"), object: nil)
+        //                                               name: Notification.Name.injection, object: nil)
         updateLayout()
     }
 
@@ -63,7 +64,7 @@ public final class AnimatedFloatingActionButtons: UIView {
         super.init(frame: frame)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateLayout),
-                                               name: Notification.Name("INJECTION_BUNDLE_NOTIFICATION"), object: nil)
+                                               name: Notification.Name.injection, object: nil)
         updateLayout()
     }
 

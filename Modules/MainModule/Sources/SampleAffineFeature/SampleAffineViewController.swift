@@ -7,6 +7,7 @@
 
 import DeclarativeUIKit
 import UIKit
+import Extensions
 
 public final class SampleAffineViewController: UIViewController {
     public override func loadView() {
@@ -14,7 +15,7 @@ public final class SampleAffineViewController: UIViewController {
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(setupLayout),
-                                               name: Notification.Name("INJECTION_BUNDLE_NOTIFICATION"), object: nil)
+                                               name: Notification.Name.injection, object: nil)
 
         setupLayout()
     }

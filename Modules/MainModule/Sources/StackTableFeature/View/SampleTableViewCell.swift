@@ -13,7 +13,7 @@ protocol SampleTableViewCellProtocol: AnyObject {
 
 final class SampleTableViewCell: UITableViewCell {
     static func makeFromSXib() -> SampleTableViewCell {
-        let view = UINib(nibName: "SampleTableViewCell", bundle: nil).instantiate(withOwner: self, options: nil).first! as! SampleTableViewCell
+        let view = UINib(nibName: "SampleTableViewCell", bundle: Bundle.module).instantiate(withOwner: self, options: nil).first! as! SampleTableViewCell
         return view
     }
 

@@ -8,6 +8,7 @@
  import UIKit
  import DeclarativeUIKit
  import Charts
+import Extensions
 
 public final class ChartsViewController: UIViewController {
 
@@ -15,7 +16,7 @@ public final class ChartsViewController: UIViewController {
         super.loadView()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(setupLayout),
-                                               name: Notification.Name("INJECTION_BUNDLE_NOTIFICATION"), object: nil)
+                                               name: Notification.Name.injection, object: nil)
 
         setupLayout()
     }

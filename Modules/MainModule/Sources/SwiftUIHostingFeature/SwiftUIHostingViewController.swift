@@ -20,10 +20,6 @@ public final class SwiftUIHostingViewController: UIViewController {
         setupLayout()
     }
 
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
     @objc func setupLayout() {
         self.view.backgroundColor = .white
         self.declarative {

@@ -4,10 +4,6 @@ use_frameworks!
 
 target 'SampleiOSUI' do
   
-#  pod 'DeclarativeUIKit'
-  pod 'IQKeyboardManagerSwift'
   pod 'RangeSeekSlider'
-  pod 'MultiSlider'
-  # pod 'Charts'
   
 end
