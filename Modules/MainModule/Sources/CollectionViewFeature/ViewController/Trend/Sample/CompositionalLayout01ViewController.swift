@@ -14,7 +14,14 @@ final class CompositionalLayout01ViewController: UIViewController {
 
     override func loadView() {
         super.loadView()
-
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(setupLayout),
+                                               name: Notification.Name.injection, object: nil)
+        
+        setupLayout()
+    }
+    
+    @objc func setupLayout() {
         view.backgroundColor = .white
 
         declarative {

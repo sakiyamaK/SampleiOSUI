@@ -13,6 +13,8 @@ import Extensions
 
 enum ViewType: String, CaseIterable {
     
+    // Trend
+    case CellRegistration01
     case WaterfalCompositionallLayout
     case CompositionalLayout09
     case CompositionalLayout08
@@ -26,22 +28,33 @@ enum ViewType: String, CaseIterable {
     case CompositionalLayout07
     case DiffableDataSources01
     case DiffableDataSources02
-    case VHScrollCollection
-    case Sample1Collection
-    case Sample2Collection
-    case Sample3Collection
-    case Sample4Collection
-    case Sample5Collection
-    case Sample6Collection
-    case Sample7Collection
-    case StoppableHeaderCollection
-    case StoppableHeaderPageCollection
+    // Regacy
+    case VHScrollCollectionViewController
+    case Sample1CollectionViewController
+    case Sample2CollectionViewController
+    case Sample3CollectionViewController
+    case Sample4CollectionViewController
+    case Sample5CollectionViewController
+    case Sample6CollectionViewController
+    case Sample7CollectionViewController
+    case StoppableHeaderCollectionViewController
+    case StoppableHeaderPageCollectionViewController
     case WWDC2018
     
     var viewController: UIViewController {
         switch self {
         case .WWDC2018:
-            return UIStoryboard(name: "MosaicCollection", bundle: Bundle.module).instantiateInitialViewController() as! MosaicCollectionViewController
+            return UIStoryboard(name: "MosaicCollection", bundle: Bundle.module).instantiateInitialViewController()!
+        case .AppStore:
+            return UIStoryboard(name: "AppStoreTop", bundle: Bundle.module).instantiateInitialViewController()!
+        case .CellRegistration01:
+            return CellRegistration01ViewController()
+        case .WaterfalCompositionallLayout:
+            return WaterfalCompositionallLayoutCollectionViewController()
+        case .CompositionalLayout09:
+            return CompositionalLayout09ViewController()
+        case .CompositionalLayout08:
+            return CompositionalLayout08ViewController()
         case .CompositionalLayout01:
             return CompositionalLayout01ViewController()
         case .CompositionalLayout02:
@@ -56,21 +69,12 @@ enum ViewType: String, CaseIterable {
             return CompositionalLayout06ViewController()
         case .CompositionalLayout07:
             return CompositionalLayout07ViewController()
-        case .CompositionalLayout08:
-            return CompositionalLayout08ViewController()
-        case .CompositionalLayout09:
-            return CompositionalLayout09ViewController()
         case .DiffableDataSources01:
             return DiffableDataSources01ViewController()
         case .DiffableDataSources02:
             return DiffableDataSources02ViewController()
-        case .AppStore:
-            return UIStoryboard(name: "AppStoreTop", bundle: Bundle.module).instantiateInitialViewController() as! AppStoreTopViewController
-        case .WaterfalCompositionallLayout:
-            return WaterfalCompositionallLayoutCollectionViewController()
         default:
-            let sb = UIStoryboard(name: self.rawValue, bundle: Bundle.module)
-            return sb.instantiateInitialViewController()!
+            return UIStoryboard(name: self.rawValue, bundle: Bundle.module).instantiateInitialViewController()!
         }
     }
     

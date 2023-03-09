@@ -43,10 +43,9 @@ final class WaterfalCompositionallLayoutCollectionViewController: UIViewControll
             }
             .assign(to: &collectionView)
             .registerCellClass(UIImageViewCell.self, forCellWithReuseIdentifier: UIImageViewCell.reuseId)
-            .imperative { [weak self] in
+            .apply { [weak self] in
                 guard let self = self else { return }
-                let collectionView = $0 as! UICollectionView
-                self.dataSource = UICollectionViewDiffableDataSource<Int, SampleImageModel>(collectionView: collectionView) {
+                self.dataSource = UICollectionViewDiffableDataSource<Int, SampleImageModel>(collectionView: $0) {
                     (collectionView: UICollectionView, indexPath: IndexPath, sample: SampleImageModel) -> UIImageViewCell in
                     (collectionView.dequeueReusableCell(withReuseIdentifier: UIImageViewCell.reuseId, for: indexPath) as! UIImageViewCell)
                         .configure(sample: sample)
@@ -67,9 +66,8 @@ final class WaterfalCompositionallLayoutCollectionViewController: UIViewControll
         declarative(reset: false) {
             UIActivityIndicatorView(assign: &indicator)
                 .hidesWhenStopped(true)
-                .imperative {
-                    let indicator = $0 as! UIActivityIndicatorView
-                    indicator.startAnimating()
+                .apply {
+                    $0.startAnimating()
                 }
                 .center()
         }
