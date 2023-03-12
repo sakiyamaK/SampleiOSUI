@@ -38,12 +38,25 @@ public extension UIView {
         func updateUIView(_: UIView, context _: Context) {}
     }
 
+    func toView() -> some View {
+        Preview(view: self)
+    }
+
     func toPreview() -> some View {
         Preview(view: self)
     }
 }
 
 public extension UIViewController {
+    func addHostingController(rootView: some View, containerView: UIView) {
+        self.addContainer(
+            viewController: UIHostingController(
+                    rootView: rootView
+            ),
+            containerView: containerView
+        )
+    }
+
     private struct Preview: UIViewControllerRepresentable {
         let viewController: UIViewController
 
@@ -55,4 +68,5 @@ public extension UIViewController {
     func toPreview() -> some View {
         Preview(viewController: self)
     }
+    
 }

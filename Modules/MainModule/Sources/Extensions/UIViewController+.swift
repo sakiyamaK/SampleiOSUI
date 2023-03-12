@@ -31,6 +31,7 @@ public extension UIViewController {
         resignFirstResponder()
         self.view.touchesEnded(touches, with: event)
     }
+
     // MARK: - containerview
     func addContainer(viewController: UIViewController, containerView: UIView) {
         self.addChild(viewController)
@@ -50,15 +51,15 @@ public extension UIViewController {
         viewController.view.removeFromSuperview()
         viewController.removeFromParent()
     }
-    
+        
     func removeAllContainer() {
         self.children.forEach {
             self.removeContainer(viewController: $0)
         }
     }
+    
     var withNavigationController: UINavigationController {
         UINavigationController(rootViewController: self)
     }
     
 }
-

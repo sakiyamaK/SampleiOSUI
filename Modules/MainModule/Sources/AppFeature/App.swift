@@ -14,6 +14,62 @@
 
 import IQKeyboardManagerSwift
 import UIKit
+import DeclarativeUIKit
+import Extensions
+
+private enum ViewType: String, CaseIterable {
+    
+    case Sample
+    case RootSwiftUI
+    case RootCollection
+    
+    var viewController: UIViewController {
+        switch self {
+        case .Sample:
+            return SampleViewController()
+        case .RootSwiftUI:
+            return RootSwiftUIHostingViewController()
+        case .RootCollection:
+            return RootCollectionViewController()
+        }
+    }
+    
+    func button(from: UIViewController) -> UIButton {
+        UIButton(self.rawValue)
+            .contentEdgeInsets(.init(top: 10, left: 10, bottom: 10, right: 10))
+            .font(UIFont.systemFont(ofSize: 20))
+            .backgroundColor(.systemBlue)
+            .cornerRadius(10)
+            .add(target: from, for: .touchUpInside) { _ in
+                from.navigationController?.pushViewController(self.viewController, animated: true)
+            }
+    }
+}
+
+
+public final class RootViewController: UIViewController {
+        
+    public override func loadView() {
+        super.loadView()
+
+        self.view.backgroundColor = .white
+        self.navigationItem.title = "Root"
+        
+        self.declarative {
+            UIScrollView.vertical {
+                UIStackView.vertical {
+                    ViewType.allCases.compactMap({ $0.button(from: self).height(40) })
+                }
+                .spacing(20)
+                .distribution(.fillEqually)
+                .alignment(.center)
+                .center()
+            }
+            .showsScrollIndicator(false)
+        }
+    }
+}
+
 
 public class App {
     public static let shared: App = .init()
@@ -31,8 +87,7 @@ public class App {
         //        navigationBarAppearance.compactAppearance = navigationBarAppearanceDefault
         //        navigationBarAppearance.scrollEdgeAppearance = navigationBarAppearanceDefault
 
-        let vc = RootCollectionViewController()
-        window.rootViewController = UINavigationController(rootViewController: vc)
+        window.rootViewController = RootViewController().withNavigationController
         window.makeKeyAndVisible()
         self.window = window
     }

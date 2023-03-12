@@ -16,12 +16,20 @@ final class CellRegistration01ViewController: UIViewController {
         // デフォルトで用意されたオプションを設定できる
         var config = UIListContentConfiguration.cell()
         config.text = sample.title
-        config.secondaryText = "hogehoge"
+        config.textProperties.color = indexPath.item%2 == 0 ? .systemRed : .systemBlue
+        config.textProperties.font = UIFont.defaultFontBold(size: 20)
+        config.secondaryText = indexPath.item%2 == 0 ? "hogehoge" : nil
+        config.secondaryTextProperties.font = UIFont.defaultFontMedium(size: 20)
+
         // セルの設定をする
         cell.contentConfiguration = config
-        cell.backgroundColor = .white
+        cell.backgroundColor = indexPath.item%2 == 0 ? .systemBlue : .systemRed
+        // backgroundViewで設定することもできる
+//        let backgroundView = UIView()
+//        backgroundView.backgroundColor = indexPath.item%2 == 0 ? .systemBlue : .systemRed
+//        cell.backgroundView = backgroundView
     }
-    
+
     private weak var collectionView: UICollectionView!
     
     override func loadView() {
@@ -32,7 +40,7 @@ final class CellRegistration01ViewController: UIViewController {
         
         setupLayout()
     }
-    
+            
     @objc private func setupLayout() {
         
         view.backgroundColor = .white
@@ -58,7 +66,8 @@ final class CellRegistration01ViewController: UIViewController {
                     heightDimension: .estimated(1.0)
                 )
                 // グループの水平設定に大きさとアイテムの種類を登録する
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+                group.interItemSpacing = .fixed(10)
                 
                 // セクションにグループを登録する
                 let section = NSCollectionLayoutSection(group: group)

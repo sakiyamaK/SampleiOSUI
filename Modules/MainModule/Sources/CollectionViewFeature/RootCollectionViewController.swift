@@ -11,7 +11,7 @@ import DeclarativeUIKit
 import Hero
 import Extensions
 
-enum ViewType: String, CaseIterable {
+private enum ViewType: String, CaseIterable {
     
     // Trend
     case CellRegistration01
@@ -29,22 +29,22 @@ enum ViewType: String, CaseIterable {
     case DiffableDataSources01
     case DiffableDataSources02
     // Regacy
-    case VHScrollCollectionViewController
-    case Sample1CollectionViewController
-    case Sample2CollectionViewController
-    case Sample3CollectionViewController
-    case Sample4CollectionViewController
-    case Sample5CollectionViewController
-    case Sample6CollectionViewController
-    case Sample7CollectionViewController
-    case StoppableHeaderCollectionViewController
-    case StoppableHeaderPageCollectionViewController
+    case VHScrollCollection
+    case Sample1Collection
+    case Sample2Collection
+    case Sample3Collection
+    case Sample4Collection
+    case Sample5Collection
+    case Sample6Collection
+    case Sample7Collection
+//    case StoppableHeaderCollection
+//    case StoppableHeaderPageCollectionView
     case WWDC2018
     
     var viewController: UIViewController {
         switch self {
         case .WWDC2018:
-            return UIStoryboard(name: "MosaicCollection", bundle: Bundle.module).instantiateInitialViewController()!
+            return MosaicCollectionViewController()
         case .AppStore:
             return UIStoryboard(name: "AppStoreTop", bundle: Bundle.module).instantiateInitialViewController()!
         case .CellRegistration01:

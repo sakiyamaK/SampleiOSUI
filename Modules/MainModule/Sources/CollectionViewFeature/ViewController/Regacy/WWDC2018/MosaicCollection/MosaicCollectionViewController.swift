@@ -11,14 +11,27 @@ import UIKit
 final class MosaicCollectionViewController: UIViewController {
     private var samples = SampleModel.getDemoData(count: 100)
 
-    @IBOutlet private var collectionView: UICollectionView! {
-        didSet {
-            collectionView.register(MyCollectionViewCell2.nib, forCellWithReuseIdentifier: MyCollectionViewCell2.reuseIdentifier)
-            collectionView.collectionViewLayout = MosaicLayout()
-            collectionView.alwaysBounceVertical = true
-            collectionView.indicatorStyle = .white
-            collectionView.delegate = self
-            collectionView.dataSource = self
+    private weak var collectionView: UICollectionView!
+    
+    override func loadView() {
+        super.loadView()
+        self.view.backgroundColor = .white
+        
+        self.declarative {
+            UICollectionView {
+                MosaicLayout()
+            }
+            .assign(to: &collectionView)
+            .alwaysBounceVertical(true)
+            .indicatorStyle(.white)
+            .delegate(self)
+            .dataSource(self)
+            .apply {
+                $0.register(
+                    MyCollectionViewCell2.nib,
+                    forCellWithReuseIdentifier: MyCollectionViewCell2.reuseIdentifier
+                )
+            }
         }
     }
 

@@ -7,11 +7,37 @@
 
 import UIKit
 import SwiftUI
+import Combine
 import DeclarativeUIKit
 import Extensions
 
-public final class SwiftUIHostingViewController: UIViewController {
+private final class ViewModel: ObservableObject {
+    
+    @Published var text: String = "ここが変わるよ"
+    let buttonTitle = "ボタンです"
+    
+    func tapAction() {
+        DLog("タップ")
+        text = "変わったよ"
+    }
+}
 
+private struct SwiftUIHostingView: View {
+    
+    @ObservedObject var viewModel: ViewModel
+
+        var body: some View {
+            Text(self.viewModel.text)
+            Button(self.viewModel.buttonTitle) {
+                self.viewModel.tapAction()
+            }
+        }
+}
+
+public final class SwiftUIHosting01ViewController: UIViewController {
+
+    private let viewModel = ViewModel()
+    
     public override func loadView() {
         super.loadView()
         NotificationCenter.default.addObserver(self,
@@ -19,15 +45,12 @@ public final class SwiftUIHostingViewController: UIViewController {
                                                name: Notification.Name.injection, object: nil)
         setupLayout()
     }
-
+        
     @objc func setupLayout() {
-        self.view.backgroundColor = .white
-        self.declarative {
-            UIView()
-                .apply { [weak self] in
-                    self?.addContainer(viewController: UIHostingController(rootView: Text("hogeeee").foregroundColor(.black)), containerView: $0)
-                }
-        }
+        self.addHostingController(
+            rootView: SwiftUIHostingView(viewModel: viewModel),
+            containerView: self.view
+        )        
     }
 }
 
