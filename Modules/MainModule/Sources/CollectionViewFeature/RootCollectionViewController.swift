@@ -15,6 +15,8 @@ private enum ViewType: String, CaseIterable {
     
     // Trend
     case CellRegistration01
+    case CellRegistration02
+    case CellRegistration03
     case WaterfalCompositionallLayout
     case CompositionalLayout09
     case CompositionalLayout08
@@ -49,6 +51,10 @@ private enum ViewType: String, CaseIterable {
             return UIStoryboard(name: "AppStoreTop", bundle: Bundle.module).instantiateInitialViewController()!
         case .CellRegistration01:
             return CellRegistration01ViewController()
+        case .CellRegistration02:
+            return CellRegistration02ViewController()
+        case .CellRegistration03:
+            return CellRegistration03ViewController()
         case .WaterfalCompositionallLayout:
             return WaterfalCompositionallLayoutCollectionViewController()
         case .CompositionalLayout09:

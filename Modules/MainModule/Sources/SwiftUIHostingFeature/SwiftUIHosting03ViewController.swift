@@ -65,36 +65,29 @@ public final class SwiftUIHosting03ViewController: UIViewController {
     @objc func setupLayout() {
         
         self.view.backgroundColor = .white
-        
-        self.declarative {
-            UIStackView.vertical {
-                UILabel("UIStackViewの中にあるUILabelです")
-                    .textAlignment(.center)
-                    .contentPriorities(.init(vertical: .required))
-                    .customSpacing(20)
-                
-                UIView().apply {
-                    self.addHostingController(
-                        rootView:
-                            ScrollView(content: {
-                                LazyVStack {
-                                    ForEach(1...100, id: \.self) { i in
-                                        UILabel("ScrollView > LazyVStackの中にある\n\(i)番目のUILabelです")
-                                            .textAlignment(.center)
-                                            .numberOfLines(0)
-                                            .contentPriorities(.init(vertical: .required))
-                                            .toView()
-                                            .onAppear() {
-                                                DLog(i)
-                                            }
-                                    }
+
+        self.addHostingController(
+            rootView:
+                ScrollView(content: {
+                    LazyVStack {
+                        ForEach(1...100, id: \.self) { i in
+                            UILabel("ScrollView > LazyVStackの中にある\(i)番目のUILabelです")
+                                .textAlignment(.center)
+                                .numberOfLines(0)
+                                .contentPriorities(.init(vertical: .required))
+                                .toView()
+                                .frame(width: UIScreen.main.bounds.width/2)
+                                .background(Color.blue)
+                                .onAppear() {
+                                    DLog(i)
                                 }
-                            }),
-                        containerView: $0
-                    )
-                }
-            }
-        }
+                            
+                            Spacer(minLength: 10)
+                        }
+                    }
+                }),
+            containerView: self.view
+        )
     }
 }
 
