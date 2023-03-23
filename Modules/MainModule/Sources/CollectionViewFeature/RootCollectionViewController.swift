@@ -30,6 +30,7 @@ private enum ViewType: String, CaseIterable {
     case CompositionalLayout07
     case DiffableDataSources01
     case DiffableDataSources02
+    case DiffableDataSources03
     // Regacy
     case VHScrollCollection
     case Sample1Collection
@@ -79,6 +80,8 @@ private enum ViewType: String, CaseIterable {
             return DiffableDataSources01ViewController()
         case .DiffableDataSources02:
             return DiffableDataSources02ViewController()
+        case .DiffableDataSources03:
+            return DiffableDataSources03ViewController()
         default:
             return UIStoryboard(name: self.rawValue, bundle: Bundle.module).instantiateInitialViewController()!
         }

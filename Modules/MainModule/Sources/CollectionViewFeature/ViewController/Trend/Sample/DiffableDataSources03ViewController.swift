@@ -9,8 +9,9 @@ import UIKit
 import DeclarativeUIKit
 import Extensions
 
-struct CellHasable: Hashable {
-    var identifier: UUID
+
+struct DiffableDatasourceID: Hashable {
+    var identifier: UUID = .init()
     func hash(into hasher: inout Hasher) {
         hasher.combine(identifier)
     }
@@ -20,20 +21,24 @@ struct CellHasable: Hashable {
     }
 }
 
-protocol CellProtocol {
-    var identifier: UUID { get }
-    var cellHasable: CellHasable { get }
+protocol CellProtocol: Equatable {
+    var id: DiffableDatasourceID { get }
+    static func == (lhs: Self, rhs: Self) -> Bool
+}
+
+extension CellProtocol {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 struct CellModel01: CellProtocol {
-    private(set) var identifier = UUID()
-    var cellHasable: CellHasable { CellHasable(identifier: identifier) }
+    var id: DiffableDatasourceID = .init()
     var text: String
 }
 
 struct CellModel02: CellProtocol {
-    private(set) var identifier = UUID()
-    var cellHasable: CellHasable { CellHasable(identifier: identifier) }
+    var id: DiffableDatasourceID = .init()
     var value: Int
 }
 
@@ -199,8 +204,8 @@ public final class DiffableDataSources03ViewController: UIViewController, UIColl
 
     deinit { }
 
-    private var snapshot: NSDiffableDataSourceSnapshot<SectionModel, CellHasable> = .init()
-    private var dataSource: UICollectionViewDiffableDataSource<SectionModel, CellHasable>?
+    private var snapshot: NSDiffableDataSourceSnapshot<SectionModel, DiffableDatasourceID> = .init()
+    private var dataSource: UICollectionViewDiffableDataSource<SectionModel, DiffableDatasourceID>?
 
     public override func loadView() {
         super.loadView()
@@ -211,9 +216,10 @@ public final class DiffableDataSources03ViewController: UIViewController, UIColl
     }
 
     private weak var collectionView: UICollectionView!
-    private var sampless: [[SectionModel: [CellProtocol]]] = .init()
-    func getSampless(emptySection: Int? = nil, newSection: SectionModel? = nil) -> [[SectionModel: [CellProtocol]]] {
-        (0...2).compactMap { sectionIndex -> [SectionModel: [CellProtocol]] in
+
+    private var sampless: [[SectionModel: [any CellProtocol]]] = .init()
+    func getSampless(emptySection: Int? = nil, newSection: SectionModel? = nil) -> [[SectionModel: [any CellProtocol]]] {
+        (0...2).compactMap { sectionIndex -> [SectionModel: [any CellProtocol]] in
             var sectionModel = newSection ?? SectionModel(section: sectionIndex)
             sectionModel.section = sectionIndex
 
@@ -232,12 +238,14 @@ public final class DiffableDataSources03ViewController: UIViewController, UIColl
             }
         }
     }
-    func sample(identifier: UUID) -> CellProtocol? {
-        sampless.compactMap { $0.values }.joined().lazy.joined().first { $0.identifier == identifier }
-    }
+    func getSample(id: DiffableDatasourceID) -> (any CellProtocol)? {
+        // joined().joined()と２回いる理由がよく分からない
+        sampless.compactMap { $0.values }.joined().joined().first { $0.id == id }
 
-    var cellHasabless: [CellHasable] {
-        sampless.compactMap { $0.values }.joined().lazy.joined().compactMap { $0.cellHasable }
+    }
+    
+    var ids: [DiffableDatasourceID] {
+        sampless.compactMap { $0.values }.joined().joined().compactMap { $0.id }
     }
 
     @objc private func setupLayout() {
@@ -260,15 +268,15 @@ public final class DiffableDataSources03ViewController: UIViewController, UIColl
             .refreshControl({
                 UIRefreshControl()
                     .add(target: self, for: .valueChanged) {[weak self] _ in
-                        guard let self else { return }
+                        guard let self = self else { return }
                         self.sampless = self.getSampless()
                         self.performQuery(sampless: self.sampless)
                     }
             })
             .assign(to: &collectionView)
-            .registerCellClass(AccordionCollectionViewCell.self, forCellWithReuseIdentifier: "AccordionCollectionViewCell")
-            .registerCellClass(AccordionCollectionViewCell2.self, forCellWithReuseIdentifier: "AccordionCollectionViewCell2")
-            .registerViewClass(CollecitonHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "CollecitonHeader")
+            .registerCellClass(AccordionCollectionViewCell.self, forCellWithReuseIdentifier: AccordionCollectionViewCell.className)
+            .registerCellClass(AccordionCollectionViewCell2.self, forCellWithReuseIdentifier: AccordionCollectionViewCell2.className)
+            .registerViewClass(CollecitonHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollecitonHeader.className)
         }
 
         snapshot = .init()
@@ -279,15 +287,16 @@ public final class DiffableDataSources03ViewController: UIViewController, UIColl
 }
 
 private extension DiffableDataSources03ViewController {
+    
     func configureDataSource() {
-        let accordionCollectionViewCellRegistration = UICollectionView.CellRegistration<AccordionCollectionViewCell, CellHasable> { cell, indexPath, cellHasable in
-            guard let sample = self.sample(identifier: cellHasable.identifier) as? CellModel01 else {
+        let accordionCollectionViewCellRegistration = UICollectionView.CellRegistration<AccordionCollectionViewCell, DiffableDatasourceID> { cell, indexPath, id in
+            guard let sample = self.getSample(id: id) as? CellModel01 else {
                 return
             }
             cell.configure(sample: sample, indexPath: indexPath)
         }
-        let accordionCollectionViewCell2Registration = UICollectionView.CellRegistration<AccordionCollectionViewCell2, CellHasable> { cell, indexPath, cellHasable in
-            guard let sample = self.sample(identifier: cellHasable.identifier) as? CellModel02 else {
+        let accordionCollectionViewCell2Registration = UICollectionView.CellRegistration<AccordionCollectionViewCell2, DiffableDatasourceID> { cell, indexPath, id in
+            guard let sample = self.getSample(id: id) as? CellModel02 else {
                 return
             }
             cell.configure(sample: sample, indexPath: indexPath)
@@ -322,13 +331,13 @@ private extension DiffableDataSources03ViewController {
         }
     }
 
-    func performQuery(sampless: [[SectionModel: [CellProtocol]]]) {
+    func performQuery(sampless: [[SectionModel: [any CellProtocol]]]) {
         snapshot.deleteAllItems()
         let sections = Array(sampless.compactMap({ $0.keys.first }))
         snapshot.appendSections(sections)
         for samples in sampless {
             guard let key = samples.keys.first, let arr = samples[key] else { continue }
-            snapshot.appendItems(arr.compactMap({ $0.cellHasable }), toSection: key)
+            snapshot.appendItems(arr.compactMap({ $0.id }), toSection: key)
         }
         dataSource?.apply(snapshot, animatingDifferences: true) { [weak self] in
             self?.collectionView?.refreshControl?.endRefreshing()
