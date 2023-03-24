@@ -15,7 +15,7 @@ import DeclarativeUIKit
 import UIKit
 import Extensions
 
-struct ContentModel03: Equatable {
+struct ContentModel03: Hashable {
     // DiffableDatasource用
     struct ID: Hashable {
         let value: String
@@ -41,6 +41,10 @@ struct ContentModel03: Equatable {
     
     var tapButton: ((Self) -> Void)?
     
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.id == rhs.id
     }
@@ -54,7 +58,10 @@ extension ContentModel03: UIContentConfiguration {
     }
     
     func updated(for state: UIConfigurationState) -> Self {
-        return self
+        guard let state = state as? UICellConfigurationState else { return self }
+        var newSelf = self
+        newSelf.expanded = state.isExpanded
+        return newSelf
     }
 }
 
@@ -68,19 +75,17 @@ final class ContentView03: UIView & UIContentView {
     private weak var label: UILabel!
     private weak var showMore: UIButton!
 
-    private var currentConfiguration: ContentModel03!
     var configuration: UIContentConfiguration {
-        get {
-            currentConfiguration
-        }
-        set {
-            guard let configuration = newValue as? ContentModel03 else { return }
-            apply(configuration: configuration)            
+        didSet {
+            guard let configuration = configuration as? ContentModel03 else { return }
+            apply(configuration: configuration)
         }
     }
     
     init(configuration: ContentModel03) {
-        
+
+        self.configuration = configuration
+
         super.init(frame: .zero)
         
         self.declarative {
@@ -119,18 +124,9 @@ final class ContentView03: UIView & UIContentView {
                 UIView.divider()
             }
         }
-        
-        apply(configuration: configuration)
     }
     
     private func apply(configuration: ContentModel03) {
-        DLog("============ apply \(configuration.value) =========")
-        guard currentConfiguration != configuration else { return }
-        
-        currentConfiguration = configuration
-
-        DLog("============ update apply \(configuration.value) =========")
-
         label.numberOfLines = configuration.expanded ? 0 : 1
         showMore.isHidden = configuration.expanded
     }
@@ -159,15 +155,14 @@ public final class CellRegistration03ViewController: UIViewController, UICollect
         return samples
     }()
     
-    
-    private var dataSource: UICollectionViewDiffableDataSource<Int, ContentModel03.ID>!
+    private var dataSource: UICollectionViewDiffableDataSource<Int, ContentModel03>!
     
     override public func viewDidLoad() {
         super.viewDidLoad()
         
-        var snapshot = NSDiffableDataSourceSnapshot<Int, ContentModel03.ID>()
+        var snapshot = NSDiffableDataSourceSnapshot<Int, ContentModel03>()
         snapshot.appendSections([0])
-        snapshot.appendItems(samples.compactMap({$0.id}))
+        snapshot.appendItems(samples)
         
         dataSource.apply(snapshot, animatingDifferences: true)
     }
@@ -202,51 +197,49 @@ public final class CellRegistration03ViewController: UIViewController, UICollect
                     }
                     .apply({[weak self] in
                         guard let self else { return }
-                        
-                        let registration = UICollectionView.CellRegistration<UICollectionViewCell, ContentModel03> {[weak self] cell, indexPath, item in
-                            
-                            DLog("============ registration \(indexPath) =========")
-                            DLog(item.value)
-                            DLog(self?.samples.compactMap({ $0.value }))
-
-                            // MEMO:
-                            // これまでみたいにカスタムセルをいちいちregisterする必要はない
-                            guard let self else { return }
-                            
-                            var item = item
-                            
-                            item.tapButton = { (_) in
-                                item.expanded.toggle()
-                                self.samples = self.samples.compactMap({
-                                    $0 != item ? $0 : item
-                                })
-                                DLog("============ tap \(indexPath)=========")
-                                DLog(item.value)
-                                DLog(self.samples.compactMap({ $0.value }))
-
-                                var snapshot = self.dataSource.snapshot()
-                                snapshot.reloadItems([item.id])
-                                self.dataSource.apply(snapshot, animatingDifferences: true)
-                                
-                            }
-                            
-                            cell.contentConfiguration = item
-                            
-                            self.samples = self.samples.compactMap({
-                                $0 != item ? $0 : item
-                            })
-                        }
-                        
+                                                
                         // データソースを定義
-                        self.dataSource = UICollectionViewDiffableDataSource<Int, ContentModel03.ID>(collectionView: $0) {[weak self] (collectionView: UICollectionView, indexPath: IndexPath, item: ContentModel03.ID) -> UICollectionViewCell? in
+                        self.dataSource = UICollectionViewDiffableDataSource<Int, ContentModel03>(collectionView: $0) { (collectionView: UICollectionView, indexPath: IndexPath, item: ContentModel03) -> UICollectionViewCell? in
+
+                            let registration = UICollectionView.CellRegistration<UICollectionViewCell, ContentModel03> { cell, indexPath, item in
+                                
+                                DLog("============ registration \(indexPath) =========")
+                                DLog(item.value)
+
+                                // MEMO:
+                                // これまでみたいにカスタムセルをいちいちregisterする必要はない
+                                
+                                var item = item
+                                
+                                item.tapButton = { (_) in
+                                    item.expanded.toggle()
+                                    cell.contentConfiguration = item
+                                    var snapshot = self.dataSource.snapshot()
+                                    snapshot.reloadItems([item])
+                                    self.dataSource.apply(snapshot, animatingDifferences: true)
+//                                    item.expanded.toggle()
+//                                    self.samples = self.samples.compactMap({
+//                                        $0 != item ? $0 : item
+//                                    })
+//                                    DLog("============ tap \(indexPath)=========")
+//                                    DLog(item.value)
+//                                    DLog(self.samples.compactMap({ $0.value }))
+//
+//                                    var snapshot = self.dataSource.snapshot()
+//                                    snapshot.reloadItems([item.id])
+//                                    self.dataSource.apply(snapshot, animatingDifferences: true)
+                                }
+                                
+                                cell.contentConfiguration = item
+                            }
+
                             
                             // MEMO:
                             // これまでみたいにdelegate, datasourceを用意する必要がない
                             // 更新の度にreloadData等を呼ぶ必要がない
                             
                             guard
-                                let self,
-                                let sample = self.samples.first(where: { $0.id == item })
+                                let sample = self.samples.first(where: { $0 == item })
                             else { return nil }
                             
                             DLog("============ diffable \(indexPath) =========")
