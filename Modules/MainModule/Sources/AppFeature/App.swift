@@ -11,6 +11,7 @@
 @_exported import SampleAffineFeature
 @_exported import SlideFeature
 @_exported import CollectionViewFeature
+@_exported import SampleTextViewFeature
 
 import IQKeyboardManagerSwift
 import UIKit
@@ -20,6 +21,7 @@ import Extensions
 private enum ViewType: String, CaseIterable {
     
     case Sample
+    case SampleTextView
     case RootSwiftUI
     case RootCollection
     
@@ -27,6 +29,8 @@ private enum ViewType: String, CaseIterable {
         switch self {
         case .Sample:
             return SampleViewController()
+        case .SampleTextView:
+            return SampleTextViewController()
         case .RootSwiftUI:
             return RootSwiftUIHostingViewController()
         case .RootCollection:
@@ -77,7 +81,7 @@ public class App {
         IQKeyboardManager.shared.enable = true
     }
 
-    private var window: UIWindow?
+    private(set) var window: UIWindow?
     
     public func showRoot(window: UIWindow) {
 

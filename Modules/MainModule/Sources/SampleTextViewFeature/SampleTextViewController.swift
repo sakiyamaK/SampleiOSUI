@@ -1,20 +1,18 @@
 //
-//  SampleViewController.swift
-//  SampleiOSUI
+//  SampleTextViewController.swift
+//  
 //
-//  Created by sakiyamaK on 2022/03/30.
+//  Created by sakiyamaK on 2023/04/08.
 //
 
 import UIKit
 import DeclarativeUIKit
 import Extensions
 import Components
-import RxCocoa
-import RxSwift
-import RxOptional
-import SwiftyAttributes
 
-public class SampleViewController: UIViewController, UITextViewDelegate {
+// 円をドラッグしたらUITextViewの文字列が避けるように配置される
+
+public class SampleTextViewController: UIViewController, UITextViewDelegate {
     private weak var textView: UITextView!
     private weak var circleView: UIView!
 
@@ -66,13 +64,16 @@ public class SampleViewController: UIViewController, UITextViewDelegate {
                 })
                 .delegate(self)
         }
-        
+
+        //中心に配置するレイアウトがDeclarativeUIKitが未対応だったので既存の貼り方
+
         self.view.addSubview(
             UIView(assign: &circleView)
         )
 
         circleView.translatesAutoresizingMaskIntoConstraints = false
 
+        //DeclarativeUIKitでパラメータの設定だけはできるから宣言的に書く
         circleView
             .size(width: 200, height: 200)
             .cornerRadius(100)
@@ -83,24 +84,18 @@ public class SampleViewController: UIViewController, UITextViewDelegate {
             })
             .zStack({
                 UILabel("Drag me!")
+                    .textColor(.white)
                     .contentPriorities(.init(all: .required))
                     .center()
             })
+        //DeclarativeUIKitでこのセンター揃えが未対応のままだった
         centerXConst = circleView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         centerXConst.isActive = true
         centerYConst = circleView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
         centerYConst.isActive = true
     }
     
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        updateExclusionPaths()
-        DLog(self.view.frame)
         
-    }
-    
-    // MARK: - Exclusion
-    
     @objc func circlePan(_ pan: UIPanGestureRecognizer) {
         let translation = pan.translation(in: view)
         centerXConst.constant = translation.x
@@ -117,39 +112,4 @@ public class SampleViewController: UIViewController, UITextViewDelegate {
         let ovalPath = UIBezierPath(ovalIn: ovalFrame)
         textView.textContainer.exclusionPaths = [ovalPath]
     }
-    
-    // MARK: - Selection tracking
-    
-    public func textViewDidChangeSelection(_ textView: UITextView) {
-    }
 }
-
-
-//public class SampleViewController: UIViewController {
-//
-//    public override func loadView() {
-//        super.loadView()
-//        NotificationCenter.default.addObserver(self,
-//                                               selector: #selector(setupLayout),
-//                                               name: Notification.Name.injection, object: nil)
-//
-//        setupLayout()
-//    }
-//
-//
-//    @objc func setupLayout() {
-//        self.view.backgroundColor = .white
-//
-//        self.declarative {
-//            ExpandableLabel(frame: .zero)
-//                .apply({
-//                    $0.text = Array(repeating: """
-//あいうえお
-//""", count: 100).reduce("", +)
-//                })
-//                .numberOfLines(0)
-//            .top()
-//            .left()
-//        }
-//    }
-//}

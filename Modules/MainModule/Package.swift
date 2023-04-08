@@ -24,10 +24,12 @@ let package = Package(
         .package(url: "https://github.com/danielgindi/Charts", from: "4.1.0"),
         .package(url: "https://github.com/johnno1962/HotReloading", branch: "main"),
         .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.5.0"),
+        .package(url: "https://github.com/RxSwiftCommunity/RxOptional", from: "5.0.5"),
         .package(url: "https://github.com/onevcat/Kingfisher", from: "7.6.2"),
         .package(url: "https://github.com/SnapKit/SnapKit", from: "5.6.0"),
         .package(url: "https://github.com/hackiftekhar/IQKeyboardManager", from: "6.5.0"),
         .package(url: "https://github.com/HeroTransitions/Hero", from: "1.6.2"),
+        .package(url: "https://github.com/eddiekaiger/SwiftyAttributes.git", from: "5.3.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -46,6 +48,7 @@ let package = Package(
                 .target(name: "SampleAffineFeature"),
                 .target(name: "SlideFeature"),
                 .target(name: "CollectionViewFeature"),
+                .target(name: "SampleTextViewFeature"),
                 .product(name: "IQKeyboardManagerSwift", package: "IQKeyboardManager"),
             ]
         ),
@@ -92,10 +95,22 @@ let package = Package(
             name: "SampleFeature",
             dependencies: [
                 .target(name: "Extensions"),
+                .target(name: "Components"),
                 .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
                 .product(name: "HotReloading", package: "HotReloading"),
                 .product(name: "RxSwift", package: "RxSwift"),
                 .product(name: "RxCocoa", package: "RxSwift"),
+                .product(name: "RxOptional", package: "RxOptional"),
+                .product(name: "SwiftyAttributes", package: "SwiftyAttributes"),                
+            ]
+        ),
+        .target(
+            name: "SampleTextViewFeature",
+            dependencies: [
+                .target(name: "Extensions"),
+                .target(name: "Components"),
+                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
+                .product(name: "HotReloading", package: "HotReloading"),
             ]
         ),
         .target(
