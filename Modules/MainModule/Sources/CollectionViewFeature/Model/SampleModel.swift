@@ -93,9 +93,9 @@ struct SampleModel02: Hashable {
         }
     }
 
-    private static func createSampless(times0: Int, times1 _: Int) -> [[Self]] {
+    private static func createSampless(times0: Int, times1: Int) -> [[Self]] {
         Array(0 ... times0).map { _ -> [Self] in
-            Self.createSamples(times: 1)
+            Self.createSamples(times: times1)
         }
     }
 
@@ -104,7 +104,7 @@ struct SampleModel02: Hashable {
     }
 
     static var sampless: [[Self]] {
-        createSampless(times0: 50, times1: 20)
+        createSampless(times0: 50, times1: 1)
     }
 
     static var smaple02ss: [[Self]] {

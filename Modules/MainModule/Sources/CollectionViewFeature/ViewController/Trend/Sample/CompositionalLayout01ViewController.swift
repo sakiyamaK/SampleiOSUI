@@ -26,6 +26,7 @@ final class CompositionalLayout01ViewController: UIViewController {
 
         declarative {
             UICollectionView {
+                
                 // アイテム(セル)の大きさをグループの大きさと同じにする
                 let itemSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
@@ -42,7 +43,7 @@ final class CompositionalLayout01ViewController: UIViewController {
                     heightDimension: .absolute(44)
                 )
                 // グループの水平設定に大きさとアイテムの種類を登録する
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
 
                 // セクションにグループを登録する
                 let section = NSCollectionLayoutSection(group: group)

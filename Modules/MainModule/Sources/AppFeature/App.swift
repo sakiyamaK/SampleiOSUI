@@ -9,9 +9,10 @@
 @_exported import ZoomImageFeature
 @_exported import StackTableFeature
 @_exported import SampleAffineFeature
-@_exported import SlideFeature
 @_exported import CollectionViewFeature
 @_exported import SampleTextViewFeature
+@_exported import TabNavigationFeature
+@_exported import ScrollNavigationBarFeature
 
 import IQKeyboardManagerSwift
 import UIKit
@@ -21,7 +22,9 @@ import Extensions
 private enum ViewType: String, CaseIterable {
     
     case Sample
-    case SampleTextView
+    case ScrollNavigationBar
+    case TabNavigation
+    case RootTextView
     case RootSwiftUI
     case RootCollection
     
@@ -29,8 +32,12 @@ private enum ViewType: String, CaseIterable {
         switch self {
         case .Sample:
             return SampleViewController()
-        case .SampleTextView:
-            return SampleTextViewController()
+        case .ScrollNavigationBar:
+            return ScrollNavigationBarController()
+        case .TabNavigation:
+            return SampleTabBarController()
+        case .RootTextView:
+            return RootTextViewController()
         case .RootSwiftUI:
             return RootSwiftUIHostingViewController()
         case .RootCollection:
@@ -56,10 +63,12 @@ public final class RootViewController: UIViewController {
     public override func loadView() {
         super.loadView()
 
-        self.view.backgroundColor = .white
-        self.navigationItem.title = "Root"
-        
-        self.declarative {
+        self.applyView {
+            $0.backgroundColor(.white)
+        }.applyNavigationItem {
+            $0.title = "Root"
+        }
+        .declarative {
             UIScrollView.vertical {
                 UIStackView.vertical {
                     ViewType.allCases.compactMap({ $0.button(from: self).height(40) })

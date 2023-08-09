@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "MainModule",
     platforms: [
-        .iOS(.v14)
+        .iOS(.v16)
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
@@ -20,7 +20,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        .package(url: "https://github.com/sakiyamaK/DeclarativeUIKit", from: "1.12.0"),
+        .package(url: "https://github.com/sakiyamaK/DeclarativeUIKit", branch: "feature/UIPopoverPresentationController"),
         .package(url: "https://github.com/danielgindi/Charts", from: "4.1.0"),
         .package(url: "https://github.com/johnno1962/HotReloading", branch: "main"),
         .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.5.0"),
@@ -46,9 +46,10 @@ let package = Package(
                 .target(name: "ZoomImageFeature"),
                 .target(name: "StackTableFeature"),
                 .target(name: "SampleAffineFeature"),
-                .target(name: "SlideFeature"),
                 .target(name: "CollectionViewFeature"),
                 .target(name: "SampleTextViewFeature"),
+                .target(name: "ScrollNavigationBarFeature"),
+                .target(name: "TabNavigationFeature"),
                 .product(name: "IQKeyboardManagerSwift", package: "IQKeyboardManager"),
             ]
         ),
@@ -114,6 +115,15 @@ let package = Package(
             ]
         ),
         .target(
+            name: "ScrollNavigationBarFeature",
+            dependencies: [
+                .target(name: "Extensions"),
+                .target(name: "Components"),
+                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
+                .product(name: "HotReloading", package: "HotReloading"),
+            ]
+        ),
+        .target(
             name: "ZoomImageFeature",
             dependencies: [
             ]
@@ -137,14 +147,6 @@ let package = Package(
             ]
         ),
         .target(
-            name: "SlideFeature",
-            dependencies: [
-                .target(name: "Extensions"),
-                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
-                .product(name: "HotReloading", package: "HotReloading"),
-            ]
-        ),
-        .target(
             name: "CollectionViewFeature",
             dependencies: [
                 .target(name: "Extensions"),
@@ -155,6 +157,14 @@ let package = Package(
                 .product(name: "Hero", package: "Hero"),
             ]
         ),
+        .target(
+            name: "TabNavigationFeature",
+            dependencies: [
+                .target(name: "Extensions"),
+                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
+                .product(name: "HotReloading", package: "HotReloading"),
+            ]
+        )
         //        .testTarget(
         //            name: "AppTests",
         //            dependencies: ["AppFeature"]),

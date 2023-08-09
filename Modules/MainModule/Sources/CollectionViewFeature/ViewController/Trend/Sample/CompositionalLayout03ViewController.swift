@@ -41,11 +41,7 @@ final class CompositionalLayout03ViewController: UIViewController {
                 let trailingGroup = NSCollectionLayoutGroup.vertical(
                     layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(rightFractional),
                                                        heightDimension: .fractionalHeight(1.0)),
-                    // 同じitemを2回繰り返す時はこんな感じ
-                    subitem: trailingItem,
-                    count: 2
-                    // こうでも同じitemを2回繰り返せる
-                    //      subitems: [trailingItem, trailingItem]
+                    subitems: [trailingItem, trailingItem]
                 )
 
                 // sectionに入れる大元となるグループ

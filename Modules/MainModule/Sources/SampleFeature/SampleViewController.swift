@@ -14,142 +14,106 @@ import RxSwift
 import RxOptional
 import SwiftyAttributes
 
-public class SampleViewController: UIViewController, UITextViewDelegate {
-    private weak var textView: UITextView!
-    private weak var circleView: UIView!
-
-    private var centerXConst: NSLayoutConstraint!
-    private var centerYConst: NSLayoutConstraint!
+public class SampleViewController: UIViewController {
     
     public override func loadView() {
         super.loadView()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(setupLayout),
                                                name: Notification.Name.injection, object: nil)
-
+        
         setupLayout()
     }
+    
+    let registration = UICollectionView.CellRegistration<UICollectionViewCell, String>() { cell, indexPath, name in
+        // デフォルトで用意されたオプションを設定できる
+        var config = UIListContentConfiguration.cell()
+        config.text = name
+        config.secondaryText = "text"
+        // セルの設定をする
+        cell.contentConfiguration = config
+        cell.backgroundColor = .yellow
+    }
+    
+    // contentOffsetの動きを監視
+    private var contentOffsetObservation: NSKeyValueObservation?
+    // デフォルトのOffset
+    private var defContentOffset: CGPoint = .zero
+    // レイアウトを組み終わったかどうか判断するフラグ
+    private var isViewDidLayout: Bool = false
 
+    private weak var collectionView: UICollectionView!
+    var navigationBar: UINavigationBar { self.navigationController!.navigationBar }
 
+    
     @objc func setupLayout() {
-        self.view.backgroundColor = .white
-
-        self.declarative {
-            UITextView(assign: &textView)
-                .apply({
-                    $0.textStorage.replaceCharacters(in: NSRange(location: 0, length: 0), with: """
-我々は一人の英雄を失った。しかし、これは敗北を意味するのか？否！始まりなのだ！
-地球連邦に比べ、我がジオンの国力は30分の1以下である。
-にもかかわらず今日まで戦い抜いてこられたのは何故か？
-諸君！我がジオン公国の戦争目的が正義だからだ。これは諸君らが一番知っている。
-我々は地球を追われ、宇宙移民者にさせられた。
-そして、一握りのエリートらが宇宙にまで膨れ上がった地球連邦を支配して50余年、
-宇宙に住む我々が自由を要求して何度踏みにじられたか。
-ジオン公国の掲げる人類一人一人の自由のための戦いを神が見捨てるはずはない。
-私の弟！諸君らが愛してくれたガルマ・ザビは死んだ。
-何故だ！？
-新しい時代の覇権を選ばれた国民が得るは、歴史の必然である。
-ならば、我らは襟を正し、この戦局を打開しなければならぬ。
-我々は過酷な宇宙空間を生活の場としながらも共に苦悩し、錬磨して今日の文化を築き上げてきた。
-かつて、ジオン・ダイクンは人類の革新は宇宙の民たる我々から始まると言った。
-しかしながら地球連邦のモグラ共は、自分たちが人類の支配権を有すると増長し我々に抗戦する。
-諸君の父も、子もその連邦の無思慮な抵抗の前に死んでいったのだ！
-この悲しみも怒りも忘れてはならない！それを、ガルマは！死をもって我々に示してくれた！
-我々は今、この怒りを結集し、連邦軍に叩きつけて、初めて真の勝利を得ることができる。
-この勝利こそ、戦死者全てへの最大の慰めとなる。
-国民よ立て！悲しみを怒りに変えて、立てよ！国民よ！
-我らジオン国国民こそ選ばれた民であることを忘れないでほしいのだ。
-優良種である我らこそ人類を救い得るのである。ジーク・ジオン！
-""")
-                    
-                    $0.layoutManager.usesDefaultHyphenation = true
-                })
+        self
+            .applyView({
+                $0.backgroundColor(.white)
+            })
+            .declarative(safeAreas: .init(top: false)) {
+                UICollectionView {
+                    UICollectionViewCompositionalLayout.list(using: .init(appearance: .plain))
+                }
+                .dataSource(self)
                 .delegate(self)
-        }
+                .assign(to: &collectionView)
+            }
         
-        self.view.addSubview(
-            UIView(assign: &circleView)
-        )
-
-        circleView.translatesAutoresizingMaskIntoConstraints = false
-
-        circleView
-            .size(width: 200, height: 200)
-            .cornerRadius(100)
-            .backgroundColor(.systemBlue)
-            .isUserInteractionEnabled(true)
-            .addGestureRecognizer({
-                UIPanGestureRecognizer(target: self, action: #selector(circlePan(_:)))
-            })
-            .zStack({
-                UILabel("Drag me!")
-                    .contentPriorities(.init(all: .required))
-                    .center()
-            })
-        centerXConst = circleView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
-        centerXConst.isActive = true
-        centerYConst = circleView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
-        centerYConst.isActive = true
+        // contentOffsetの変更を監視
+        contentOffsetObservation = collectionView.observe(\.contentOffset, options: [.new, .old], changeHandler: { [weak self] scrollView, change in
+            guard let self = self, self.isViewDidLayout, let newOffset = change.newValue else { return }
+            let move = defContentOffset.y - newOffset.y
+            let newY = max(defContentOffset.y, min(0, move))
+            navigationBar.bounds = CGRect(
+                x: navigationBar.bounds.origin.x,
+                y: -newY,
+                width: navigationBar.bounds.width,
+                height: navigationBar.bounds.height)
+        })
     }
     
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        updateExclusionPaths()
-        DLog(self.view.frame)
-        
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        isViewDidLayout = true
+        // navigationbarスクロールのための初期値を代入
+        defContentOffset = collectionView.contentOffset
     }
     
-    // MARK: - Exclusion
-    
-    @objc func circlePan(_ pan: UIPanGestureRecognizer) {
-        let translation = pan.translation(in: view)
-        centerXConst.constant = translation.x
-        centerYConst.constant = translation.y
-        updateExclusionPaths()
-    }
-    
-    func updateExclusionPaths() {
-        var ovalFrame = textView.convert(circleView.bounds, from: circleView)
-        
-        ovalFrame.origin.x -= textView.textContainerInset.left
-        ovalFrame.origin.y -= textView.textContainerInset.top
-        
-        let ovalPath = UIBezierPath(ovalIn: ovalFrame)
-        textView.textContainer.exclusionPaths = [ovalPath]
-    }
-    
-    // MARK: - Selection tracking
-    
-    public func textViewDidChangeSelection(_ textView: UITextView) {
+    deinit {
+        // 監視対象を開放
+        contentOffsetObservation?.invalidate()
     }
 }
 
+extension SampleViewController: UICollectionViewDelegate {
+    
+}
 
-//public class SampleViewController: UIViewController {
-//
-//    public override func loadView() {
-//        super.loadView()
-//        NotificationCenter.default.addObserver(self,
-//                                               selector: #selector(setupLayout),
-//                                               name: Notification.Name.injection, object: nil)
-//
-//        setupLayout()
-//    }
-//
-//
-//    @objc func setupLayout() {
-//        self.view.backgroundColor = .white
-//
-//        self.declarative {
-//            ExpandableLabel(frame: .zero)
-//                .apply({
-//                    $0.text = Array(repeating: """
-//あいうえお
-//""", count: 100).reduce("", +)
-//                })
-//                .numberOfLines(0)
-//            .top()
-//            .left()
-//        }
-//    }
-//}
+extension SampleViewController: UICollectionViewDataSource {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        100
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: indexPath.item.description)
+    }
+}
+
+extension SampleViewController: UIScrollViewDelegate {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        DLog()
+    }
+    
+    public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        DLog()
+    }
+    
+    public func scrollViewDidChangeAdjustedContentInset(_ scrollView: UIScrollView) {
+        DLog()
+    }
+    
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        DLog()
+    }
+}

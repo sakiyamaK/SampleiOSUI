@@ -53,8 +53,6 @@ final class CompositionalLayout08ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        collectionView.collectionViewLayout = layout
-
         SampleImageModel.load(times: 100) { [unowned self] items in
             self.items = items
             self.collectionView.reloadData()
