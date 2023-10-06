@@ -1,4 +1,4 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "MainModule",
     platforms: [
-        .iOS(.v16)
+        .iOS(.v17)
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
@@ -21,6 +21,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/sakiyamaK/DeclarativeUIKit", branch: "feature/UIPopoverPresentationController"),
+        .package(url: "https://github.com/sakiyamaK/ObservableUIKit", from: "0.0.3"),
         .package(url: "https://github.com/danielgindi/Charts", from: "4.1.0"),
         .package(url: "https://github.com/johnno1962/HotReloading", branch: "main"),
         .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.5.0"),
@@ -112,6 +113,7 @@ let package = Package(
                 .target(name: "Components"),
                 .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
                 .product(name: "HotReloading", package: "HotReloading"),
+                .product(name: "ObservableUIKit", package: "ObservableUIKit"),
             ]
         ),
         .target(
