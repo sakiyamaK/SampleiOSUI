@@ -51,6 +51,7 @@ let package = Package(
                 .target(name: "SampleTextViewFeature"),
                 .target(name: "ScrollNavigationBarFeature"),
                 .target(name: "TabNavigationFeature"),
+                .target(name: "SampleNSKeyValueObservationFeature"),
                 .product(name: "IQKeyboardManagerSwift", package: "IQKeyboardManager"),
             ]
         ),
@@ -161,6 +162,14 @@ let package = Package(
         ),
         .target(
             name: "TabNavigationFeature",
+            dependencies: [
+                .target(name: "Extensions"),
+                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
+                .product(name: "HotReloading", package: "HotReloading"),
+            ]
+        ),
+        .target(
+            name: "SampleNSKeyValueObservationFeature",
             dependencies: [
                 .target(name: "Extensions"),
                 .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),

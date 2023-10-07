@@ -13,6 +13,7 @@
 @_exported import SampleTextViewFeature
 @_exported import TabNavigationFeature
 @_exported import ScrollNavigationBarFeature
+@_exported import SampleNSKeyValueObservationFeature
 
 import IQKeyboardManagerSwift
 import UIKit
@@ -27,21 +28,24 @@ private enum ViewType: String, CaseIterable {
     case RootTextView
     case RootSwiftUI
     case RootCollection
+    case KeyValueObservation
     
     var viewController: UIViewController {
         switch self {
         case .Sample:
-            return SampleViewController()
+            SampleViewController()
         case .ScrollNavigationBar:
-            return ScrollNavigationBarController()
+            ScrollNavigationBarController()
         case .TabNavigation:
-            return SampleTabBarController()
+            SampleTabBarController()
         case .RootTextView:
-            return RootTextViewController()
+            RootTextViewController()
         case .RootSwiftUI:
-            return RootSwiftUIHostingViewController()
+            RootSwiftUIHostingViewController()
         case .RootCollection:
-            return RootCollectionViewController()
+            RootCollectionViewController()
+        case .KeyValueObservation:
+            SampleNSKeyValueObservationViewController()
         }
     }
     
