@@ -11,18 +11,17 @@
 		930C9B4552405C8C931C18EE /* Pods_SampleiOSUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E5369AF5E54B1D60052ADAD /* Pods_SampleiOSUI.framework */; };
 		ADB39160D7838A2FEB8CE920 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A44801751CCF693225B9EA7 /* LaunchScreen.storyboard */; };
 		B676D23829B886DB00D8EB3C /* AppLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = B676D23729B886DB00D8EB3C /* AppLibrary */; };
-		EBEEF721D13E51F76965DCD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 370921CC3DB9D27238FDE426 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0E5369AF5E54B1D60052ADAD /* Pods_SampleiOSUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SampleiOSUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A947BF4A7232EF77DCAB2E1 /* SampleiOSUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleiOSUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32BC5FC39FC1DF66F95233B0 /* Pods-SampleiOSUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleiOSUI.debug.xcconfig"; path = "Target Support Files/Pods-SampleiOSUI/Pods-SampleiOSUI.debug.xcconfig"; sourceTree = "<group>"; };
-		370921CC3DB9D27238FDE426 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		411C6398682A4CADBFA16E91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9381E558F68975FD26C93E6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B22B8EF2967AF4DD4B1B3E37 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B676D23629B8861100D8EB3C /* MainModule */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MainModule; path = Modules/MainModule; sourceTree = "<group>"; };
+		B6CE2F3F2AE3C767001DFEBD /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		E29D7FCEF3A64268AE5F607C /* Pods-SampleiOSUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleiOSUI.release.xcconfig"; path = "Target Support Files/Pods-SampleiOSUI/Pods-SampleiOSUI.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -60,7 +59,6 @@
 			isa = PBXGroup;
 			children = (
 				B22B8EF2967AF4DD4B1B3E37 /* AppDelegate.swift */,
-				370921CC3DB9D27238FDE426 /* Assets.xcassets */,
 				411C6398682A4CADBFA16E91 /* Info.plist */,
 				1A44801751CCF693225B9EA7 /* LaunchScreen.storyboard */,
 			);
@@ -127,6 +125,7 @@
 			knownRegions = (
 				Base,
 				en,
+				ja,
 			);
 			mainGroup = D0A040039CBB607D19319E7F;
 			productRefGroup = EA01537341924FF749600023 /* Products */;
@@ -143,7 +142,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EBEEF721D13E51F76965DCD0 /* Assets.xcassets in Resources */,
 				ADB39160D7838A2FEB8CE920 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -226,6 +224,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				9381E558F68975FD26C93E6B /* Base */,
+				B6CE2F3F2AE3C767001DFEBD /* ja */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -279,6 +278,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -335,6 +335,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

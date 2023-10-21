@@ -7,13 +7,11 @@
 @_exported import SampleTableFeature
 @_exported import SampleFeature
 @_exported import ZoomImageFeature
-@_exported import StackTableFeature
 @_exported import SampleAffineFeature
 @_exported import CollectionViewFeature
 @_exported import SampleTextViewFeature
 @_exported import TabNavigationFeature
 @_exported import ScrollNavigationBarFeature
-@_exported import SampleNSKeyValueObservationFeature
 
 import IQKeyboardManagerSwift
 import UIKit
@@ -22,36 +20,47 @@ import Extensions
 
 private enum ViewType: String, CaseIterable {
     
+    case Chart
+    case CollectionView
+    case SampleAffine
     case Sample
+    case SampleTable
+    case SampleTextView
     case ScrollNavigationBar
+    case SwiftUIHosting
     case TabNavigation
-    case RootTextView
-    case RootSwiftUI
-    case RootCollection
-    case KeyValueObservation
-    
+    case ZoomImage
+
     var viewController: UIViewController {
         switch self {
+        case .Chart:
+            ChartsViewController()
+        case .CollectionView:
+            RootCollectionViewController()
+        case .SampleAffine:
+            SampleAffineViewController()
         case .Sample:
             SampleViewController()
+        case .SampleTable:
+            SampleTableViewController()
+        case .SampleTextView:
+            SampleTextViewController()
         case .ScrollNavigationBar:
             ScrollNavigationBarController()
+        case .SwiftUIHosting:
+            SwiftUIHosting01ViewController()
         case .TabNavigation:
             SampleTabBarController()
-        case .RootTextView:
-            RootTextViewController()
-        case .RootSwiftUI:
-            RootSwiftUIHostingViewController()
-        case .RootCollection:
-            RootCollectionViewController()
-        case .KeyValueObservation:
-            SampleNSKeyValueObservationViewController()
+        case .ZoomImage:
+            ZoomImageViewController.make()
         }
     }
     
     func button(from: UIViewController) -> UIButton {
         UIButton(self.rawValue)
-            .contentEdgeInsets(.init(top: 10, left: 10, bottom: 10, right: 10))
+            .apply({
+                $0.configuration = .filled()
+            })
             .font(UIFont.systemFont(ofSize: 20))
             .backgroundColor(.systemBlue)
             .cornerRadius(10)
@@ -109,3 +118,7 @@ public class App {
         self.window = window
     }
 }
+
+//#Preview {
+//    RootViewController()
+//}

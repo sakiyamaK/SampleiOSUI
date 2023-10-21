@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "MainModule",
+    defaultLocalization: "ja",
     platforms: [
         .iOS(.v17)
     ],
@@ -31,6 +32,7 @@ let package = Package(
         .package(url: "https://github.com/hackiftekhar/IQKeyboardManager", from: "6.5.0"),
         .package(url: "https://github.com/HeroTransitions/Hero", from: "1.6.2"),
         .package(url: "https://github.com/eddiekaiger/SwiftyAttributes.git", from: "5.3.0"),
+        .package(url: "https://github.com/mac-cain13/R.swift.git", from: "7.4.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -45,13 +47,11 @@ let package = Package(
                 .target(name: "SampleTableFeature"),
                 .target(name: "SampleFeature"),
                 .target(name: "ZoomImageFeature"),
-                .target(name: "StackTableFeature"),
                 .target(name: "SampleAffineFeature"),
                 .target(name: "CollectionViewFeature"),
                 .target(name: "SampleTextViewFeature"),
                 .target(name: "ScrollNavigationBarFeature"),
                 .target(name: "TabNavigationFeature"),
-                .target(name: "SampleNSKeyValueObservationFeature"),
                 .product(name: "IQKeyboardManagerSwift", package: "IQKeyboardManager"),
             ]
         ),
@@ -67,15 +67,15 @@ let package = Package(
                 .product(name: "HotReloading", package: "HotReloading")
             ]
         ),
-    
-        .target(
-            name: "ChartFeature",
-            dependencies: [
-                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
-                .product(name: "HotReloading", package: "HotReloading"),
-                .product(name: "Charts", package: "Charts"),
-            ]
-        ),
+        
+            .target(
+                name: "ChartFeature",
+                dependencies: [
+                    .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
+                    .product(name: "HotReloading", package: "HotReloading"),
+                    .product(name: "Charts", package: "Charts"),
+                ]
+            ),
         .target(
             name: "SwiftUIHostingFeature",
             dependencies: [
@@ -97,15 +97,22 @@ let package = Package(
         .target(
             name: "SampleFeature",
             dependencies: [
+                .target(name: "ResourceFeature"),
                 .target(name: "Extensions"),
                 .target(name: "Components"),
                 .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
+                .product(name: "ObservableUIKit", package: "ObservableUIKit"),
                 .product(name: "HotReloading", package: "HotReloading"),
                 .product(name: "RxSwift", package: "RxSwift"),
                 .product(name: "RxCocoa", package: "RxSwift"),
                 .product(name: "RxOptional", package: "RxOptional"),
-                .product(name: "SwiftyAttributes", package: "SwiftyAttributes"),                
+                .product(name: "SwiftyAttributes", package: "SwiftyAttributes"),
             ]
+        ),
+        .target(
+            name: "ResourceFeature",
+            dependencies: [.product(name: "RswiftLibrary", package: "R.swift")],
+            plugins: [.plugin(name: "RswiftGeneratePublicResources", package: "R.swift")]
         ),
         .target(
             name: "SampleTextViewFeature",
@@ -132,19 +139,10 @@ let package = Package(
             ]
         ),
         .target(
-            name: "StackTableFeature",
-            dependencies: [
-                .target(name: "Extensions"),
-                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
-                .product(name: "HotReloading", package: "HotReloading"),
-                .product(name: "RxSwift", package: "RxSwift"),
-                .product(name: "RxCocoa", package: "RxSwift"),
-            ]
-        ),
-        .target(
             name: "SampleAffineFeature",
             dependencies: [
                 .target(name: "Extensions"),
+                .target(name: "ResourceFeature"),
                 .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
                 .product(name: "HotReloading", package: "HotReloading"),
             ]
@@ -168,14 +166,6 @@ let package = Package(
                 .product(name: "HotReloading", package: "HotReloading"),
             ]
         ),
-        .target(
-            name: "SampleNSKeyValueObservationFeature",
-            dependencies: [
-                .target(name: "Extensions"),
-                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
-                .product(name: "HotReloading", package: "HotReloading"),
-            ]
-        )
         //        .testTarget(
         //            name: "AppTests",
         //            dependencies: ["AppFeature"]),
