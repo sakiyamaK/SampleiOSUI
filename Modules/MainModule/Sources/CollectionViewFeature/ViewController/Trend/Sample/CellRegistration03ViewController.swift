@@ -123,17 +123,6 @@ class CustomContentView: UIView, UIContentView {
     }
 }
 
-class CustomConfigurationCell: UICollectionViewCell {
-    var item: Item?
-    var tapButton: (() -> Void)?
-    
-    override func updateConfiguration(using state: UICellConfigurationState) {
-        var content = CustomContentConfiguration(item: item!).updated(for: state)
-        content.tapButton = tapButton
-        contentConfiguration = content
-    }
-}
-
 public class CellRegistration03ViewController: UIViewController {
     
     private var items = Item.all
@@ -161,9 +150,9 @@ public class CellRegistration03ViewController: UIViewController {
         
     private func configureDataSource() {
         
-        let cellRegistration = UICollectionView.CellRegistration<CustomConfigurationCell, Item> { (cell, indexPath, item) in
-            cell.item = item
-            cell.tapButton = {[weak self] in
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { (cell, indexPath, item) in
+            var content = CustomContentConfiguration(item: item)
+            content.tapButton = {[weak self] in
                 guard let self else { return }
                 var updateItem = item
                 updateItem.isExpanded.toggle()
@@ -175,6 +164,7 @@ public class CellRegistration03ViewController: UIViewController {
                 snapshot.appendItems(self.items)
                 self.dataSource.apply(snapshot, animatingDifferences: true)
             }
+            cell.contentConfiguration = content
         }
         
         dataSource = UICollectionViewDiffableDataSource<Int, Item>(collectionView: collectionView) {
