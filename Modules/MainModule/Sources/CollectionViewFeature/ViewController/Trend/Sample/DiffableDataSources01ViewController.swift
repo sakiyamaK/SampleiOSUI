@@ -20,13 +20,13 @@ final class DiffableDataSources01ViewController: UIViewController {
     override func loadView() {
         super.loadView()
 
-        view.backgroundColor = .white
-
+        applyView {
+            $0.backgroundColor(.white)
+        }
         declarative {
             UIStackView.vertical {
-                UISearchBar().imperative {
-                    let searchBar = $0 as! UISearchBar
-                    searchBar.delegate = self
+                UISearchBar().apply {
+                    $0.delegate = self
                 }
                 UICollectionView {
                     UICollectionViewCompositionalLayout.init { _, _ -> NSCollectionLayoutSection? in

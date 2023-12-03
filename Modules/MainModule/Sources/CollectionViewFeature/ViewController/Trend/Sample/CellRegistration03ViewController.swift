@@ -1,118 +1,101 @@
-//
-//  CellRegistrationViewController.swift
-//
-//
-//  Created by sakiyamaK on 2023/03/10.
-//
+////
+////  CellRegistrationViewController.swift
+////
+////
+////  Created by sakiyamaK on 2023/03/10.
+////
 
-// 2023.03.23
-// カスタムセルを用意せずUIView & UIContentViewとCellRegistrationの機能だけで
-// 複雑なレイアウトのセルを作れるか試したが無理だった
-// ここでやりたいことの一部はDiffableDataSources03ViewControllerでやっている
-// DiffableDataSources03ViewControllerはUIContentViewを使えていない
+// カスタムセルなし番がまだ出来てない
 
 import DeclarativeUIKit
 import UIKit
 import Extensions
 
-struct ContentModel03: Hashable {
-    // DiffableDatasource用
-    struct ID: Hashable {
-        let value: String
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(value)
-        }
-        
-        static func == (lhs: Self, rhs: Self) -> Bool {
-            lhs.value == rhs.value
-        }
-    }
-    
-    let id: ID
-    // データ
+struct Item: Hashable {
     let name: String
     let imageName: String
     let value: Int
-    var description: String {
-        Array(repeating: value.description, count: value).joined()
-    }
-
-    var expanded: Bool = false
+    var isExpanded: Bool = false
     
-    var tapButton: ((Self) -> Void)?
+    let id = UUID()
     
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.id == rhs.id
-    }
+    static let all: [Item] = [
+        .init(name: "山田", imageName: "square.and.arrow.up", value: 1),
+        .init(name: "田中", imageName: "square.and.arrow.up.circle.fill", value: 222),
+        .init(name: "佐藤", imageName: "pencil.circle", value: 3333),
+        .init(name: "山田", imageName: "square.and.arrow.up", value: 1),
+        .init(name: "田中", imageName: "square.and.arrow.up.circle.fill", value: 222),
+        .init(name: "佐藤", imageName: "pencil.circle", value: 3333),
+        .init(name: "山田", imageName: "square.and.arrow.up", value: 1),
+        .init(name: "田中", imageName: "square.and.arrow.up.circle.fill", value: 222),
+        .init(name: "佐藤", imageName: "pencil.circle", value: 3333),
+    ]
 }
 
-// CellConfiguration用のextension
-extension ContentModel03: UIContentConfiguration {
-        
+struct CustomContentConfiguration: UIContentConfiguration, Hashable {
+    var hashValue: Int { item.id.hashValue }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(hashValue)
+    }
+    static func == (lhs: CustomContentConfiguration, rhs: CustomContentConfiguration) -> Bool {
+        lhs.item.id == rhs.item.id
+    }
+    
+    var item: Item
+    var tapButton: (() -> Void)?
+
     func makeContentView() -> UIView & UIContentView {
-        ContentView03(configuration: self)
+        CustomContentView(configuration: self)
     }
     
     func updated(for state: UIConfigurationState) -> Self {
-        guard let state = state as? UICellConfigurationState else { return self }
-        var newSelf = self
-        newSelf.expanded = state.isExpanded
-        return newSelf
+        self
     }
 }
 
-// Configurationに対応したView
-final class ContentView03: UIView & UIContentView {
-    
+class CustomContentView: UIView, UIContentView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private weak var label: UILabel!
-    private weak var showMore: UIButton!
 
+    private weak var imageView: UIImageView!
+    private weak var showMore: UIButton!
+    private weak var nameLabel: UILabel!
+    private weak var descLabel: UILabel!
+        
     var configuration: UIContentConfiguration {
-        didSet {
-            guard let configuration = configuration as? ContentModel03 else { return }
-            apply(configuration: configuration)
+        get { appliedConfiguration }
+        set {
+            guard let newConfig = newValue as? CustomContentConfiguration else { return }
+            apply(configuration: newConfig)
         }
     }
-    
-    init(configuration: ContentModel03) {
 
-        self.configuration = configuration
-
+    init(configuration: CustomContentConfiguration) {
         super.init(frame: .zero)
-        
-        self.declarative {
+        self.declarative(priorities: .init(bottom: .defaultHigh)) {
             UIStackView.vertical {
                 UIStackView.horizontal {
-                    UIImageView(image: UIImage(systemName: configuration.imageName))
+                    UIImageView(assign: &imageView)
                         .size(width: 40, height: 40)
                         .customSpacing(10)
                     UIStackView.vertical {
                         
-                        UILabel(configuration.name)
+                        UILabel(assign: &nameLabel)
                             .font(UIFont.defaultFontBold(size: 20))
                             .contentPriorities(.init(vertical: .required))
                             .customSpacing(8)
                         
-                        UILabel("\(configuration.description) ですよ")
+                        UILabel(assign: &descLabel)
                             .font(UIFont.defaultFontBold(size: 20))
                             .contentPriorities(.init(vertical: .required))
-                            .assign(to: &label)
                             .numberOfLines(1)
                         
                         UIButton("続きを読む")
                             .assign(to: &showMore)
                             .titleColor(.black)
                             .addAction(.touchUpInside, handler: { _ in
-                                DLog(configuration.value)
-                                configuration.tapButton?(configuration)
+                                self.appliedConfiguration.tapButton?()
                             })
                             .right()
                         
@@ -123,139 +106,86 @@ final class ContentView03: UIView & UIContentView {
                 .padding(insets: .init(all: 20))
                 UIView.divider()
             }
-        }
+        }.apply(configuration: configuration)
     }
+            
+    private var appliedConfiguration: CustomContentConfiguration!
     
-    private func apply(configuration: ContentModel03) {
-        label.numberOfLines = configuration.expanded ? 0 : 1
-        showMore.isHidden = configuration.expanded
+    private func apply(configuration: CustomContentConfiguration) {
+        guard appliedConfiguration != configuration else { return }
+        appliedConfiguration = configuration
+                
+        imageView.image = UIImage(systemName: configuration.item.imageName)
+        nameLabel.text = configuration.item.name
+        descLabel.text = Array(repeating: configuration.item.value.description, count: 100).joined()
+        descLabel.numberOfLines = configuration.item.isExpanded ? 0 : 1
+        showMore.isHidden = configuration.item.isExpanded
     }
 }
 
-public final class CellRegistration03ViewController: UIViewController, UICollectionViewDelegate {
+class CustomConfigurationCell: UICollectionViewCell {
+    var item: Item?
+    var tapButton: (() -> Void)?
     
-    deinit { }
-    
-    public override func loadView() {
-        super.loadView()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(setupLayout),
-                                               name: Notification.Name.injection, object: nil)
-        setupLayout()
+    override func updateConfiguration(using state: UICellConfigurationState) {
+        var content = CustomContentConfiguration(item: item!).updated(for: state)
+        content.tapButton = tapButton
+        contentConfiguration = content
     }
+}
+
+public class CellRegistration03ViewController: UIViewController {
     
-    //サンプル
-    var samples: [ContentModel03] = {
-        var samples: [ContentModel03] = [
-            .init(id: .init(value: "1"), name: "山田", imageName: "square.and.arrow.up", value: 1),
-            .init(id: .init(value: "2"), name: "田中", imageName: "square.and.arrow.up.circle.fill", value: 222),
-            .init(id: .init(value: "3"), name: "佐藤", imageName: "pencil.circle", value: 333333),
-        ]
-        
-        return samples
-    }()
+    private var items = Item.all
     
-    private var dataSource: UICollectionViewDiffableDataSource<Int, ContentModel03>!
+    private var dataSource: UICollectionViewDiffableDataSource<Int, Item>!
+    private var collectionView: UICollectionView!
     
-    override public func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Int, ContentModel03>()
-        snapshot.appendSections([0])
-        snapshot.appendItems(samples)
-        
-        dataSource.apply(snapshot, animatingDifferences: true)
-    }
-    
-    @objc private func setupLayout() {
-        
-        view.backgroundColor = .white
-        
-        self.declarative {
+        navigationItem.title = "Custom Configurations"
+        self.applyView({
+            $0.backgroundColor(.systemBackground)
+        }).declarative {
             UIStackView.vertical {
-                
-                UIStackView.vertical {
-                    UILabel("stackviewの中でも使える")
-                        .font(UIFont.defaultFontBold(size: 20))
-                        .backgroundColor(.white)
-                    
-                    // MEMO:
-                    // これまでみたいにカスタムセルでレイアウト組んだら
-                    // UICollectionView以外では使いづらいみたいなことがない
-                    ContentView03(configuration: samples.first!)
+                UILabel("collectionviewの中でも使える")
+                    .font(UIFont.defaultFontBold(size: 20))
+                    .padding(insets: .init(all: 8))
+                UICollectionView {
+                    UICollectionViewCompositionalLayout.list(using: .init(appearance: .insetGrouped))
                 }
-                .padding(insets: .init(all: 8))
-                .backgroundColor(.lightGray)
-                .customSpacing(20)
-                
-                UIStackView.vertical {
-                    UILabel("collectionviewの中でも使える")
-                        .font(UIFont.defaultFontBold(size: 20))
-                        .padding(insets: .init(all: 8))
-                    UICollectionView {
-                        UICollectionViewCompositionalLayout.list(using: .init(appearance: .insetGrouped))
-                    }
-                    .apply({[weak self] in
-                        guard let self else { return }
-                                                
-                        // データソースを定義
-                        self.dataSource = UICollectionViewDiffableDataSource<Int, ContentModel03>(collectionView: $0) { (collectionView: UICollectionView, indexPath: IndexPath, item: ContentModel03) -> UICollectionViewCell? in
-
-                            let registration = UICollectionView.CellRegistration<UICollectionViewCell, ContentModel03> { cell, indexPath, item in
-                                
-                                DLog("============ registration \(indexPath) =========")
-                                DLog(item.value)
-
-                                // MEMO:
-                                // これまでみたいにカスタムセルをいちいちregisterする必要はない
-                                
-                                var item = item
-                                
-                                item.tapButton = { (_) in
-                                    item.expanded.toggle()
-                                    cell.contentConfiguration = item
-                                    var snapshot = self.dataSource.snapshot()
-                                    snapshot.reloadItems([item])
-                                    self.dataSource.apply(snapshot, animatingDifferences: true)
-//                                    item.expanded.toggle()
-//                                    self.samples = self.samples.compactMap({
-//                                        $0 != item ? $0 : item
-//                                    })
-//                                    DLog("============ tap \(indexPath)=========")
-//                                    DLog(item.value)
-//                                    DLog(self.samples.compactMap({ $0.value }))
-//
-//                                    var snapshot = self.dataSource.snapshot()
-//                                    snapshot.reloadItems([item.id])
-//                                    self.dataSource.apply(snapshot, animatingDifferences: true)
-                                }
-                                
-                                cell.contentConfiguration = item
-                            }
-
-                            
-                            // MEMO:
-                            // これまでみたいにdelegate, datasourceを用意する必要がない
-                            // 更新の度にreloadData等を呼ぶ必要がない
-                            
-                            guard
-                                let sample = self.samples.first(where: { $0 == item })
-                            else { return nil }
-                            
-                            DLog("============ diffable \(indexPath) =========")
-                            DLog(item.value)
-                            DLog(self.samples.compactMap({ $0.value }))
-                            
-                            return collectionView.dequeueConfiguredReusableCell(
-                                using: registration,
-                                for: indexPath,
-                                item: sample
-                            )
-                            
-                        }
-                    })
+                .assign(to: &collectionView)
+            }
+        }.configureDataSource()
+    }
+        
+    private func configureDataSource() {
+        
+        let cellRegistration = UICollectionView.CellRegistration<CustomConfigurationCell, Item> { (cell, indexPath, item) in
+            cell.item = item
+            cell.tapButton = {[weak self] in
+                guard let self else { return }
+                var updateItem = item
+                updateItem.isExpanded.toggle()
+                self.items = self.items.compactMap { i in
+                    i.id == updateItem.id ? updateItem : i
                 }
+                var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
+                snapshot.appendSections([0])
+                snapshot.appendItems(self.items)
+                self.dataSource.apply(snapshot, animatingDifferences: true)
             }
         }
+        
+        dataSource = UICollectionViewDiffableDataSource<Int, Item>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, item: Item) -> UICollectionViewCell? in
+            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+        }
+        
+        // initial data
+        var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
+        snapshot.appendSections([0])
+        snapshot.appendItems(items)
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }

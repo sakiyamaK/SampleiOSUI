@@ -34,18 +34,18 @@ private struct SwiftUIHostingView: View {
 
         var body: some View {
             ScrollView(content: {
-                LazyVStack {
-                    ForEach(0..<viewModel.count, id: \.self) { i in
-                        Text(self.viewModel.texts[i])
-                        Button(self.viewModel.buttonTitle) {
-                            self.viewModel.tapAction(index: i)
-                        }
-                        .onAppear() {
-                            DLog(i)
-                        }
-                        Spacer(minLength: 20)
-                    }
-                }
+//                LazyVStack {
+//                    ForEach(0..<viewModel.count, id: \.self) { i in
+//                        Text(self.viewModel.texts[i])
+//                        Button(self.viewModel.buttonTitle) {
+//                            self.viewModel.tapAction(index: i)
+//                        }
+//                        .onAppear() {
+//                            DLog(i)
+//                        }
+//                        Spacer(minLength: 20)
+//                    }
+//                }
             })
         }
 }

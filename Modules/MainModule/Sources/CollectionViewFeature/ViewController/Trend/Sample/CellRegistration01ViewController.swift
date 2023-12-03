@@ -43,9 +43,9 @@ final class CellRegistration01ViewController: UIViewController {
             
     @objc private func setupLayout() {
         
-        view.backgroundColor = .white
-        
-        declarative {
+        applyView {
+            $0.backgroundColor(.white)
+        }.declarative {
             UICollectionView {
                 // アイテム(セル)の大きさをグループの大きさと同じにする
                 let itemSize = NSCollectionLayoutSize(

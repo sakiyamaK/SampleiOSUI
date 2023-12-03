@@ -21,8 +21,9 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        .package(url: "https://github.com/sakiyamaK/DeclarativeUIKit", branch: "feature/UIPopoverPresentationController"),
+        .package(url: "https://github.com/sakiyamaK/DeclarativeUIKit", branch: "2.0.2"),
         .package(url: "https://github.com/sakiyamaK/ObservableUIKit", from: "0.0.3"),
+        .package(url: "https://github.com/sakiyamaK/UIKitConfiguration", from: "0.0.2"),
         .package(url: "https://github.com/danielgindi/Charts", from: "4.1.0"),
         .package(url: "https://github.com/johnno1962/HotReloading", branch: "main"),
         .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.5.0"),
@@ -52,6 +53,7 @@ let package = Package(
                 .target(name: "SampleTextViewFeature"),
                 .target(name: "ScrollNavigationBarFeature"),
                 .target(name: "TabNavigationFeature"),
+                .target(name: "ComposeForiOSNative"),
                 .product(name: "IQKeyboardManagerSwift", package: "IQKeyboardManager"),
             ]
         ),
@@ -98,15 +100,16 @@ let package = Package(
             name: "SampleFeature",
             dependencies: [
                 .target(name: "ResourceFeature"),
-                .target(name: "Extensions"),
-                .target(name: "Components"),
+//                .target(name: "Extensions"),
+//                .target(name: "Components"),
                 .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
                 .product(name: "ObservableUIKit", package: "ObservableUIKit"),
-                .product(name: "HotReloading", package: "HotReloading"),
-                .product(name: "RxSwift", package: "RxSwift"),
-                .product(name: "RxCocoa", package: "RxSwift"),
-                .product(name: "RxOptional", package: "RxOptional"),
-                .product(name: "SwiftyAttributes", package: "SwiftyAttributes"),
+                .product(name: "UIKitConfiguration", package: "UIKitConfiguration"),
+//                .product(name: "HotReloading", package: "HotReloading"),
+//                .product(name: "RxSwift", package: "RxSwift"),
+//                .product(name: "RxCocoa", package: "RxSwift"),
+//                .product(name: "RxOptional", package: "RxOptional"),
+//                .product(name: "SwiftyAttributes", package: "SwiftyAttributes"),
             ]
         ),
         .target(
@@ -121,7 +124,7 @@ let package = Package(
                 .target(name: "Components"),
                 .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
                 .product(name: "HotReloading", package: "HotReloading"),
-                .product(name: "ObservableUIKit", package: "ObservableUIKit"),
+//                .product(name: "ObservableUIKit", package: "ObservableUIKit"),
             ]
         ),
         .target(
@@ -164,6 +167,15 @@ let package = Package(
                 .target(name: "Extensions"),
                 .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
                 .product(name: "HotReloading", package: "HotReloading"),
+            ]
+        ),
+        .target(
+            name: "ComposeForiOSNative",
+            dependencies: [
+                .target(name: "Extensions"),
+                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
+                .product(name: "HotReloading", package: "HotReloading"),
+                .product(name: "ObservableUIKit", package: "ObservableUIKit"),
             ]
         ),
         //        .testTarget(

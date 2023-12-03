@@ -13,9 +13,9 @@ final class CompositionalLayout03ViewController: UIViewController {
     override func loadView() {
         super.loadView()
 
-        view.backgroundColor = .white
-
-        declarative {
+        applyView {
+            $0.backgroundColor(.white)
+        }.declarative {
             UICollectionView {
                 let leftFractional: CGFloat = 0.7
                 let rightFractional: CGFloat = 1.0 - leftFractional

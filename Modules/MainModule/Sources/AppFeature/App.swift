@@ -12,6 +12,7 @@
 @_exported import SampleTextViewFeature
 @_exported import TabNavigationFeature
 @_exported import ScrollNavigationBarFeature
+@_exported import ComposeForiOSNative
 
 import IQKeyboardManagerSwift
 import UIKit
@@ -20,6 +21,7 @@ import Extensions
 
 private enum ViewType: String, CaseIterable {
     
+    case ComposeForiOSNative
     case Chart
     case CollectionView
     case SampleAffine
@@ -33,6 +35,8 @@ private enum ViewType: String, CaseIterable {
 
     var viewController: UIViewController {
         switch self {
+        case .ComposeForiOSNative:
+            SampleComposeForiOSNativeViewController()
         case .Chart:
             ChartsViewController()
         case .CollectionView:
@@ -58,12 +62,11 @@ private enum ViewType: String, CaseIterable {
     
     func button(from: UIViewController) -> UIButton {
         UIButton(self.rawValue)
-            .apply({
-                $0.configuration = .filled()
-            })
-            .font(UIFont.systemFont(ofSize: 20))
-            .backgroundColor(.systemBlue)
-            .cornerRadius(10)
+            .configuration(
+                UIButton.Configuration.filled()
+                    .baseBackgroundColor(.systemBlue)
+                    .cornerStyle(.capsule)
+            )
             .add(target: from, for: .touchUpInside) { _ in
                 from.navigationController?.pushViewController(self.viewController, animated: true)
             }

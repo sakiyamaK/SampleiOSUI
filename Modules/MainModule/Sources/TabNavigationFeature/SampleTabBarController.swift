@@ -52,9 +52,9 @@ public class SampleTabBarController: UITabBarController {
         declarative(reset: false) {
             UIButton("fabfab")
                 .titleColor(.systemBlue)
-                .addAction(.touchUpInside) {_ in
-                    print("tap")
-                }
+//                .addAction(.touchUpInside) {_ in
+//                    print("tap")
+//                }
                 .right()
                 .bottom()
                 .offset(.init(x: -30, y: -30))
@@ -79,30 +79,30 @@ public class PopoverTestUIViewController: UIViewController {
         .declarative({
             UIButton("tab1")
                 .titleColor(.systemBlue)
-                .addAction(.touchUpInside) { action in
-                    let button: UIButton = action.sender as! UIButton
-                    print("tap tab1")
-                    UIViewController()
-                        .applyView({
-                            $0.isUserInteractionEnabled(true)
-                                .addGestureRecognizer {
-                                    UITapGestureRecognizer(target: self) {[weak self] _ in
-                                        guard let vc = self else { return }
-                                        vc.presentedViewController?.dismiss(animated: true)
-                                    }
-                                }
-                        })
-                        .declarative({
-                            UILabel("popover")
-                                .center()
-                        })
-                        .modalPresentationStyle(.popover)
-                        .applyPopoverPresentationController({[weak self] popoverController in
-                            guard let self else { return }
-                            popoverController?.sourceView(button).delegate(self)
-                        })
-                        .present(from: self, animated: true)
-                }
+//                .addAction(.touchUpInside) { action in
+//                    let button: UIButton = action.sender as! UIButton
+//                    print("tap tab1")
+//                    UIViewController()
+//                        .applyView({
+//                            $0.isUserInteractionEnabled(true)
+//                                .addGestureRecognizer {
+//                                    UITapGestureRecognizer(target: self) {[weak self] _ in
+//                                        guard let vc = self else { return }
+//                                        vc.presentedViewController?.dismiss(animated: true)
+//                                    }
+//                                }
+//                        })
+//                        .declarative({
+//                            UILabel("popover")
+//                                .center()
+//                        })
+//                        .modalPresentationStyle(.popover)
+//                        .applyPopoverPresentationController({[weak self] popoverController in
+//                            guard let self else { return }
+//                            popoverController?.sourceView(button).delegate(self)
+//                        })
+//                        .present(from: self, animated: true)
+//                }
                 .center()
         })
     }

@@ -218,70 +218,70 @@ public final class DiffableDataSources03ViewController: UIViewController, UIColl
     private weak var collectionView: UICollectionView!
 
     private var sampless: [[SectionModel: [any CellProtocol]]] = .init()
-    func getSampless(emptySection: Int? = nil, newSection: SectionModel? = nil) -> [[SectionModel: [any CellProtocol]]] {
-        (0...2).compactMap { sectionIndex -> [SectionModel: [any CellProtocol]] in
+    func createSampless(emptySection: Int? = nil, newSection: SectionModel? = nil) -> [[SectionModel: [any CellProtocol]]] {
+        (0...10).compactMap { sectionIndex -> [SectionModel: [any CellProtocol]] in
             var sectionModel = newSection ?? SectionModel(section: sectionIndex)
             sectionModel.section = sectionIndex
-
-            guard emptySection != sectionIndex else {
-                return [sectionModel: []]
-            }
-
-            if sectionIndex%2 == 0 {
-                return [sectionModel: (0...5).compactMap { cellIndex in
-                    CellModel01(text: "\(sectionIndex)_\(cellIndex)")
-                }]
-            } else {
-                return [sectionModel: (0...5).compactMap { cellIndex in
-                    CellModel02(value: cellIndex)
-                }]
+            return switch sectionIndex {
+            case emptySection:
+                [sectionModel: []]
+            default:
+                if sectionIndex%2 == 0 {
+                    [sectionModel: (0...5).compactMap { cellIndex in
+                        CellModel01(text: "\(sectionIndex)_\(cellIndex)")
+                    }]
+                } else {
+                    [sectionModel: (0...5).compactMap { cellIndex in
+                        CellModel02(value: cellIndex)
+                    }]
+                }
             }
         }
     }
+    
     func getSample(id: DiffableDatasourceID) -> (any CellProtocol)? {
-        // joined().joined()と２回いる理由がよく分からない
-        sampless.compactMap { $0.values }.joined().joined().first { $0.id == id }
-
+        sampless.compactMap({ $0.values as? any CellProtocol })
+            .compactMap({ $0 }).first(where: { $0.id == id })
     }
     
     var ids: [DiffableDatasourceID] {
-        sampless.compactMap { $0.values }.joined().joined().compactMap { $0.id }
+        sampless.compactMap({ $0.values as? any CellProtocol }).compactMap({ $0.id })
     }
 
     @objc private func setupLayout() {
 
-        view.backgroundColor = .white
-
-        self.declarative {
+        applyView {
+            $0.backgroundColor(.white)
+        }.declarative {
             UICollectionView {
                 UICollectionViewCompositionalLayout { _, layoutEnvironment in
 
                     var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
                     configuration.headerMode = .supplementary
 
-                    let section = NSCollectionLayoutSection.list(using: configuration,
-                                                                 layoutEnvironment: layoutEnvironment)
-
-                    return section
+                    return NSCollectionLayoutSection.list(
+                        using: configuration,
+                        layoutEnvironment: layoutEnvironment
+                    )
                 }
             }
             .refreshControl({
                 UIRefreshControl()
                     .add(target: self, for: .valueChanged) {[weak self] _ in
                         guard let self = self else { return }
-                        self.sampless = self.getSampless()
+                        self.sampless = self.createSampless()
                         self.performQuery(sampless: self.sampless)
                     }
             })
             .assign(to: &collectionView)
-            .registerCellClass(AccordionCollectionViewCell.self, forCellWithReuseIdentifier: AccordionCollectionViewCell.className)
-            .registerCellClass(AccordionCollectionViewCell2.self, forCellWithReuseIdentifier: AccordionCollectionViewCell2.className)
-            .registerViewClass(CollecitonHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollecitonHeader.className)
+//            .registerCellClass(AccordionCollectionViewCell.self, forCellWithReuseIdentifier: AccordionCollectionViewCell.className)
+//            .registerCellClass(AccordionCollectionViewCell2.self, forCellWithReuseIdentifier: AccordionCollectionViewCell2.className)
+//            .registerViewClass(CollecitonHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollecitonHeader.className)
         }
 
         snapshot = .init()
         configureDataSource()
-        self.sampless = self.getSampless()
+        self.sampless = self.createSampless()
         self.performQuery(sampless: self.sampless)
     }
 }
@@ -313,16 +313,16 @@ private extension DiffableDataSources03ViewController {
                 view.configure(section: indexPath.section, tapCount: newSection.tapCount)
 
                 let emptySection = self.snapshot.itemIdentifiers(inSection: section).isEmpty ? nil : selectSection
-                self.sampless = self.getSampless(emptySection: emptySection, newSection: newSection)
+                self.sampless = self.createSampless(emptySection: emptySection, newSection: newSection)
                 self.performQuery(sampless: self.sampless)
             }
         }
 
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, cellHasable in
             if indexPath.section%2 == 0 {
-                return collectionView.dequeueConfiguredReusableCell(using: accordionCollectionViewCellRegistration, for: indexPath, item: cellHasable)
+                collectionView.dequeueConfiguredReusableCell(using: accordionCollectionViewCellRegistration, for: indexPath, item: cellHasable)
             } else {
-                return collectionView.dequeueConfiguredReusableCell(using: accordionCollectionViewCell2Registration, for: indexPath, item: cellHasable)
+                collectionView.dequeueConfiguredReusableCell(using: accordionCollectionViewCell2Registration, for: indexPath, item: cellHasable)
             }
         })
 

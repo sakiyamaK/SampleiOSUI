@@ -89,10 +89,12 @@ private enum ViewType: String, CaseIterable {
     
     func button(from: UIViewController) -> UIButton {
         UIButton(self.rawValue)
-            .contentEdgeInsets(.init(top: 10, left: 10, bottom: 10, right: 10))
+            .configuration(
+                UIButton.Configuration.filled()
+                    .baseBackgroundColor(.systemBlue)
+                    .cornerStyle(.capsule)
+            )
             .font(UIFont.systemFont(ofSize: 20))
-            .backgroundColor(.systemBlue)
-            .cornerRadius(10)
             .add(target: from, for: .touchUpInside) { _ in
                 from.navigationController?.pushViewController(self.viewController, animated: true)
             }
