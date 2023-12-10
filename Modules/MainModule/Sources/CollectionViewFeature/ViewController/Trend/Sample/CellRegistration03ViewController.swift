@@ -44,7 +44,7 @@ struct CustomContentConfiguration: UIContentConfiguration, Hashable {
     let uuid: UUID = .init()
 
     let item: Item
-    let tapButton: (() -> Void)?
+    let delegate: CustomContentView.Delegate?
 
     func makeContentView() -> UIView & UIContentView {
         CustomContentView(configuration: self)
@@ -65,7 +65,10 @@ class CustomContentView: UIView {
     private weak var nameLabel: UILabel!
     private weak var descLabel: UILabel!
     
-    var tapButton: (() -> Void)?
+    struct Delegate {
+        var tapButton: ((CustomContentView) -> Void)?
+    }
+    private var delegate: Delegate?
     
     private func setupLayout() {
         self.declarative(priorities: .init(bottom: .defaultHigh)) {
@@ -90,7 +93,8 @@ class CustomContentView: UIView {
                             .assign(to: &showMore)
                             .titleColor(.black)
                             .addAction(.touchUpInside, handler: {[weak self] _ in
-                                self?.tapButton?()
+                                guard let self else { return }
+                                self.delegate?.tapButton?(self)
                             })
                             .right()
                         
@@ -105,11 +109,11 @@ class CustomContentView: UIView {
     }
     
     // 普通のUIViewとして使う時に必要な実装
-    init(item: Item, tapButton: (() -> Void)? = nil) {
+    init(item: Item, delegate: Delegate? = nil) {
         super.init(frame: .zero)
         setupLayout()
         apply(item: item)
-        self.tapButton = tapButton
+        self.delegate = delegate
     }
     
     func apply(item: Item) {
@@ -137,7 +141,7 @@ extension CustomContentView: UIContentView {
     }
     
     convenience init(configuration: CustomContentConfiguration) {
-        self.init(item: configuration.item, tapButton: configuration.tapButton)
+        self.init(item: configuration.item, delegate: configuration.delegate)
         appliedConfiguration = configuration
     }
             
@@ -145,7 +149,7 @@ extension CustomContentView: UIContentView {
         guard appliedConfiguration != configuration else { return }
         appliedConfiguration = configuration
         apply(item: configuration.item)
-        tapButton = appliedConfiguration.tapButton
+        delegate = appliedConfiguration.delegate
     }
 }
 
@@ -157,9 +161,6 @@ public class CellRegistration03ViewController: UIViewController {
     private var items = Item.all
 
     private var dataSource: UICollectionViewDiffableDataSource<Int, Item>!
-
-    private weak var collectionView: UICollectionView!
-    private weak var customContentView: CustomContentView!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -175,51 +176,70 @@ public class CellRegistration03ViewController: UIViewController {
                     .font(UIFont.defaultFontBold(size: 20))
                     .padding(insets: .init(all: 8))
                 
-                CustomContentView(item: itemsInStackView, tapButton: {[weak self] in
-                    guard let self else { return }
-                    self.itemsInStackView.isExpanded.toggle()
-                    self.customContentView.apply(item: self.itemsInStackView)
-                })
-                .assign(to: &customContentView)
-                
+                CustomContentView(
+                    item: itemsInStackView,
+                    delegate: .init(
+                        tapButton: {[weak self] view in
+                            guard let self else { return }
+                            self.itemsInStackView.isExpanded.toggle()
+                            view.apply(item: self.itemsInStackView)
+                        }
+                    )
+                )
                 UILabel("collectionviewの中でも使える")
                     .font(UIFont.defaultFontBold(size: 20))
                     .padding(insets: .init(all: 8))
                 
                 UICollectionView {
-                    UICollectionViewCompositionalLayout.list(using: .init(appearance: .insetGrouped))
+                    UICollectionViewCompositionalLayout.list(
+                        using: .init(
+                            appearance: .insetGrouped
+                        )
+                    )
                 }
-                .assign(to: &collectionView)
+                .apply({
+                    configureDataSource(collectionView: $0)
+                })
             }
-        }.configureDataSource()
+        }
     }
         
-    private func configureDataSource() {
+    private func configureDataSource(collectionView: UICollectionView) {
         // dequeueConfiguredReusableCellでその都度生成はできないのでちゃんと定数化しておく
         let cellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { [weak self] (cell, indexPath, item) in
-            cell.contentConfiguration = CustomContentConfiguration(item: item, tapButton: {[weak self] in
-                guard let self else { return }
-                var updateItem = item
-                updateItem.isExpanded.toggle()
-                self.items = self.items.compactMap { item in
-                    item.uuid == updateItem.uuid ? updateItem : item
-                }
-                var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
-                snapshot.appendSections([0])
-                snapshot.appendItems(self.items)
-                self.dataSource.apply(snapshot, animatingDifferences: true)
-            })
+            cell.contentConfiguration = CustomContentConfiguration(
+                item: item,
+                delegate: .init(
+                    tapButton: {[weak self] _ in
+                        guard let self else { return }
+                        var updateItem = item
+                        updateItem.isExpanded.toggle()
+                        self.items = self.items.compactMap { item in
+                            item.uuid == updateItem.uuid ? updateItem : item
+                        }
+                        self.applySnapshot(items: self.items, animatingDifferences: true)
+                    }
+                )
+            )
         }
         
         dataSource = UICollectionViewDiffableDataSource<Int, Item>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, item: Item) -> UICollectionViewCell? in
-            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+            collectionView.dequeueConfiguredReusableCell(
+                using: cellRegistration,
+                for: indexPath,
+                item: item
+            )
         }
         
         // initial data
+        applySnapshot(items: items, animatingDifferences: false)
+    }
+    
+    private func applySnapshot(items: [Item], animatingDifferences: Bool) {
         var snapshot = NSDiffableDataSourceSnapshot<Int, Item>()
         snapshot.appendSections([0])
         snapshot.appendItems(items)
-        dataSource.apply(snapshot, animatingDifferences: false)
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
