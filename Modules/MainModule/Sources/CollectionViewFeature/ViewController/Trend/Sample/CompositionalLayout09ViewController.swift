@@ -13,9 +13,9 @@ final class CompositionalLayout09ViewController: UIViewController {
     override func loadView() {
         super.loadView()
 
-        view.backgroundColor = .white
-
-        declarative {
+        applyView {
+            $0.backgroundColor(.white)
+        }.declarative {
             UICollectionView {
                 UICollectionViewCompositionalLayout.init { _, _ -> NSCollectionLayoutSection? in
 

@@ -7,6 +7,12 @@
 
 import Foundation
 
+public extension Collection {
+    subscript(safe index: Index) -> Element? {
+        indices.contains(index) ? self[index] : nil
+    }
+}
+
 public extension Array {
     subscript(safe range: ClosedRange<Int>) -> Self {
         guard let first = range.first, let last = range.last,

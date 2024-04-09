@@ -14,13 +14,11 @@ import Extensions
 private enum ViewType: String, CaseIterable {
     
     // Trend
+    case AppStore
+    case WaterfalCompositionallLayout
     case CellRegistration01
     case CellRegistration02
     case CellRegistration03
-    case WaterfalCompositionallLayout
-    case CompositionalLayout09
-    case CompositionalLayout08
-    case AppStore
     case CompositionalLayout01
     case CompositionalLayout02
     case CompositionalLayout03
@@ -28,6 +26,8 @@ private enum ViewType: String, CaseIterable {
     case CompositionalLayout05
     case CompositionalLayout06
     case CompositionalLayout07
+    case CompositionalLayout08
+    case CompositionalLayout09
     case DiffableDataSources01
     case DiffableDataSources02
     case DiffableDataSources03
@@ -39,7 +39,7 @@ private enum ViewType: String, CaseIterable {
     case Sample4Collection
     case Sample5Collection
     case Sample6Collection
-    case Sample7Collection
+    case SampleCollection7
 //    case StoppableHeaderCollection
 //    case StoppableHeaderPageCollectionView
     case WWDC2018

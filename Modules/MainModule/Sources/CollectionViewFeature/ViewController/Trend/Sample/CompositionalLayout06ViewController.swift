@@ -31,27 +31,6 @@ extension SectionBackgroundDecorationView {
 final class CompositionalLayout06ViewController: UIViewController {
     private let items = SampleModel02.samples
 
-    enum SectionKind: Int, CaseIterable {
-        case continuous, groupPaging, none, continuousGroupLeadingBoundary, paging, groupPagingCentered
-
-        var orthogonalScrollingBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior {
-            switch self {
-            case .none:
-                return .none
-            case .continuous:
-                return .continuous
-            case .continuousGroupLeadingBoundary:
-                return .continuousGroupLeadingBoundary
-            case .paging:
-                return .paging
-            case .groupPaging:
-                return .groupPaging
-            case .groupPagingCentered:
-                return .groupPagingCentered
-            }
-        }
-    }
-
     override func loadView() {
         super.loadView()
 

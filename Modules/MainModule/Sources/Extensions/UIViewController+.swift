@@ -1,6 +1,6 @@
 //
 //  UIViewController+.swift
-//  
+//
 //
 //  Created by sakiyamaK on 2023/03/08.
 //
@@ -31,7 +31,7 @@ public extension UIViewController {
         resignFirstResponder()
         self.view.touchesEnded(touches, with: event)
     }
-
+    
     // MARK: - containerview
     func addContainer(viewController: UIViewController, containerView: UIView) {
         self.addChild(viewController)
@@ -45,13 +45,26 @@ public extension UIViewController {
         ])
         viewController.didMove(toParent: self)
     }
+
+    func addContainer(viewController: UIViewController, containerView: UIView, completion: @escaping ((UIViewController) -> Void)) {
+        self.addChild(viewController)
+        containerView.addSubview(viewController.view)
+        viewController.didMove(toParent: self)
+        completion(viewController)
+    }
+
+    func addContainer(viewController: UIViewController, completion: @escaping ((UIViewController) -> Void)) {
+        self.addChild(viewController)
+        viewController.didMove(toParent: self)
+        completion(viewController)
+    }
     
     func removeContainer(viewController: UIViewController) {
         viewController.willMove(toParent: self)
         viewController.view.removeFromSuperview()
         viewController.removeFromParent()
     }
-        
+    
     func removeAllContainer() {
         self.children.forEach {
             self.removeContainer(viewController: $0)
@@ -62,4 +75,10 @@ public extension UIViewController {
         UINavigationController(rootViewController: self)
     }
     
+    func withNavigationController(navigationBarClass: AnyClass?, toolbarClass: AnyClass?) -> UINavigationController {
+        let nav = UINavigationController(navigationBarClass: navigationBarClass, toolbarClass: toolbarClass)
+        nav.viewControllers = [self]
+        return nav
+    }
+
 }

@@ -83,9 +83,9 @@ struct SampleModel02: Hashable {
         hasher.combine(identifier)
     }
 
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.identifier == rhs.identifier
-    }
+//    static func == (lhs: Self, rhs: Self) -> Bool {
+//        return lhs.identifier == rhs.identifier
+//    }
 
     private static func createSamples(times: Int) -> [Self] {
         Array(0 ... times).map {

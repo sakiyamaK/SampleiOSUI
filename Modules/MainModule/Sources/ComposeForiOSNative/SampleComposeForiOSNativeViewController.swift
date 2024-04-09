@@ -259,14 +259,7 @@ public class Row: ComposeForiOSNative {
 
 
 public final class SampleComposeForiOSNativeViewController: UIViewController {
-    
-    public override func loadView() {
-        super.loadView()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(viewDidLoad),
-                                               name: Notification.Name.injection, object: nil)
-    }
-    
+        
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -284,23 +277,6 @@ public final class SampleComposeForiOSNativeViewController: UIViewController {
                 Text("Compose")
             }
         }
-        
-//        resetDeclarativeUIKitLayout()
-//            .declarative {
-//                UIStackView.vertical {
-//                    UILabel("Compose")
-//                        .contentPriorities(.init(all: .required))
-//                        .backgroundColor(.red)
-//                        .customSpacing(10)
-//                    UILabel("Compose")
-//                        .contentPriorities(.init(all: .required))
-//                        .backgroundColor(.red)
-//                }
-////                .distribution(.equalCentering)
-//                .alignment(.center)
-//                .backgroundColor(.green)
-//                .top()
-//            }
     }
 }
 

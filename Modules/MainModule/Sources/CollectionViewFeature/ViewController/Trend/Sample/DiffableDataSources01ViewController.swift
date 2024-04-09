@@ -79,7 +79,8 @@ extension DiffableDataSources01ViewController {
             .filter { model -> Bool in
                 guard !searchWord.isEmpty else { return true }
                 return model.text.contains(searchWord)
-            }.sorted { $0.text < $1.text }
+            }
+//            .sorted { $0.text < $1.text }
 
         // 新しいsnapshotを用意する
         var snapshot = NSDiffableDataSourceSnapshot<Section, SampleModel02>()

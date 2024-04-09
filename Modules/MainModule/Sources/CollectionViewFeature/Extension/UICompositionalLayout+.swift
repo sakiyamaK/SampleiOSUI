@@ -9,6 +9,36 @@
 import UIKit.UICollectionViewCompositionalLayout
 
 extension UICollectionViewCompositionalLayout {
+    
+    static func horizontalScroll(
+        widthDimension: NSCollectionLayoutDimension,
+        heightDimension: NSCollectionLayoutDimension,
+        itemContentInsets: NSDirectionalEdgeInsets,
+        sectionContentInsets: NSDirectionalEdgeInsets = .zero,
+        orthogonalScrollingBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior = .continuous
+    ) -> UICollectionViewCompositionalLayout {
+        UICollectionViewCompositionalLayout.init { _, _ -> NSCollectionLayoutSection? in
+
+            // NSCollectionLayoutGroupのsubitems,countだとheightDimensionの値は関係ないらしい
+            let item = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(widthDimension: widthDimension, heightDimension: heightDimension)
+            )
+            item.contentInsets = itemContentInsets
+
+            let containerGroup = NSCollectionLayoutGroup.horizontal(
+                layoutSize: NSCollectionLayoutSize(widthDimension: .estimated(1.0),
+                                                   heightDimension: .estimated(1.0)),
+                subitems: [item]
+            )
+
+            let section = NSCollectionLayoutSection(group: containerGroup)
+            section.orthogonalScrollingBehavior = orthogonalScrollingBehavior
+            section.contentInsets = sectionContentInsets
+
+            return section
+        }
+    }
+    
     private static func createHeader(height: CGFloat) -> NSCollectionLayoutBoundarySupplementaryItem? {
         guard height > 0 else { return nil }
         return NSCollectionLayoutBoundarySupplementaryItem(

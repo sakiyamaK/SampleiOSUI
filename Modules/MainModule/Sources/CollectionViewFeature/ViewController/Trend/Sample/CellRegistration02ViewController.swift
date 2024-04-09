@@ -9,19 +9,7 @@ import DeclarativeUIKit
 import UIKit
 import Extensions
 
-struct ContentModel: Equatable {
-//    // DiffableDatasource用
-//    struct ID: Hashable {
-//        let value: String
-//        func hash(into hasher: inout Hasher) {
-//            hasher.combine(value)
-//        }
-//        
-//        static func == (lhs: Self, rhs: Self) -> Bool {
-//            lhs.value == rhs.value
-//        }
-//    }
-    
+struct ContentModel: Equatable {    
     let id: UUID = .init()
     // データ
     let name: String

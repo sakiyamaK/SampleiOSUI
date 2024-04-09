@@ -19,9 +19,9 @@ final class WaterfalCompositionallLayoutCollectionViewController: UIViewControll
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
-
-        declarative {
+        applyView {
+            $0.backgroundColor(.white)
+        }.declarative {
             UICollectionView {
                 UICollectionViewCompositionalLayout.waterfall(
                     contentInsets: .init(top: 16, leading: 16, bottom: 16, trailing: 16),
@@ -61,9 +61,7 @@ final class WaterfalCompositionallLayoutCollectionViewController: UIViewControll
                     }
                 }
             })
-        }
-        
-        declarative(reset: false) {
+        }.declarative {
             UIActivityIndicatorView(assign: &indicator)
                 .hidesWhenStopped(true)
                 .apply {

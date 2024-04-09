@@ -38,7 +38,7 @@ final class CompositionalLayout08ViewController: UIViewController {
                 .padding()
 
                 UICollectionView {
-                    UICollectionViewFlowLayout()
+                    layout
                 }
                 .assign(to: &collectionView)
                 .registerCellClass(UIImageViewCell.self, forCellWithReuseIdentifier: UIImageViewCell.reuseId)
