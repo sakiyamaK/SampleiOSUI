@@ -26,7 +26,7 @@ public class ScrollNavigationBarViewController: UIViewController {
                                     )
                                 )
                             ],
-                            bar: UIView.spacer().height(0.5).backgroundColor(.black)
+                            bar: UIView.spacer().height(1.0).backgroundColor(.black)
                         )
                     )
         let scrollNavgationTabBarPageViewController = ScrollNavigationTabBarPageViewController(

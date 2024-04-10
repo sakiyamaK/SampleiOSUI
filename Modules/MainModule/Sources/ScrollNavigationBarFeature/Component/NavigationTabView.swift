@@ -6,18 +6,19 @@
 //
 
 import UIKit
+import Extensions
 
 public class NavigationTabView: UIView, ScrollNavigationTabBarPageTabViewProtocol {
-
+    
     public weak var navigationTabBarScrollView: UIScrollView!
     public var tap: ((Int) -> Void)?
-
+    
     struct Parameter {
         let buttons: [UIView]
         let bar: UIView
     }
     
-    private var barWidthConst: NSLayoutConstraint!
+    private var barWidthConsts: [NSLayoutConstraint] = []
     private var barLeftConst: NSLayoutConstraint!
     private var parameter: Parameter!
     
@@ -44,15 +45,17 @@ public class NavigationTabView: UIView, ScrollNavigationTabBarPageTabViewProtoco
                 }.assign(to: &navigationTabBarScrollView)
             }
         
-        if parameter.buttons.first != nil {
+        if !parameter.buttons.isEmpty {
             let bar = parameter.bar
             bar.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(bar)
             bar.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
             barLeftConst = bar.leftAnchor.constraint(equalTo: self.leftAnchor)
             barLeftConst.isActive = true
-            barWidthConst = bar.widthAnchor.constraint(equalToConstant: 0)
-            barWidthConst.isActive = true
+            barWidthConsts = parameter.buttons.compactMap {
+                bar.widthAnchor.constraint(equalTo: $0.widthAnchor)
+            }
+            barWidthConsts.first?.isActive = true
         }
     }
     
@@ -64,13 +67,38 @@ public class NavigationTabView: UIView, ScrollNavigationTabBarPageTabViewProtoco
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func layoutSubviews() {
-        super.layoutSubviews()
+    public func selectTab(index: Int) {
+
+        moveBar(index: index)
+        updateBarWidth(index: index)
         
-        guard let button = parameter.buttons.first else {
-            return
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.2) {
+                self.layoutIfNeeded()
+            }
         }
         
-        barWidthConst.constant =  button.frame.width
     }
+    
+    private func moveBar(index: Int) {
+        barLeftConst.constant = if
+            index <= 0 || parameter.buttons.count <= index {
+            0
+        } else {
+            parameter.buttons.compactMap({
+                $0.frame.maxX
+            })[0...(index-1)].reduce(0, +)
+        }
+        
+        DLog(barLeftConst.constant)
+    }
+    
+    private func updateBarWidth(index: Int) {
+        
+        barWidthConsts.forEach {
+            $0.isActive = false
+        }
+        barWidthConsts[safe: index]?.isActive = true
+    }
+    
 }

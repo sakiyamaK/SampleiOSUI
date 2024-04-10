@@ -13,21 +13,21 @@ import Extensions
 public protocol ScrollNavigationTabBarPageTabViewProtocol: UIView {
     var navigationTabBarScrollView: UIScrollView! { get }
     var tap: ((Int) -> Void)? { get set }
+    func selectTab(index: Int)
 }
 
 // ScrollViewをもつ各ページのViewControllerに設定するProtocol
 public protocol ScrollNavigationTabBarPagingViewControllerProtocol: UIViewController {
     var setupScrollView: ((UIScrollView) -> Void)? { get set }
-    var scrollHideViewActions: [ScrollHideViewAction] { get }
     var setScrollHideViewActions: ((UIScrollView) -> [ScrollHideViewAction])? { get set }
+    // setScrollHideViewActionsの戻り値を保持するパラメータ
+    var scrollHideViewActions: [ScrollHideViewAction] { get }
 }
 
 public class ScrollNavigationTabBarPageViewController: UIPageViewController {
 
     private weak var navigationTabView: (UIView & ScrollNavigationTabBarPageTabViewProtocol)!
     private(set) var settingViewControllers: [UIViewController & ScrollNavigationTabBarPagingViewControllerProtocol] = []
-//    private var constraints: [NSLayoutConstraint] = []
-//    private var constraint: NSLayoutConstraint!
 
     private func currentIndex(from: UIViewController) -> Int? {
         settingViewControllers.firstIndex(where: { $0 === from })
@@ -43,6 +43,7 @@ public class ScrollNavigationTabBarPageViewController: UIPageViewController {
         }
         let direction: UIPageViewController.NavigationDirection = currentIndex < index ? .forward : .reverse
         setViewControllers([nextViewController], direction: direction, animated: true)
+        navigationTabView.selectTab(index: index)
     }
     
     init(
@@ -74,43 +75,41 @@ public class ScrollNavigationTabBarPageViewController: UIPageViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-//    override public func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        navigationTabView.frame = .init(
-//            x: 0,
-//            y: self.view.safeAreaInsets.top,
-//            width: navigationTabView.bounds.size.width,
-//            height: navigationTabView.bounds.size.height
-//        )
-//        
-//        navigationTabView.bounds = .init(
-//            x: 0,
-//            y: 200,
-//            width: navigationTabView.bounds.size.width,
-//            height: navigationTabView.bounds.size.height
-//        )
-//    }
-    
-    private func updateIndicatorPosition(index: Int) {
-        UIView.animate(withDuration: 0.3) {
-//            self.indicatorView.frame.origin.x = self.view.frame.width / CGFloat(self.viewControllers.count) * CGFloat(index)
-        }
-    }
-
 }
 
+extension ScrollNavigationTabBarPageViewController: UIScrollViewDelegate {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let index = currentIndex(from: viewControllers!.first!)!
+        DLog("\(index), \(scrollView.contentOffset)")
+    }
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        let index = currentIndex(from: viewControllers!.first!)!
+        DLog("\(index), \(scrollView.contentOffset)")
+    }
+    
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let index = currentIndex(from: viewControllers!.first!)!
+        DLog("\(index), \(scrollView.contentOffset)")
+    }
+    
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let index = currentIndex(from: viewControllers!.first!)!
+        DLog("\(index), \(scrollView.contentOffset), \(decelerate)")
+    }
+}
 extension ScrollNavigationTabBarPageViewController: UIPageViewControllerDelegate {
 }
 
 extension ScrollNavigationTabBarPageViewController: UIPageViewControllerDataSource {
     public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let index = currentIndex(from: viewController), index > 0 else { return nil }
+        DLog(index)
         return settingViewControllers[index - 1]
     }
     
     public func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let index = currentIndex(from: viewController), index < settingViewControllers.count - 1 else { return nil }
+        DLog(index)
         return settingViewControllers[index + 1]
     }
     
@@ -120,7 +119,9 @@ extension ScrollNavigationTabBarPageViewController: UIPageViewControllerDataSour
         ) else {
             return
         }
-        updateIndicatorPosition(index: index)
+
+        DLog(index)
+        navigationTabView.selectTab(index: index)
     }
 }
 

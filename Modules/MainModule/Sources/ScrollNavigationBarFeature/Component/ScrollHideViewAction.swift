@@ -160,14 +160,7 @@ extension ScrollHideViewAction {
             moveView.setFrame(origin: defMoveViewOrigin)
             return
         }
-        
-        //スクロール開始時の座標が初期値ではない
-        guard scrollStartContentOffset != defScrollStartContentOffset else {
-            DLog()
-            moveView.setFrame(origin: defMoveViewOrigin)
-            return
-        }
-        
+                
         let scrollMoveAmount = abs(newOffset.y - scrollStartContentOffset.y)
         
         // ユーザタップ開始から一定(thresholdOffsetY)以上動かしたかどうか判断して
@@ -200,30 +193,23 @@ extension ScrollHideViewAction {
         let isValidatedScroll = initContentOffset != ScrollHideViewAction.invalidOffset
 
         guard let moveView, isValidatedScroll else {
-            DLog()
+//            DLog()
             return
         }
 
         // scrollviewのframeでinitContentOffsetより下にいった時はmoveViewを初期値にする
         guard newOffset.y > initContentOffset.y else {
-            DLog()
+//            DLog()
             moveView.setBounds(origin: .zero)
             return
         }
-        
-        //スクロール開始時の座標が初期値ではない
-        guard scrollStartContentOffset != defScrollStartContentOffset else {
-            DLog()
-            moveView.setBounds(origin: .zero)
-            return
-        }
-        
+                
         let scrollMoveAmount = abs(newOffset.y - scrollStartContentOffset.y)
         
         // ユーザタップ開始から一定(thresholdOffsetY)以上動かしたかどうか判断して
         // これ以降でmoveViewの移動処理をする
         guard scrollThresholdOffsetY < scrollMoveAmount  else {
-            DLog()
+//            DLog()
             return
         }
         
@@ -234,8 +220,6 @@ extension ScrollHideViewAction {
                 
         let moveOrigin = moveView.bounds.offsetBy(dx: 0, dy: moveNavigationAmount).origin
         let newOrigin = moveOrigin.y > 0 ? moveOrigin : .zero
-
-        DLog(newOrigin)
         
         moveView.setBounds(origin: newOrigin)
     }

@@ -41,21 +41,18 @@ public class ScrollNavigationBarPagingViewController: UIViewController, ScrollNa
     
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        DLog()
         scrollHideViewActions.forEach { $0.viewWillAppear() }
     }
     
     override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         //************ [1]
-        DLog()
         scrollHideViewActions.forEach { $0.viewWillDisappear() }
     }
     
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         //************ [2]
-        DLog()
         setupScrollView?(collectionView)
         scrollHideViewActions.forEach { $0.viewDidLayoutSubviews() }
     }
