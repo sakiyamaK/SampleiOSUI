@@ -73,6 +73,10 @@ extension ScrollNavigationBarPagingViewController: UIScrollViewDelegate {
         //************ [5]
         scrollHideViewActions.forEach { $0.scrollViewDidEndDecelerating(scrollView) }
     }
+    
+    public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        scrollHideViewActions.forEach { $0.scrollViewWillBeginDecelerating(scrollView) }
+    }
 }
 
 extension ScrollNavigationBarPagingViewController: UICollectionViewDelegate {

@@ -41,10 +41,10 @@ public class ScrollNavigationBarViewController: UIViewController {
                         
                         $0.setScrollHideViewActions = { scrollView in
                             [
-                                ScrollHideViewAction(
-                                    scrollView: scrollView,
-                                    moveView: self.navigationController?.navigationBar
-                                ),
+//                                ScrollHideViewAction(
+//                                    scrollView: scrollView,
+//                                    moveView: self.navigationController?.navigationBar
+//                                ),
                                 ScrollHideViewAction(
                                     scrollView: scrollView,
                                     moveView: navigationTabContainerView
@@ -61,10 +61,10 @@ public class ScrollNavigationBarViewController: UIViewController {
                         }
                         $0.setScrollHideViewActions = { scrollView in
                             [
-                                ScrollHideViewAction(
-                                    scrollView: scrollView,
-                                    moveView: self.navigationController?.navigationBar
-                                ),
+//                                ScrollHideViewAction(
+//                                    scrollView: scrollView,
+//                                    moveView: self.navigationController?.navigationBar
+//                                ),
                                 ScrollHideViewAction(
                                     scrollView: scrollView,
                                     moveView: navigationTabContainerView
