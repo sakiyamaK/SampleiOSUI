@@ -48,28 +48,28 @@ public class ScrollNavigationTabBarPageViewController: UIPageViewController {
     
     init(
         navigationTabView: (UIView & ScrollNavigationTabBarPageTabViewProtocol),
-        viewControllers: [UIViewController & ScrollNavigationTabBarPagingViewControllerProtocol]
+        setViewControllers: ((UIView) -> [UIViewController & ScrollNavigationTabBarPagingViewControllerProtocol])
     ) {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        self.settingViewControllers = viewControllers
-        self.navigationTabView = navigationTabView
+
         self.navigationTabView = navigationTabView
         navigationTabView.tap = tapNavigationTabButton(index:)
-        self.settingViewControllers = viewControllers
-        setViewControllers([viewControllers.first!], direction: .forward, animated: false, completion: nil)
-                
-        self.view.addSubview(navigationTabView)
-        navigationTabView.translatesAutoresizingMaskIntoConstraints = false
+        let containerView = UIView()
+        self.view.addSubview(containerView.zStack({
+            navigationTabView
+        }))
+        containerView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            navigationTabView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            navigationTabView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            navigationTabView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            containerView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            containerView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
         ])
         
         delegate = self
         dataSource = self
-                                
-        self.view.bringSubviewToFront(navigationTabView)
+        
+        settingViewControllers = setViewControllers(containerView)
+        self.setViewControllers([settingViewControllers.first!], direction: .forward, animated: false, completion: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -77,26 +77,7 @@ public class ScrollNavigationTabBarPageViewController: UIPageViewController {
     }
 }
 
-extension ScrollNavigationTabBarPageViewController: UIScrollViewDelegate {
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let index = currentIndex(from: viewControllers!.first!)!
-        DLog("\(index), \(scrollView.contentOffset)")
-    }
-    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        let index = currentIndex(from: viewControllers!.first!)!
-        DLog("\(index), \(scrollView.contentOffset)")
-    }
-    
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let index = currentIndex(from: viewControllers!.first!)!
-        DLog("\(index), \(scrollView.contentOffset)")
-    }
-    
-    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let index = currentIndex(from: viewControllers!.first!)!
-        DLog("\(index), \(scrollView.contentOffset), \(decelerate)")
-    }
-}
+
 extension ScrollNavigationTabBarPageViewController: UIPageViewControllerDelegate {
 }
 

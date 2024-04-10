@@ -89,8 +89,6 @@ public class NavigationTabView: UIView, ScrollNavigationTabBarPageTabViewProtoco
                 $0.frame.maxX
             })[0...(index-1)].reduce(0, +)
         }
-        
-        DLog(barLeftConst.constant)
     }
     
     private func updateBarWidth(index: Int) {

@@ -31,56 +31,51 @@ public class ScrollNavigationBarViewController: UIViewController {
                     )
         let scrollNavgationTabBarPageViewController = ScrollNavigationTabBarPageViewController(
             navigationTabView: navigationTabView,
-            viewControllers: [
-                ScrollNavigationBarPagingViewController().apply {[weak self] in
-                    guard let self else { return }
-                    DLog(self.view.safeAreaInsets.top)
-                    $0.setupScrollView = { scrollView -> Void in
-                        DLog(navigationTabView.frame.height)
-                        scrollView.contentInset = .init(top: navigationTabView.frame.height, left: 0, bottom: 0, right: 0)
-                    }
-                    
-                    $0.setScrollHideViewActions = { scrollView in
-                        [
-                            ScrollHideViewAction(
-                                scrollAlgorithm: ScrollHideViewAction.scrollNavigationBar,
-                                scrollView: scrollView,
-                                moveView: self.navigationController?.navigationBar
-                            ),
-                            ScrollHideViewAction(
-                                scrollAlgorithm: ScrollHideViewAction.scroll,
-                                scrollView: scrollView,
-                                moveView: navigationTabView
-                            )
-                        ]
-                    }
+            setViewControllers: { navigationTabContainerView in
+                [
+                    ScrollNavigationBarPagingViewController().apply {[weak self] in
+                        guard let self else { return }
+                        $0.setupScrollView = { scrollView in
+                            scrollView.contentInset = .init(top: navigationTabContainerView.frame.height, left: 0, bottom: 0, right: 0)
+                        }
+                        
+                        $0.setScrollHideViewActions = { scrollView in
+                            [
+                                ScrollHideViewAction(
+                                    scrollView: scrollView,
+                                    moveView: self.navigationController?.navigationBar
+                                ),
+                                ScrollHideViewAction(
+                                    scrollView: scrollView,
+                                    moveView: navigationTabContainerView
+                                )
+                            ]
+                        }
 
-                    $0.title = "left"
-                },
-                ScrollNavigationBarPagingViewController().apply {[weak self] in
-                    guard let self else { return }
-                    $0.setupScrollView = { scrollView -> Void in
-                        DLog(navigationTabView.frame.height)
-                        scrollView.contentInset = .init(top: navigationTabView.frame.height, left: 0, bottom: 0, right: 0)
-                    }
-                    $0.setScrollHideViewActions = { scrollView in
-                        [
-                            ScrollHideViewAction(
-                                scrollAlgorithm: ScrollHideViewAction.scrollNavigationBar,
-                                scrollView: scrollView,
-                                moveView: self.navigationController?.navigationBar
-                            ),
-                            ScrollHideViewAction(
-                                scrollAlgorithm: ScrollHideViewAction.scroll,
-                                scrollView: scrollView,
-                                moveView: navigationTabView
-                            )
-                        ]
-                    }
+                        $0.title = "left"
+                    },
+                    ScrollNavigationBarPagingViewController().apply {[weak self] in
+                        guard let self else { return }
+                        $0.setupScrollView = { scrollView in
+                            scrollView.contentInset = .init(top: navigationTabContainerView.frame.height, left: 0, bottom: 0, right: 0)
+                        }
+                        $0.setScrollHideViewActions = { scrollView in
+                            [
+                                ScrollHideViewAction(
+                                    scrollView: scrollView,
+                                    moveView: self.navigationController?.navigationBar
+                                ),
+                                ScrollHideViewAction(
+                                    scrollView: scrollView,
+                                    moveView: navigationTabContainerView
+                                )
+                            ]
+                        }
 
-                    $0.title = "right"
-                }
-            ]
+                        $0.title = "right"
+                    }
+                ]
+            }
         )
         
         self.addContainer(
