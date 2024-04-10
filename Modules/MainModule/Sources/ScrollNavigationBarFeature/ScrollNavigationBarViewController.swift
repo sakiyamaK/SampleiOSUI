@@ -43,11 +43,12 @@ public class ScrollNavigationBarViewController: UIViewController {
                     $0.setScrollHideViewActions = { scrollView in
                         [
                             ScrollHideViewAction(
-                                isFrameMove: false,
+                                scrollAlgorithm: ScrollHideViewAction.scrollNavigationBar,
                                 scrollView: scrollView,
                                 moveView: self.navigationController?.navigationBar
                             ),
                             ScrollHideViewAction(
+                                scrollAlgorithm: ScrollHideViewAction.scroll,
                                 scrollView: scrollView,
                                 moveView: navigationTabView
                             )
@@ -64,13 +65,13 @@ public class ScrollNavigationBarViewController: UIViewController {
                     }
                     $0.setScrollHideViewActions = { scrollView in
                         [
-//                            ScrollHideViewAction(
-//                                defMoveViewOrigin: .init(x: 0, y: self.view.safeAreaInsets.top),
-//                                scrollView: scrollView,
-//                                moveView: self.navigationController?.navigationBar
-//                            ),
                             ScrollHideViewAction(
-                                defMoveViewOrigin: .init(x: 0, y: self.view.safeAreaInsets.top),
+                                scrollAlgorithm: ScrollHideViewAction.scrollNavigationBar,
+                                scrollView: scrollView,
+                                moveView: self.navigationController?.navigationBar
+                            ),
+                            ScrollHideViewAction(
+                                scrollAlgorithm: ScrollHideViewAction.scroll,
                                 scrollView: scrollView,
                                 moveView: navigationTabView
                             )

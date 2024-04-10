@@ -10,6 +10,16 @@ import Extensions
 
 // scrollviewの動きに合わせてNavigationBar(もしくは画面上部にあるカスタムビュー)を隠す処理をするクラス
 public final class ScrollHideViewAction: NSObject {
+    typealias ScrollAlogrithmClosure = ((
+        _ moveView: UIView?,
+        _ initContentOffset: CGPoint,
+        _ defMoveViewOrigin: CGPoint,
+        _ scrollStartContentOffset: CGPoint,
+        _ defScrollStartContentOffset: CGPoint,
+        _ scrollThresholdOffsetY: CGFloat,
+        _ newOffset: CGPoint,
+        _ oldOffset: CGPoint
+    ) -> Void)
     private static let invalidOffset: CGPoint = .init(x: -1, y: -1)
     
     // デフォルトのOffset
@@ -21,14 +31,14 @@ public final class ScrollHideViewAction: NSObject {
     // ヘッダの座標を更新させるか判断する閾値
     private var scrollThresholdOffsetY: CGFloat
     // moveViewの初期値
-    private var _defMoveViewOrigin: CGPoint
-
-    private var isFrameMove: Bool = true
+    private var defMoveViewOrigin: CGPoint
 
     // ユーザが操作してスクロールするView
     private var scrollView: UIScrollView
     // scrollViewに合わせて動かしたいView
     private var moveView: UIView?
+    
+    private var scrollAlgorithm: ScrollAlogrithmClosure
     
     init(
         initContentOffset: CGPoint = ScrollHideViewAction.invalidOffset,
@@ -36,15 +46,15 @@ public final class ScrollHideViewAction: NSObject {
         scrollStartContentOffset: CGPoint = ScrollHideViewAction.invalidOffset,
         scrollThresholdOffsetY: CGFloat = 10,
         defMoveViewOrigin: CGPoint = ScrollHideViewAction.invalidOffset,
-        isFrameMove: Bool = true,
+        scrollAlgorithm: @escaping ScrollAlogrithmClosure,
         scrollView: UIScrollView,
         moveView: UIView?) {
             self.initContentOffset = initContentOffset
             self.defScrollStartContentOffset = defScrollStartContentOffset
             self.scrollStartContentOffset = scrollStartContentOffset
             self.scrollThresholdOffsetY = scrollThresholdOffsetY
-            self._defMoveViewOrigin = defMoveViewOrigin
-            self.isFrameMove = isFrameMove
+            self.defMoveViewOrigin = defMoveViewOrigin
+            self.scrollAlgorithm = scrollAlgorithm
             self.scrollView = scrollView
             self.moveView = moveView
 
@@ -65,7 +75,16 @@ public final class ScrollHideViewAction: NSObject {
                 let newOffset = change.newValue
             else { return }
             
-            self.scroll(newOffset: newOffset, oldOffset: oldOffset)
+            self.scrollAlgorithm(
+                moveView,
+                initContentOffset,
+                defMoveViewOrigin,
+                scrollStartContentOffset,
+                defScrollStartContentOffset,
+                scrollThresholdOffsetY,
+                newOffset,
+                oldOffset
+            )
         })
     }
     
@@ -78,12 +97,21 @@ public final class ScrollHideViewAction: NSObject {
     // 同名のViewControllerのメソッドで呼ぶ処理
     func viewDidLayoutSubviews() {
         // moveViewスクロールのための初期値を代入
-        _defMoveViewOrigin = moveView?.frame.origin ?? ScrollHideViewAction.invalidOffset
+        defMoveViewOrigin = moveView?.frame.origin ?? ScrollHideViewAction.invalidOffset
         initContentOffset = scrollView.contentOffset
     }
     
     func viewWillAppear() {
-        self.scroll(newOffset: scrollView.contentOffset)
+        self.scrollAlgorithm(
+            moveView,
+            initContentOffset,
+            defMoveViewOrigin,
+            scrollStartContentOffset,
+            defScrollStartContentOffset,
+            scrollThresholdOffsetY,
+            scrollView.contentOffset,
+            .zero
+        )
     }
 
     func viewWillDisappear() {
@@ -107,16 +135,21 @@ public final class ScrollHideViewAction: NSObject {
     }
 }
 
-private extension ScrollHideViewAction {
-    var defMoveViewOrigin: CGPoint {
-        isFrameMove ? _defMoveViewOrigin : .zero
-    }
-    var isValidatedScroll: Bool {
-        _defMoveViewOrigin != ScrollHideViewAction.invalidOffset &&
-        initContentOffset != ScrollHideViewAction.invalidOffset
-    }
-    func scroll(newOffset: CGPoint, oldOffset: CGPoint = .zero) {
-        guard let moveView, isValidatedScroll else { 
+extension ScrollHideViewAction {
+    static var scroll: ScrollAlogrithmClosure = {
+        moveView,
+        initContentOffset,
+        defMoveViewOrigin,
+        scrollStartContentOffset,
+        defScrollStartContentOffset,
+        scrollThresholdOffsetY,
+        newOffset,
+        oldOffset in
+        
+        let isValidatedScroll = defMoveViewOrigin != ScrollHideViewAction.invalidOffset &&
+            initContentOffset != ScrollHideViewAction.invalidOffset
+        
+        guard let moveView, isValidatedScroll else {
             DLog()
             return
         }
@@ -124,14 +157,14 @@ private extension ScrollHideViewAction {
         // scrollviewのframeでinitContentOffsetより下にいった時はmoveViewを初期値にする
         guard newOffset.y > initContentOffset.y else {
             DLog()
-            setMoveView(origin: defMoveViewOrigin)
+            moveView.setFrame(origin: defMoveViewOrigin)
             return
         }
         
         //スクロール開始時の座標が初期値ではない
         guard scrollStartContentOffset != defScrollStartContentOffset else {
             DLog()
-            setMoveView(origin: defMoveViewOrigin)
+            moveView.setFrame(origin: defMoveViewOrigin)
             return
         }
         
@@ -144,37 +177,81 @@ private extension ScrollHideViewAction {
             return
         }
         
-        let moveNavigationAmount = if isFrameMove {
-            // 上にスクロールするとnewOffset.y > oldOffset.y となる、つまりyが増える
-            // UIKitの座標系は下にいくほどYが増える
-            // 反転させるためにoldOffsetからnewOffsetを引く
-            oldOffset.y - newOffset.y
-        } else {
-            // boundsを動かす場合は反転する
-            newOffset.y - oldOffset.y
-        }
-        
-        let newOrigin = if isFrameMove {
-            moveView.frame.offsetBy(dx: 0, dy: moveNavigationAmount).origin
-        } else {
-            moveView.bounds.offsetBy(dx: 0, dy: moveNavigationAmount).origin
-        }
-        
+        // 上にスクロールするとnewOffset.y > oldOffset.y となる、つまりyが増える
+        // UIKitの座標系は下にいくほどYが増える
+        // 反転させるためにoldOffsetからnewOffsetを引く
+        let moveNavigationAmount = oldOffset.y - newOffset.y
+        let moveOrigin = moveView.frame.offsetBy(dx: 0, dy: moveNavigationAmount).origin
+        let newOrigin = defMoveViewOrigin.y > moveOrigin.y ? moveOrigin : defMoveViewOrigin
         DLog(newOrigin)
-        
-        setMoveView(origin: newOrigin)
+        moveView.setFrame(origin: newOrigin)
     }
     
-    func setMoveView(origin: CGPoint) {
-        guard let moveView else { return }
-//        DLog(origin)
-        let rect = CGRect(
-            origin: origin,
-            size: moveView.bounds.size)
-        if isFrameMove {
-            moveView.frame = rect
-        } else {
-            moveView.bounds = rect
+    static var scrollNavigationBar: ScrollAlogrithmClosure = {
+        moveView,
+        initContentOffset,
+        defMoveViewOrigin,
+        scrollStartContentOffset,
+        defScrollStartContentOffset,
+        scrollThresholdOffsetY,
+        newOffset,
+        oldOffset in
+            
+        let isValidatedScroll = initContentOffset != ScrollHideViewAction.invalidOffset
+
+        guard let moveView, isValidatedScroll else {
+            DLog()
+            return
         }
+
+        // scrollviewのframeでinitContentOffsetより下にいった時はmoveViewを初期値にする
+        guard newOffset.y > initContentOffset.y else {
+            DLog()
+            moveView.setBounds(origin: .zero)
+            return
+        }
+        
+        //スクロール開始時の座標が初期値ではない
+        guard scrollStartContentOffset != defScrollStartContentOffset else {
+            DLog()
+            moveView.setBounds(origin: .zero)
+            return
+        }
+        
+        let scrollMoveAmount = abs(newOffset.y - scrollStartContentOffset.y)
+        
+        // ユーザタップ開始から一定(thresholdOffsetY)以上動かしたかどうか判断して
+        // これ以降でmoveViewの移動処理をする
+        guard scrollThresholdOffsetY < scrollMoveAmount  else {
+            DLog()
+            return
+        }
+        
+        // 上にスクロールするとnewOffset.y > oldOffset.y となる、つまりyが増える
+        // UIKitの座標系は下にいくほどYが増える
+        // boundsを動かす場合は反転する
+        let moveNavigationAmount = newOffset.y - oldOffset.y
+                
+        let moveOrigin = moveView.bounds.offsetBy(dx: 0, dy: moveNavigationAmount).origin
+        let newOrigin = moveOrigin.y > 0 ? moveOrigin : .zero
+
+        DLog(newOrigin)
+        
+        moveView.setBounds(origin: newOrigin)
     }
+}
+
+extension UIView {
+    func setFrame(origin: CGPoint) {
+        frame = CGRect(
+            origin: origin,
+            size: bounds.size)
+    }
+    
+    func setBounds(origin: CGPoint) {
+        bounds = CGRect(
+            origin: origin,
+            size: bounds.size)
+    }
+
 }
