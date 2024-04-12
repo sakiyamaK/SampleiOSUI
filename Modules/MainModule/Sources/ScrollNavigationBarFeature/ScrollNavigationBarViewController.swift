@@ -10,6 +10,9 @@ import DeclarativeUIKit
 import Extensions
 
 public class ScrollNavigationBarViewController: UIViewController {
+    deinit {
+        DLog()
+    }
     public override func viewDidLoad() {
         
         let navigationTabView = NavigationTabView(
@@ -31,20 +34,22 @@ public class ScrollNavigationBarViewController: UIViewController {
                     )
         let scrollNavgationTabBarPageViewController = ScrollNavigationTabBarPageViewController(
             navigationTabView: navigationTabView,
-            setViewControllers: { navigationTabContainerView in
-                [
+            setViewControllers: {[weak self] navigationTabContainerView in
+                guard let self else { return [] }
+                return [
                     ScrollNavigationBarPagingViewController().apply {[weak self] in
                         guard let self else { return }
                         $0.setupScrollView = { scrollView in
                             scrollView.contentInset = .init(top: navigationTabContainerView.frame.height, left: 0, bottom: 0, right: 0)
                         }
                         
-                        $0.setScrollHideViewActions = { scrollView in
-                            [
-//                                ScrollHideViewAction(
-//                                    scrollView: scrollView,
-//                                    moveView: self.navigationController?.navigationBar
-//                                ),
+                        $0.setScrollHideViewActions = {[weak self] scrollView in
+                            guard let self else { return [] }
+                            return [
+                                ScrollHideViewAction(
+                                    scrollView: scrollView,
+                                    moveView: self.navigationController?.navigationBar
+                                ),
                                 ScrollHideViewAction(
                                     scrollView: scrollView,
                                     moveView: navigationTabContainerView
@@ -59,12 +64,13 @@ public class ScrollNavigationBarViewController: UIViewController {
                         $0.setupScrollView = { scrollView in
                             scrollView.contentInset = .init(top: navigationTabContainerView.frame.height, left: 0, bottom: 0, right: 0)
                         }
-                        $0.setScrollHideViewActions = { scrollView in
-                            [
-//                                ScrollHideViewAction(
-//                                    scrollView: scrollView,
-//                                    moveView: self.navigationController?.navigationBar
-//                                ),
+                        $0.setScrollHideViewActions = {[weak self] scrollView in
+                            guard let self else { return [] }
+                            return [
+                                ScrollHideViewAction(
+                                    scrollView: scrollView,
+                                    moveView: self.navigationController?.navigationBar
+                                ),
                                 ScrollHideViewAction(
                                     scrollView: scrollView,
                                     moveView: navigationTabContainerView

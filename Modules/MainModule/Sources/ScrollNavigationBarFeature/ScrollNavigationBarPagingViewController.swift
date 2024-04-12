@@ -20,7 +20,7 @@ public class ScrollNavigationBarPagingViewController: UIViewController, ScrollNa
         cell.backgroundColor = .systemYellow
     }
     
-    private var collectionView: UICollectionView!
+    private weak var collectionView: UICollectionView!
     public var setupScrollView: ((UIScrollView) -> Void)?
     private(set) public var scrollHideViewActions: [ScrollHideViewAction] = []
     public var setScrollHideViewActions: ((UIScrollView) -> [ScrollHideViewAction])?
@@ -43,44 +43,30 @@ public class ScrollNavigationBarPagingViewController: UIViewController, ScrollNa
         super.viewWillAppear(animated)
         scrollHideViewActions.forEach { $0.viewWillAppear() }
     }
-    
-    override public func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        //************ [1]
-        scrollHideViewActions.forEach { $0.viewWillDisappear() }
-    }
-    
+        
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        //************ [2]
         setupScrollView?(collectionView)
         scrollHideViewActions.forEach { $0.viewDidLayoutSubviews() }
     }
 }
 
 extension ScrollNavigationBarPagingViewController: UIScrollViewDelegate {
-    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        //************ [3]
-        scrollHideViewActions.forEach { $0.scrollViewWillBeginDragging(scrollView) }
-    }
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        //************ [4]
         scrollHideViewActions.forEach { $0.scrollViewDidEndDragging(scrollView, willDecelerate: decelerate) }
     }
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        //************ [5]
         scrollHideViewActions.forEach { $0.scrollViewDidEndDecelerating(scrollView) }
-    }
-    
-    public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        scrollHideViewActions.forEach { $0.scrollViewWillBeginDecelerating(scrollView) }
     }
 }
 
 extension ScrollNavigationBarPagingViewController: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        scrollHideViewActions.forEach { $0.resetPosition() }
+
         let vc = ScrollNavigationBarPagingViewController()
         self.show(next: vc, animated: true)
     }
