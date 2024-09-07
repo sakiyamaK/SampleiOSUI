@@ -31,11 +31,13 @@ public final class SampleAffineViewController: UIViewController {
                         .contentMode(.scaleAspectFit)
                         .backgroundColor(.red)
                     
-                    UIImageView(UIImage(named: "lufyB", in: Bundle.current, with: nil))
+                    UIImageView(
+                        UIImage(named: "lufyB", in: Bundle.module, with: nil)
+                    )
                         .contentMode(.scaleAspectFit)
                         .backgroundColor(.green)
                     
-                    UIImageView(UIImage(named: "lufyC", in: Bundle.current, with: nil))
+                    UIImageView(UIImage(named: "lufyC", in: Bundle.module, with: nil))
                         .contentMode(.scaleAspectFit)
                         .backgroundColor(.blue)
                     

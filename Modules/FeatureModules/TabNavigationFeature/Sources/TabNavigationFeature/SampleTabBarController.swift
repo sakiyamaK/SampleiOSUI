@@ -37,8 +37,7 @@ public class SampleTabBarController: UITabBarController {
         viewControllers = [
             SampleTabBarCollectionViewController()
                 .apply({
-                    $0.delegate = .init(tap: {[weak self] in
-                        guard let self else { return }
+                    $0.delegate = .init(tap: {
 //                        self.navigationController?.popViewController(animated: true)
                     })
                 })
@@ -161,8 +160,7 @@ final class SampleTabBarCollectionViewController: UIViewController {
         }
         .apply({
             $0.navigationController?.navigationBar.prefersLargeTitles = true
-        }).applyNavigationItem {[weak self] in
-            guard let self else { return }
+        }).applyNavigationItem {
             $0.largeTitleDisplayMode = .always
             $0.title = "タイトルだよ"
         }.applyView {

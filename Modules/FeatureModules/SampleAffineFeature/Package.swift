@@ -32,7 +32,9 @@ let package = Package(
             ]
             ,
             resources: [
+                .copy("../Resources/A.xcassets"),
                 .copy("../B.xcassets"),
+                .copy("C.xcassets"),
             ]
         ),
 //        .testTarget(

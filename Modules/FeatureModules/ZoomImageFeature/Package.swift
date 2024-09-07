@@ -19,6 +19,7 @@ let package = Package(
         .package(path: "../../CoreModules/CoreLibraries"),
         .package(path: "../../CoreModules/Components"),
         .package(path: "../../CoreModules/Extensions"),
+        .package(path: "../../CoreModules/Files"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -29,6 +30,7 @@ let package = Package(
                 "CoreLibraries",
                 "Components",
                 "Extensions",
+                "Files",
             ]
         )
     ]

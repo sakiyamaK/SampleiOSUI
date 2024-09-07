@@ -52,15 +52,18 @@ final class DiffableDataSources02ViewController: UIViewController {
         
         declarative {
             UIStackView.vertical {
-                UIButton("Sort")
-                    .titleColor(.systemBlue)
-                    .contentHuggingPriority(.required, for: .vertical)
-                    .contentCompressionResistancePriority(.required, for: .vertical)
-                    .add(target: self, for: .touchUpInside) { [weak self] _ in
-                        self?.sort()
-                    }
-                    .right()
-                    .padding(insets: .init(top: 6, left: 6, bottom: 6, right: 6))
+                UIButton(
+                    configuration: .filled().title("Sort").baseForegroundColor(.systemBlue), primaryAction: .init(
+                        handler: {[weak self] _ in
+                            guard let self else { return }
+                            self.sort()
+                        }
+                    )
+                )
+                .contentHuggingPriority(.required, for: .vertical)
+                .contentCompressionResistancePriority(.required, for: .vertical)
+                .right()
+                .padding(insets: .init(top: 6, left: 6, bottom: 6, right: 6))
                 UICollectionView {
                     UICollectionViewCompositionalLayout.init { (_: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
                         let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -71,7 +74,7 @@ final class DiffableDataSources02ViewController: UIViewController {
                         let rowHeight = contentSize.height / CGFloat(self.rows)
                         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                                heightDimension: .absolute(rowHeight))
-                        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: self.columns)
+                        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: Array(repeating: item, count: self.columns))
                         let section = NSCollectionLayoutSection(group: group)
                         return section
                     }

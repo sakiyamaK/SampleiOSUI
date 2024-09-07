@@ -7,10 +7,27 @@
 
 import UIKit
 import Extensions
+import DeclarativeUIKit
+//import Files
 
 public final class ZoomImageViewController: UIViewController {
         
-    @IBOutlet private var contentView: UIView!
+    public static func make() -> ZoomImageViewController {
+        ZoomImageViewController.makeFromStroryboard(name: "ZoomImage", bundle: .module)!
+    }
+    
+    @IBOutlet private var contentView: UIView! {
+        didSet {
+            contentView.declarative {
+                UILabel("text")
+                    .textColor(.white)
+                    .textAlignment(.center)
+                    .font(.defaultFontBold(size: 28))
+//                UIImageView(R.image(bundle: .module).aho()!)
+//                    .contentMode(.scaleAspectFit)
+            }
+        }
+    }
 }
 
 extension ZoomImageViewController: UIScrollViewDelegate {

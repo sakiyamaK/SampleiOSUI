@@ -24,7 +24,6 @@ public final class CustomNavigationPageViewController: UIViewController, UIPageV
             let viewController = viewController as? CustomNavigationViewController,
             let index = viewControllers.firstIndex(where: { $0.tag == viewController.tag })
         else { return nil }
-        DLog(index)
         let vc = viewControllers[safe: index - 1]
         vc?.scrollView.contentInset = .init(top: customNavigationBar.frame.height, left: 0, bottom: 0, right: 0)
         return vc

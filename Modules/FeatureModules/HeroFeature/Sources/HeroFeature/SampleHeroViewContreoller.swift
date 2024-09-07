@@ -22,7 +22,6 @@ public final class SampleHeroViewContreoller: UIViewController {
         super.viewDidLoad()
         
         let listRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Int>() { cell, indexPath, index in
-            DLog(index)
             // デフォルトで用意されたオプションを設定できる
             var config = UIListContentConfiguration.cell()
 //            let image = R.image.lufy()
@@ -49,8 +48,7 @@ public final class SampleHeroViewContreoller: UIViewController {
             }
             .delegate(self)
         }
-        .applyNavigationItem {[weak self] in
-            guard let self else { return }
+        .applyNavigationItem {
             $0.title = "タイトルだよ"
         }.applyView {
             $0.backgroundColor(.systemGray)

@@ -22,7 +22,7 @@ let package = Package(
         .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.5.0"),
         .package(url: "https://github.com/RxSwiftCommunity/RxOptional", from: "5.0.5"),
         .package(url: "https://github.com/RxSwiftCommunity/NSObject-Rx", from: "5.2.2"),
-        .package(url: "https://github.com/johnno1962/InjectionNext", from: "1.2.2"),
+//        .package(url: "https://github.com/johnno1962/InjectionNext", from: "1.2.2"),
         .package(url: "https://github.com/onevcat/Kingfisher", from: "7.6.2"),
         .package(url: "https://github.com/SnapKit/SnapKit", from: "5.6.0"),
         .package(url: "https://github.com/hackiftekhar/IQKeyboardManager", from: "7.0.1"),
@@ -41,14 +41,13 @@ let package = Package(
                 .product(name: "RxCocoa", package: "RxSwift"),
                 .product(name: "RxOptional", package: "RxOptional"),
                 .product(name: "NSObject-Rx", package: "NSObject-Rx"),
-                .product(name: "InjectionNext", package: "InjectionNext"),
+//                .product(name: "InjectionNext", package: "InjectionNext"),
                 .product(name: "Kingfisher", package: "Kingfisher"),
                 .product(name: "SnapKit", package: "SnapKit"),
                 .product(name: "IQKeyboardManagerSwift", package: "IQKeyboardManager"),
                 .product(name: "Hero", package: "Hero"),
                 .product(name: "SwiftyAttributes", package: "SwiftyAttributes"),
-            ],
-            path: "Sources"
+            ]
         ),
     ]
 )

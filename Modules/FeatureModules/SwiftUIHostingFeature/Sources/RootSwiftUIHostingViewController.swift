@@ -43,26 +43,25 @@ public final class RootSwiftUIHostingViewController: UIViewController {
         
     public override func loadView() {
         super.loadView()
-
-        self.view.backgroundColor = .white
-        self.navigationItem.title = "Root"
         
-        self.declarative {
-            UIScrollView.vertical {
-                UIStackView.vertical {
-                    ViewType.allCases.compactMap({ $0.button(from: self).height(40) })
+        self.applyView { $0.backgroundColor(.white) }
+            .applyNavigationItem { $0.title = "Root" }
+            .declarative {
+                UIScrollView.vertical {
+                    UIStackView.vertical {
+                        ViewType.allCases.compactMap({ $0.button(from: self).height(40) })
+                    }
+                    .spacing(20)
+                    .distribution(.fillEqually)
+                    .alignment(.center)
+                    .center()
                 }
-                .spacing(20)
-                .distribution(.fillEqually)
-                .alignment(.center)
-                .center()
+                .showsScrollIndicator(false)
             }
-            .showsScrollIndicator(false)
-        }
     }
 }
 
 
 #Preview {
-    RootSwiftUIHostingViewController()
+    RootSwiftUIHostingViewController().withNavigationController
 }

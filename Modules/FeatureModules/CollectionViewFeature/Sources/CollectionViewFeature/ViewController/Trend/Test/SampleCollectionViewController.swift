@@ -68,12 +68,12 @@ public class SampleCollectionViewController: UIViewController {
             }
             .apply({ collectionView in
                 // dequeueConfiguredReusableCellでその都度生成はできないのでちゃんと定数化しておく
-                let cellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { [weak self] (cell, indexPath, item) in
+                let cellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { (cell, indexPath, item) in
                     DLog(indexPath)
                     return cell.contentConfiguration = CustomContentConfiguration(
                         item: item,
                         delegate: .init(
-                            tapButton: {[weak self] _ in
+                            tapButton: { _ in
                             }
                         )
                     )
@@ -101,4 +101,8 @@ public class SampleCollectionViewController: UIViewController {
         snapshot.appendItems(items[1], toSection: 2)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
+}
+
+#Preview {
+    SampleCollectionViewController()
 }

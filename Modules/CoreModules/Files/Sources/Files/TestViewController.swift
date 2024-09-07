@@ -2,17 +2,16 @@
 // https://docs.swift.org/swift-book
 
 import UIKit
+//import SwiftUI
 import RswiftResources
 
-import SwiftUI
-
-struct MySwiftUIView: View {
-    var body: some View {
-        Image(R.image.aho)
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-    }
-}
+//struct MySwiftUIView: View {
+//    var body: some View {
+////        Image(R.image(bundle: .module).aho)
+////            .resizable()
+////            .aspectRatio(contentMode: .fill)
+//    }
+//}
 
 private extension UIView {
     @discardableResult
@@ -32,8 +31,8 @@ final class TestViewController: UIViewController {
         let button = UIButton(configuration: config)
         button.addAction(.init(handler: { _ in
             // SwiftUIの画面へ遷移
-            let nextVC = UIHostingController(rootView: MySwiftUIView())
-            self.navigationController?.pushViewController(nextVC, animated: true)
+//            let nextVC = UIHostingController(rootView: MySwiftUIView())
+//            self.navigationController?.pushViewController(nextVC, animated: true)
         }), for: .touchUpInside)
         
         view.addSubview(button)

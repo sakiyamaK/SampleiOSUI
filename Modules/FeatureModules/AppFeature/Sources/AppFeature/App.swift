@@ -1,21 +1,21 @@
 // このファイルで各モジュールを外部に公開する
 
-@_exported import CoreLibraries
-@_exported import Extensions
-@_exported import Components
-@_exported import SampleFeature
-@_exported import HeroFeature
-@_exported import ChartFeature
-//@_exported import ZoomImageFeature
-//@_exported import SampleAffineFeature
-//@_exported import CollectionViewFeature
-//@_exported import SampleTextViewFeature
-//@_exported import TabNavigaitonFeature
-//@_exported import ScrollNavigationBarFeature
-//@_exported import ComposeForiOSNative
-//@_exported import SwiftUIHostingFeature
+import CoreLibraries
+import Extensions
+import Components
+import Files
+import HeroFeature
+import SampleTextViewFeature
+import ScrollNavigationBarFeature
+import ZoomImageFeature
+import ChartFeature
+import CollectionViewFeature
+import SampleAffineFeature
+import SampleFeature
+import TabNavigationFeature
 
 import UIKit
+import CoreAudioTypes
 import DeclarativeUIKit
 import IQKeyboardManagerSwift
 
@@ -52,17 +52,16 @@ class LeakChecker {
 
 private enum ViewType: String, CaseIterable {
     
-    case CustomNavigationBar
     case Hero
+    case TabNavigation
+    case CustomNavigationBar
     case ScrollNavigationBar
     case Sample
     case Chart
     case CollectionView
     case SampleAffine
-    case SampleTable
     case SampleTextView
     case SwiftUIHosting
-    case TabNavigation
     case ZoomImage
     case ComposeForiOSNative
 
@@ -70,41 +69,40 @@ private enum ViewType: String, CaseIterable {
         switch self {
         case .Hero:
             SampleHeroViewContreoller()
+        case .SampleTextView:
+            SampleTextViewController()
+        case .ScrollNavigationBar:
+            ScrollNavigationBarViewController()
+        case .ZoomImage:
+            ZoomImageViewController.make()
         case .Chart:
             ChartsViewController()
         case .Sample:
             SampleViewController()
-//        case .CustomNavigationBar:
-//            CustomNavigationPageViewController()
-//        case .ComposeForiOSNative:
-//            SampleComposeForiOSNativeViewController()
-//        case .CollectionView:
-//            RootCollectionViewController()
-//        case .SampleAffine:
-//            SampleAffineViewController()
-//        case .SampleTable:
-//            SampleTableViewController()
-//        case .SampleTextView:
-//            SampleTextViewController()
-//        case .ScrollNavigationBar:
-//            ScrollNavigationBarViewController()
-//        case .SwiftUIHosting:
-//            SwiftUIHosting01ViewController()
-//        case .TabNavigation:
-//            SampleTabBarController()
-//        case .ZoomImage:
-//            ZoomImageViewController.make()
+        case .CollectionView:
+            RootCollectionViewController()
+        case .SampleAffine:
+            SampleAffineViewController()
+        case .TabNavigation:
+            SampleTabBarController()
+        case .CustomNavigationBar:
+            CustomNavigationPageViewController()
         default:
             UIViewController()
+            //        case .SwiftUIHosting:
+            //            RootSwiftUIHostingViewController()
+//        case .ComposeForiOSNative:
+//            SampleComposeForiOSNativeViewController()
         }
     }
     
     func button(from: UIViewController) -> UIButton {
-        UIButton(self.rawValue)
-            .configuration(
+        UIButton(
+            configuration:
                 UIButton.Configuration.filled()
-                    .baseBackgroundColor(.systemBlue)
-                    .cornerStyle(.capsule)
+                .title(self.rawValue)
+                .baseBackgroundColor(.systemBlue)
+                .cornerStyle(.capsule)
             )
             .addAction(.touchUpInside, handler: { _ in
                 DispatchQueue.main.async {
@@ -113,17 +111,6 @@ private enum ViewType: String, CaseIterable {
                     from.navigationController?.pushViewController(vc, animated: true)
                 }
             })
-    }
-}
-
-struct User {
-    let id: Int
-    var name: String
-}
-
-final class CustomView: UIView {
-    func setup(user: User) {
-        // 名前を表示させたりアイコンを読み込んだり
     }
 }
 
@@ -171,14 +158,10 @@ public class App {
 }
 
 #Preview {
-    RootViewController()
-    
-//    App.shared.showRoot(
-//        window: UIWindow(
-//            frame: .init(
-//                origin: .zero,
-//                size: .init(width: 400, height: 800)
-//            )
-//        )
-//    )
+    {
+//        let naviCon = UINavigationController(navigationBarClass: CustomNavigationBar.self, toolbarClass: nil)
+//        naviCon.setViewControllers([RootViewController()], animated: false)
+//        return naviCon
+        RootViewController().withNavigationController
+    }()
 }
