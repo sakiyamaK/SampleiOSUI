@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,6 +11,7 @@
 		930C9B4552405C8C931C18EE /* Pods_SampleiOSUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E5369AF5E54B1D60052ADAD /* Pods_SampleiOSUI.framework */; };
 		ADB39160D7838A2FEB8CE920 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A44801751CCF693225B9EA7 /* LaunchScreen.storyboard */; };
 		B6A2F7E42C798041006775A0 /* CoreLibraries in Resources */ = {isa = PBXBuildFile; fileRef = B6A2F7DF2C798041006775A0 /* CoreLibraries */; };
+		B6BE71102C8C8701006024E6 /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = B6BE710F2C8C8701006024E6 /* AppFeature */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				930C9B4552405C8C931C18EE /* Pods_SampleiOSUI.framework in Frameworks */,
+				B6BE71102C8C8701006024E6 /* AppFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,6 +159,7 @@
 			);
 			name = SampleiOSUI;
 			packageProductDependencies = (
+				B6BE710F2C8C8701006024E6 /* AppFeature */,
 			);
 			productName = SampleiOSUI;
 			productReference = 1A947BF4A7232EF77DCAB2E1 /* SampleiOSUI.app */;
@@ -482,6 +485,13 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B6BE710F2C8C8701006024E6 /* AppFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppFeature;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BC034311B81FC5263342B13C /* Project object */;
 }
