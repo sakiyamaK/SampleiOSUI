@@ -3,14 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		720EBA165B32DE1B7B86404B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B8EF2967AF4DD4B1B3E37 /* AppDelegate.swift */; };
 		930C9B4552405C8C931C18EE /* Pods_SampleiOSUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E5369AF5E54B1D60052ADAD /* Pods_SampleiOSUI.framework */; };
 		ADB39160D7838A2FEB8CE920 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A44801751CCF693225B9EA7 /* LaunchScreen.storyboard */; };
-		B676D23829B886DB00D8EB3C /* AppLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = B676D23729B886DB00D8EB3C /* AppLibrary */; };
+		B6A2F7E42C798041006775A0 /* CoreLibraries in Resources */ = {isa = PBXBuildFile; fileRef = B6A2F7DF2C798041006775A0 /* CoreLibraries */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,8 +20,23 @@
 		411C6398682A4CADBFA16E91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9381E558F68975FD26C93E6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B22B8EF2967AF4DD4B1B3E37 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B676D23629B8861100D8EB3C /* MainModule */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MainModule; path = Modules/MainModule; sourceTree = "<group>"; };
+		B6061E9D2C7AA20200CCB5D2 /* Files */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Files; sourceTree = "<group>"; };
+		B60BDFAC2C79B92200AD21EA /* CollectionViewFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CollectionViewFeature; sourceTree = "<group>"; };
+		B6167E8D2C79C978009346A6 /* SampleAffineFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SampleAffineFeature; sourceTree = "<group>"; };
+		B64481E82C79C60B009671AE /* AppFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppFeature; sourceTree = "<group>"; };
+		B6740B732C7AC2A400268E36 /* ComposeForiOSNative */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ComposeForiOSNative; sourceTree = "<group>"; };
+		B6A2F7DF2C798041006775A0 /* CoreLibraries */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CoreLibraries; sourceTree = "<group>"; };
+		B6B35EB42C79C420009E1360 /* ChartFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ChartFeature; sourceTree = "<group>"; };
+		B6C1FA302C7AC55B00ED7B3C /* ScrollNavigationBarFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ScrollNavigationBarFeature; sourceTree = "<group>"; };
+		B6C1FA322C7AC55B00ED7B3C /* SwiftUIHostingFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SwiftUIHostingFeature; sourceTree = "<group>"; };
+		B6C1FA332C7AC55B00ED7B3C /* HeroFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = HeroFeature; sourceTree = "<group>"; };
+		B6C1FA342C7AC55B00ED7B3C /* ZoomImageFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ZoomImageFeature; sourceTree = "<group>"; };
+		B6C1FA352C7AC55B00ED7B3C /* TabNavigationFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = TabNavigationFeature; sourceTree = "<group>"; };
+		B6C1FA362C7AC55B00ED7B3C /* SampleTextViewFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SampleTextViewFeature; sourceTree = "<group>"; };
 		B6CE2F3F2AE3C767001DFEBD /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		B6FEE8D02C798569005EC8C8 /* SampleFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SampleFeature; sourceTree = "<group>"; };
+		B6FEE8D12C7985CF005EC8C8 /* Components */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Components; sourceTree = "<group>"; };
+		B6FEE8D22C7985CF005EC8C8 /* Extensions */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Extensions; sourceTree = "<group>"; };
 		E29D7FCEF3A64268AE5F607C /* Pods-SampleiOSUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleiOSUI.release.xcconfig"; path = "Target Support Files/Pods-SampleiOSUI/Pods-SampleiOSUI.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -30,7 +45,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B676D23829B886DB00D8EB3C /* AppLibrary in Frameworks */,
 				930C9B4552405C8C931C18EE /* Pods_SampleiOSUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -55,6 +69,45 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B6A2F7E02C798041006775A0 /* CoreModules */ = {
+			isa = PBXGroup;
+			children = (
+				B6061E9D2C7AA20200CCB5D2 /* Files */,
+				B6FEE8D12C7985CF005EC8C8 /* Components */,
+				B6FEE8D22C7985CF005EC8C8 /* Extensions */,
+				B6A2F7DF2C798041006775A0 /* CoreLibraries */,
+			);
+			path = CoreModules;
+			sourceTree = "<group>";
+		};
+		B6A2F7E22C798041006775A0 /* FeatureModules */ = {
+			isa = PBXGroup;
+			children = (
+				B6C1FA332C7AC55B00ED7B3C /* HeroFeature */,
+				B6C1FA362C7AC55B00ED7B3C /* SampleTextViewFeature */,
+				B6C1FA302C7AC55B00ED7B3C /* ScrollNavigationBarFeature */,
+				B6C1FA322C7AC55B00ED7B3C /* SwiftUIHostingFeature */,
+				B6C1FA352C7AC55B00ED7B3C /* TabNavigationFeature */,
+				B6C1FA342C7AC55B00ED7B3C /* ZoomImageFeature */,
+				B64481E82C79C60B009671AE /* AppFeature */,
+				B6B35EB42C79C420009E1360 /* ChartFeature */,
+				B60BDFAC2C79B92200AD21EA /* CollectionViewFeature */,
+				B6740B732C7AC2A400268E36 /* ComposeForiOSNative */,
+				B6167E8D2C79C978009346A6 /* SampleAffineFeature */,
+				B6FEE8D02C798569005EC8C8 /* SampleFeature */,
+			);
+			path = FeatureModules;
+			sourceTree = "<group>";
+		};
+		B6A2F7E32C798041006775A0 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				B6A2F7E02C798041006775A0 /* CoreModules */,
+				B6A2F7E22C798041006775A0 /* FeatureModules */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
 		BE6109C1EBE664309EBDB1F4 /* SampleiOSUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -68,7 +121,7 @@
 		D0A040039CBB607D19319E7F = {
 			isa = PBXGroup;
 			children = (
-				B676D23629B8861100D8EB3C /* MainModule */,
+				B6A2F7E32C798041006775A0 /* Modules */,
 				BE6109C1EBE664309EBDB1F4 /* SampleiOSUI */,
 				EA01537341924FF749600023 /* Products */,
 				2EC304FD4572C062C0FE7D28 /* Pods */,
@@ -104,7 +157,6 @@
 			);
 			name = SampleiOSUI;
 			packageProductDependencies = (
-				B676D23729B886DB00D8EB3C /* AppLibrary */,
 			);
 			productName = SampleiOSUI;
 			productReference = 1A947BF4A7232EF77DCAB2E1 /* SampleiOSUI.app */;
@@ -143,6 +195,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADB39160D7838A2FEB8CE920 /* LaunchScreen.storyboard in Resources */,
+				B6A2F7E42C798041006775A0 /* CoreLibraries in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +298,17 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"RangeSeekSlider\"",
+					"-framework",
+					"\"UIKit\"",
+					"-Xlinker",
+					"-interposable",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sakiyamaK.SampleiOSUI;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -387,6 +451,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -417,13 +482,6 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		B676D23729B886DB00D8EB3C /* AppLibrary */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = AppLibrary;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BC034311B81FC5263342B13C /* Project object */;
 }
