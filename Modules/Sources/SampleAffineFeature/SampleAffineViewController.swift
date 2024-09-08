@@ -28,16 +28,12 @@ public final class SampleAffineViewController: UIViewController {
         }.declarative {
 //            UIScrollView.vertical {
                 UIStackView.vertical {
-                    
-//                    UIImageView()
-//                        .contentMode(.scaleAspectFit)
-//                        .backgroundColor(.red)
-                    
+                                        
                     UIImageView(
-                        UIImage(named: "lufyB", in: Bundle.module, with: nil)
+                        R.otherPackage.image.aho()!
                     )
-                        .contentMode(.scaleAspectFit)
-                        .backgroundColor(.green)
+                    .contentMode(.scaleAspectFit)
+                    .backgroundColor(.green)
                     
                     UIImageView(UIImage(named: "lufyC", in: Bundle.module, with: nil))
                         .contentMode(.scaleAspectFit)
