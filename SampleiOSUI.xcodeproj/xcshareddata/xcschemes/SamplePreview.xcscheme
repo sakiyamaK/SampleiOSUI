@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2BD94FC0167920DABCB25623"
-               BuildableName = "SampleiOSUI.app"
-               BlueprintName = "SampleiOSUI"
+               BlueprintIdentifier = "B64F505D2C8D498B000E11EC"
+               BuildableName = "SamplePreview.app"
+               BlueprintName = "SamplePreview"
                ReferencedContainer = "container:SampleiOSUI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -44,9 +44,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2BD94FC0167920DABCB25623"
-            BuildableName = "SampleiOSUI.app"
-            BlueprintName = "SampleiOSUI"
+            BlueprintIdentifier = "B64F505D2C8D498B000E11EC"
+            BuildableName = "SamplePreview.app"
+            BlueprintName = "SamplePreview"
             ReferencedContainer = "container:SampleiOSUI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -61,9 +61,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2BD94FC0167920DABCB25623"
-            BuildableName = "SampleiOSUI.app"
-            BlueprintName = "SampleiOSUI"
+            BlueprintIdentifier = "B64F505D2C8D498B000E11EC"
+            BuildableName = "SamplePreview.app"
+            BlueprintName = "SamplePreview"
             ReferencedContainer = "container:SampleiOSUI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

@@ -52,3 +52,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+
+#Preview {
+    SampleViewController()
+}
