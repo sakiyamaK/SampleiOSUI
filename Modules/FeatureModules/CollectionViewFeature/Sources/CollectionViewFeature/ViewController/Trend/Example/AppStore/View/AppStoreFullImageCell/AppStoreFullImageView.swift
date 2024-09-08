@@ -5,7 +5,7 @@
 //  Created by sakiyamaK on 2021/04/09.
 //
 
-import SnapKit
+import Extensions
 import UIKit
 
 protocol AppStoreFullImageViewDelegate: AnyObject {
@@ -97,9 +97,7 @@ final class AppStoreFullImageCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(mainView)
-        mainView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        mainView.applyArroundConstraint(equalTo: self)
         layer.shadowOffset = CGSize(width: 0, height: 2)
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOpacity = 0.6
@@ -119,7 +117,6 @@ final class AppStoreFullImageCell: UICollectionViewCell {
         super.touchesEnded(touches, with: event)
         UIView.animate(withDuration: 0.2) {
             self.mainView.transform = .identity
-            print(self.reuseHeroId)
             self.delegate?.toucheEnd(sampleModel: self.sampleModel, heroId: self.reuseHeroId)
         }
     }

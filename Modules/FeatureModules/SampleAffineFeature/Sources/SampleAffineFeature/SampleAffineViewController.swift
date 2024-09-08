@@ -8,6 +8,7 @@
 import DeclarativeUIKit
 import UIKit
 import Extensions
+import Files
 
 extension Bundle {
     static var current: Bundle {
@@ -15,6 +16,7 @@ extension Bundle {
         return Bundle(for: type(of: DummyClass()))
     }
 }
+
 public final class SampleAffineViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +29,7 @@ public final class SampleAffineViewController: UIViewController {
 //            UIScrollView.vertical {
                 UIStackView.vertical {
                     
-                    UIImageView(UIImage(named: "lufyA", in: Bundle.current, with: nil))
+                    UIImageView(R.image(bundle: .module).aho()!)
                         .contentMode(.scaleAspectFit)
                         .backgroundColor(.red)
                     

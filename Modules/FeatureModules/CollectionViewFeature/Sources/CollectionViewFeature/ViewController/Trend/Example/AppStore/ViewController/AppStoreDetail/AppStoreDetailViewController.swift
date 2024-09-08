@@ -5,7 +5,8 @@
 //  Created by  on 2021/4/7.
 //
 
-import SnapKit
+import Extensions
+import DeclarativeUIKit
 import UIKit
 
 final class AppStoreDetailViewController: UIViewController {
@@ -15,12 +16,12 @@ final class AppStoreDetailViewController: UIViewController {
     @IBOutlet var appStoreFullImageContainerView: UIView! {
         didSet {
             appStoreFullImageContainerView.addSubview(appStoreFullImageView)
-            appStoreFullImageView.snp.makeConstraints {
-                $0.top.equalTo(appStoreFullImageContainerView.snp.top)
-                $0.leading.equalTo(appStoreFullImageContainerView.snp.leading)
-                $0.right.equalTo(appStoreFullImageContainerView.snp.right)
-                $0.bottom.equalTo(appStoreFullImageContainerView.snp.bottom).priority(.low)
-            }
+            appStoreFullImageView.apply(constraints: [
+                appStoreFullImageView.topAnchor.constraint(equalTo: appStoreFullImageView.topAnchor),
+                appStoreFullImageView.leftAnchor.constraint(equalTo: appStoreFullImageView.leftAnchor),
+                appStoreFullImageView.rightAnchor.constraint(equalTo: appStoreFullImageView.rightAnchor),
+                appStoreFullImageView.bottomAnchor.constraint(equalTo: appStoreFullImageView.bottomAnchor).priority(.defaultLow),
+            ])
             appStoreFullImageView.delegate = self
         }
     }

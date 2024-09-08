@@ -4,6 +4,7 @@ import CoreLibraries
 import Extensions
 import Components
 import Files
+import Utils
 import HeroFeature
 import SampleTextViewFeature
 import ScrollNavigationBarFeature
@@ -13,57 +14,27 @@ import CollectionViewFeature
 import SampleAffineFeature
 import SampleFeature
 import TabNavigationFeature
+import SwiftUIHostingFeature
+import ComposeForiOSNative
 
 import UIKit
-import CoreAudioTypes
 import DeclarativeUIKit
 import IQKeyboardManagerSwift
-
-// メモリーリークチェッククラス
-@MainActor
-class LeakChecker {
-    static let shared: LeakChecker = .init()
-    private init() {}
-    
-    private class WeakClassWrapper {
-        weak var object: AnyObject?
-        init(object: AnyObject?) {
-            self.object = object
-        }
-    }
-
-    private var weakClassInstances: [WeakClassWrapper] = []
-    
-    func append(instance: AnyObject) {
-        weakClassInstances.append(WeakClassWrapper(object: instance))
-    }
-    
-    func check() {
-        let newWeakClassInstances = weakClassInstances.filter({ $0.object != nil })
-        if newWeakClassInstances.isEmpty {
-            print("リークなし")
-        } else {
-            print(newWeakClassInstances.count.description + "個のインスタンスがリークしてます")
-        }
-        
-        weakClassInstances = newWeakClassInstances
-    }
-}
 
 private enum ViewType: String, CaseIterable {
     
     case Hero
-    case TabNavigation
-    case CustomNavigationBar
+    case SampleTextView
     case ScrollNavigationBar
-    case Sample
+    case CustomNavigationBar
+    case SwiftUIHosting
+    case TabNavigation
+    case ZoomImage
     case Chart
     case CollectionView
-    case SampleAffine
-    case SampleTextView
-    case SwiftUIHosting
-    case ZoomImage
     case ComposeForiOSNative
+    case SampleAffine
+    case Sample
 
     var viewController: UIViewController {
         switch self {
@@ -87,30 +58,13 @@ private enum ViewType: String, CaseIterable {
             SampleTabBarController()
         case .CustomNavigationBar:
             CustomNavigationPageViewController()
-        default:
-            UIViewController()
-            //        case .SwiftUIHosting:
-            //            RootSwiftUIHostingViewController()
-//        case .ComposeForiOSNative:
-//            SampleComposeForiOSNativeViewController()
+        case .SwiftUIHosting:
+            RootSwiftUIHostingViewController()
+        case .ComposeForiOSNative:
+            SampleComposeForiOSNativeViewController()
+//        default:
+//            UIViewController()
         }
-    }
-    
-    func button(from: UIViewController) -> UIButton {
-        UIButton(
-            configuration:
-                UIButton.Configuration.filled()
-                .title(self.rawValue)
-                .baseBackgroundColor(.systemBlue)
-                .cornerStyle(.capsule)
-            )
-            .addAction(.touchUpInside, handler: { _ in
-                DispatchQueue.main.async {
-                    let vc = self.viewController
-                    LeakChecker.shared.append(instance: vc)
-                    from.navigationController?.pushViewController(vc, animated: true)
-                }
-            })
     }
 }
 
@@ -124,7 +78,21 @@ public final class RootViewController: UIViewController {
         }.declarative {
             UIScrollView.vertical {
                 UIStackView.vertical {
-                    ViewType.allCases.compactMap({ $0.button(from: self).height(40)
+                    ViewType.allCases.compactMap({ viewType in
+                        UIButton(
+                            configuration:
+                                UIButton.Configuration.filled()
+                                .title(viewType.rawValue)
+                                .baseBackgroundColor(.systemBlue)
+                                .cornerStyle(.capsule)
+                            )
+                            .addAction(.touchUpInside, handler: { _ in
+                                DispatchQueue.main.async {
+                                    let vc = viewType.viewController
+                                    LeakChecker.shared.append(instance: vc)
+                                    self.navigationController?.pushViewController(vc, animated: true)
+                                }
+                            })
                     })
                 }
                 .spacing(20)

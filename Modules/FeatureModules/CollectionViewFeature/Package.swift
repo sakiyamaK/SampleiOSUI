@@ -20,6 +20,9 @@ let package = Package(
         .package(path: "../../CoreModules/Components"),
         .package(path: "../../CoreModules/Extensions"),
         .package(path: "../../CoreModules/Files"),
+        .package(url: "https://github.com/HeroTransitions/Hero", from: "1.6.2"),
+        .package(url: "https://github.com/sakiyamaK/ModernCollectionView", from: "0.0.7"),
+        .package(url: "https://github.com/eddiekaiger/SwiftyAttributes", from: "5.3.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -31,6 +34,9 @@ let package = Package(
                 "Components",
                 "Extensions",
                 "Files",
+                .product(name: "ModernCollectionView", package: "ModernCollectionView"),
+                .product(name: "Hero", package: "Hero"),
+                .product(name: "SwiftyAttributes", package: "SwiftyAttributes"),
             ]
         )
 //        .testTarget(

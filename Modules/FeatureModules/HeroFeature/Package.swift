@@ -15,6 +15,7 @@ let package = Package(
             targets: ["HeroFeature"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/HeroTransitions/Hero", from: "1.6.2"),
         .package(path: "../../CoreModules/CoreLibraries"),
         .package(path: "../../CoreModules/Extensions"),
     ],
@@ -23,7 +24,8 @@ let package = Package(
             name: "HeroFeature",
             dependencies: [
                 "CoreLibraries",
-                "Extensions"
+                "Extensions",
+                .product(name: "Hero", package: "Hero"),
             ]
         ),
     ]

@@ -19,6 +19,7 @@ let package = Package(
         .package(path: "../../CoreModules/CoreLibraries"),
         .package(path: "../../CoreModules/Components"),
         .package(path: "../../CoreModules/Extensions"),
+        .package(url: "https://github.com/eddiekaiger/SwiftyAttributes", from: "5.3.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -29,6 +30,7 @@ let package = Package(
                 "CoreLibraries",
                 "Components",
                 "Extensions",
+                .product(name: "SwiftyAttributes", package: "SwiftyAttributes"),
             ]
         )
     ]

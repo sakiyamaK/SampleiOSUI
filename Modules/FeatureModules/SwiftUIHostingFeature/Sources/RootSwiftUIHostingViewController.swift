@@ -24,18 +24,6 @@ private enum ViewType: String, CaseIterable {
             SwiftUIHosting02View(viewModel: ViewModel02(count: 10)).viewController
         }
     }
-    
-    func button(from: UIViewController) -> UIButton {
-        UIButton(
-            configuration: .bordered().title(
-                self.rawValue
-            ).baseBackgroundColor(.systemBlue)
-                .baseForegroundColor(.white)
-        )
-        .addAction(.touchUpInside, handler: { _ in
-            from.navigationController?.pushViewController(self.viewController, animated: true)
-        })
-    }
 }
 
 
@@ -49,7 +37,17 @@ public final class RootSwiftUIHostingViewController: UIViewController {
             .declarative {
                 UIScrollView.vertical {
                     UIStackView.vertical {
-                        ViewType.allCases.compactMap({ $0.button(from: self).height(40) })
+                        ViewType.allCases.compactMap({ viewType in
+                            UIButton(
+                                configuration: .bordered().title(
+                                    viewType.rawValue
+                                ).baseBackgroundColor(.systemBlue)
+                                    .baseForegroundColor(.white)
+                            )
+                            .addAction(.touchUpInside, handler: { _ in
+                                self.navigationController?.pushViewController(viewType.viewController, animated: true)
+                            })
+                        })
                     }
                     .spacing(20)
                     .distribution(.fillEqually)

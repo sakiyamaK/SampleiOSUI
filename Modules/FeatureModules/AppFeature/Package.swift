@@ -22,6 +22,7 @@ let package = Package(
         .package(path: "../../CoreModules/CoreLibraries"),
         .package(path: "../../CoreModules/Components"),
         .package(path: "../../CoreModules/Extensions"),
+        .package(path: "../../CoreModules/Utils"),
         .package(path: "../HeroFeature"),
         .package(path: "../SampleTextViewFeature"),
         .package(path: "../ScrollNavigationBarFeature"),
@@ -30,10 +31,10 @@ let package = Package(
         .package(path: "../CollectionViewFeature"),
         .package(path: "../SampleAffineFeature"),
         .package(path: "../SampleFeature"),
+        .package(path: "../TabNavigationFeature"),
+        .package(path: "../SwiftUIHostingFeature"),
+        .package(path: "../ComposeForiOSNative"),
         // ここから下はなぜかPreviewでエラーがでる
-                .package(path: "../TabNavigationFeature"),
-//            .package(path: "../SwiftUIHostingFeature"),
-        //        .package(path: "../ComposeForiOSNative"),
     ],
     targets: [
         .target(
@@ -43,6 +44,7 @@ let package = Package(
                 "CoreLibraries",
                 "Components",
                 "Extensions",
+                "Utils",
                 "HeroFeature",
                 "SampleTextViewFeature",
                 "ScrollNavigationBarFeature",
@@ -52,8 +54,8 @@ let package = Package(
                 "SampleAffineFeature",
                 "SampleFeature",
                 "TabNavigationFeature",
-//                "SwiftUIHostingFeature",
-                //                "ComposeForiOSNative",
+                "SwiftUIHostingFeature",
+                "ComposeForiOSNative",
             ]
         )
         //        .testTarget(

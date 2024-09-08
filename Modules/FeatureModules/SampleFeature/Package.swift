@@ -19,6 +19,10 @@ let package = Package(
         .package(path: "../../CoreModules/Components"),
         .package(path: "../../CoreModules/Extensions"),
         .package(path: "../../CoreModules/Files"),
+        .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.5.0"),
+        .package(url: "https://github.com/RxSwiftCommunity/RxOptional", from: "5.0.5"),
+        .package(url: "https://github.com/RxSwiftCommunity/NSObject-Rx", from: "5.2.2"),
+        .package(url: "https://github.com/eddiekaiger/SwiftyAttributes", from: "5.3.0"),
     ],
     targets: [
         .target(
@@ -28,6 +32,11 @@ let package = Package(
                 "Components",
                 "Extensions",
                 "Files",
+                .product(name: "RxSwift", package: "RxSwift"),
+                .product(name: "RxCocoa", package: "RxSwift"),
+                .product(name: "RxOptional", package: "RxOptional"),
+                .product(name: "NSObject-Rx", package: "NSObject-Rx"),
+                .product(name: "SwiftyAttributes", package: "SwiftyAttributes"),
             ]
         ),
 //        .testTarget(
