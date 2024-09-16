@@ -3,50 +3,116 @@ import DeclarativeUIKit
 import Extensions
 import Components
 import SwiftyAttributes
-import RswiftResources
 import RxSwift
 import RxCocoa
 import ObservableUIKit
+import Files
 
 public class SampleViewController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         self.applyView {
-            $0.backgroundColor(.init(red255: 255, green255: 255, blue255: 255, alpha: 1.0))
+            $0.backgroundColor(.white)
         }
         .declarative {
-            UIStackView.vertical {
-                UIImageView()
-                    .width(200)
-                    .height(200)
-                    .backgroundColor(.blue)
-                    .customSpacing(16)
-                
-                UILabel(Array(repeating: "うおおおおお", count: 100).joined())
-                    .customSpacing(16)
-
-                UIButton(
-                    configurationBuilder: {
-                        UIButton.Configuration.borderedTinted()
-                            .title("ボタンだよ")
-                    }, primaryAction: .init(
-                        handler: { _ in
-                            DLog()
-                        }
-                    )
-                )
-            }
-            .alignment(.center)
-            .margins(.init(horizontal: 16))
-            .center()
-        }
-        .declarative {
-            AnimatedFloatingActionButton()
-                .right()
-                .bottom()
+            UIImageView(image: R.otherPackage.image.aho())
+                .zStack {
+                    UIStackView.vertical {
+                        UIButton(
+                            configurationBuilder: {
+                                var backgroundConfig = UIBackgroundConfiguration.clear()
+                                backgroundConfig.strokeColor = .borderColor
+                                backgroundConfig.strokeWidth = 1.0
+                                return UIButton.Configuration.filled()
+                                    .title("Next")
+                                    .titleTextAttributesTransformer(.init({
+                                        var trans = $0
+                                        trans.font = .defaultFontBold(size: 24)
+                                        return trans
+                                    }))
+                                    .baseBackgroundColor(.white)
+                                    .baseForegroundColor(.black)
+                                    .cornerStyle(.capsule)
+                                    .contentInsets(.init(top: 8, leading: 24, bottom: 8, trailing: 24))
+                                    .background(backgroundConfig)
+                            }, primaryAction: .init(
+                                handler: { _ in
+                                    DLog()
+                                }
+                            )
+                        )
+                        .height(44)
+                        
+                        UILabel("245 Favorite")
+                            .font(.defaultFontRegular(size: 12))
+                            .textAlignment(.center)
+                            .contentPriorities(.init(vertical: .required))
+                        
+                        UIButton(
+                            configurationBuilder: {
+                                var backgroundConfig = UIBackgroundConfiguration.clear()
+                                backgroundConfig.strokeColor = .borderColor
+                                backgroundConfig.strokeWidth = 1.0
+                                return UIButton.Configuration.filled()
+                                    .title("Next")
+                                    .titleTextAttributesTransformer(.init({
+                                        var trans = $0
+                                        trans.font = .defaultFontBold(size: 14)
+                                        return trans
+                                    }))
+                                    .baseBackgroundColor(.borderColor)
+                                    .baseForegroundColor(.black)
+                                    .cornerStyle(.capsule)
+//                                    .contentInsets(.init(all: 10))
+                                    .background(backgroundConfig)
+                            }, primaryAction: .init(
+                                handler: { _ in
+                                    DLog()
+                                }
+                            )
+                        )
+                        .height(44)
+                        
+                        UIButton(
+                            configurationBuilder: {
+                                return UIButton.Configuration.filled()
+                                    .title("Skip")
+                                    .baseBackgroundColor(.black.withAlphaComponent(0.2))
+                                    .baseForegroundColor(.white)
+                                    .cornerStyle(.capsule)
+                                    .titleAlignment(.leading)
+                                    .titleTextAttributesTransformer(.init({
+                                        var trans = $0
+                                        trans.font = .defaultFontRegular(size: 12)
+                                        return trans
+                                    }))
+                                    .contentInsets(.init(top: 4, leading: 10, bottom: 4, trailing: 10))
+                            }
+                            , primaryAction: .init(
+                                handler: {_ in
+                                }
+                            )
+                        )
+                    }
+                    .alignment(.center)
+                    .spacing(10)
+                    .margins(.init(horizontal: 16))
+                    .centerY()
+                }
         }
     }
-    
+}
+
+extension UIButton.Configuration {
+    @discardableResult
+    func attributedTitle(_ attributedTitle: NSMutableAttributedString?) -> Self {
+        var _self = self
+        guard let attributedTitle else { return _self }
+        let nsAttributedString = NSAttributedString(attributedString: attributedTitle)
+        let attributedString = AttributedString(nsAttributedString)
+        _self.attributedTitle = attributedString
+        return _self
+    }
 }
 
 //@Observable

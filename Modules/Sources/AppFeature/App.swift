@@ -15,7 +15,7 @@ import SampleFeature
 import TabNavigationFeature
 import SwiftUIHostingFeature
 import ComposeForiOSNative
-
+import ArchitectureFeature
 import UIKit
 import DeclarativeUIKit
 import IQKeyboardManagerSwift
@@ -34,6 +34,7 @@ private enum ViewType: String, CaseIterable {
     case ComposeForiOSNative
     case SampleAffine
     case Sample
+    case ArchitectureFeature
 
     var viewController: UIViewController {
         switch self {
@@ -61,6 +62,8 @@ private enum ViewType: String, CaseIterable {
             RootSwiftUIHostingViewController()
         case .ComposeForiOSNative:
             SampleComposeForiOSNativeViewController()
+        case .ArchitectureFeature:
+            ObservationVIPERRouterImpl.assembleModules()
 //        default:
 //            UIViewController()
         }

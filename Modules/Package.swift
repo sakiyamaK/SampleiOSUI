@@ -25,6 +25,7 @@ let package = Package(
         .library(name: "SwiftUIHostingFeature", targets: ["SwiftUIHostingFeature"]),
         .library(name: "TabNavigationFeature", targets: ["TabNavigationFeature"]),
         .library(name: "ZoomImageFeature", targets: ["ZoomImageFeature"]),
+        .library(name: "ArchitectureFeature", targets: ["ArchitectureFeature"]),
     ],
     dependencies: [
         .package(url: "https://github.com/sakiyamaK/DeclarativeUIKit", from: "3.2.0"),
@@ -88,6 +89,21 @@ let package = Package(
                 "TabNavigationFeature",
                 "SwiftUIHostingFeature",
                 "ComposeForiOSNative",
+                "ArchitectureFeature"
+            ]
+        ),
+        .target(
+            name: "ArchitectureFeature",
+            dependencies: [
+                "Components",
+                "Extensions",
+                "Files",
+                "Utils"
+            ] + [
+                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
+                .product(name: "ObservableUIKit", package: "ObservableUIKit"),
+                .product(name: "UIKitConfiguration", package: "UIKitConfiguration"),
+                .product(name: "IQKeyboardManagerSwift", package: "IQKeyboardManager"),
             ]
         ),
         .target(

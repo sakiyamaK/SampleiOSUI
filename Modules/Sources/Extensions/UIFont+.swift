@@ -9,47 +9,38 @@ import UIKit
 
 public extension UIFont {
     
-    /// `UIFont(name: "NotoSansCJKjp-Bold", size: ...)`
     static func safeNotoSansCJKjpBold(size: CGFloat) -> UIFont {
-        return .systemFont(ofSize: size)
+        .systemFont(ofSize: size, weight: .bold)
     }
     
-    /// `UIFont(name: "NotoSansCJKjp-Light", size: ...)`
     static func safeNotoSansCJKjpLight(size: CGFloat) -> UIFont {
-        return .systemFont(ofSize: size)
+        .systemFont(ofSize: size, weight: .light)
     }
     
-    /// `UIFont(name: "NotoSansCJKjp-Medium", size: ...)`
     static func safeNotoSansCJKjpMedium(size: CGFloat) -> UIFont {
-        return .systemFont(ofSize: size)
+        .systemFont(ofSize: size, weight: .medium)
     }
     
-    /// `UIFont(name: "NotoSansCJKjp-Regular", size: ...)`
     static func safeNotoSansCJKjpRegular(size: CGFloat) -> UIFont {
-        return .systemFont(ofSize: size)
-    }
-    
-    /// `UIFont(name: "NB-Akademie-Medium", size: ...)`
-    static func safeNbAkademieMedium(size: CGFloat) -> UIFont {
-        return .systemFont(ofSize: size)
+        .systemFont(ofSize: size, weight: .regular)
     }
 }
 
 public extension UIFont {
     
     static func defaultFontLight(size: CGFloat) -> UIFont {
-        return self.safeNotoSansCJKjpLight(size: size)
+        .safeNotoSansCJKjpLight(size: size)
     }
     
     static func defaultFontRegular(size: CGFloat) -> UIFont {
-        return self.safeNotoSansCJKjpRegular(size: size)
+        .safeNotoSansCJKjpRegular(size: size)
     }
     
     static func defaultFontMedium(size: CGFloat) -> UIFont {
-        return self.safeNotoSansCJKjpMedium(size: size)
+        .safeNotoSansCJKjpMedium(size: size)
     }
     
     static func defaultFontBold(size: CGFloat) -> UIFont {
-        return self.safeNotoSansCJKjpBold(size: size)
+        .safeNotoSansCJKjpBold(size: size)
     }
 }

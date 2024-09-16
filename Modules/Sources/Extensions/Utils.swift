@@ -17,5 +17,7 @@ public func DLog(_ obj: Any? = nil, file: String = #file, function: String = #fu
     } else {
         text = "[File:\(filename) Func:\(function) Line:\(line)]"
     }
+    #if DEBUG
     print(text)
+    #endif
 }
