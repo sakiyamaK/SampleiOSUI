@@ -43,7 +43,10 @@ let package = Package(
         .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.5.0"),
         .package(url: "https://github.com/RxSwiftCommunity/RxOptional", from: "5.0.5"),
         .package(url: "https://github.com/RxSwiftCommunity/NSObject-Rx", from: "5.2.2"),
-        .package(url: "https://github.com/yageek/RangeSeekSlider", branch: "master")
+        .package(url: "https://github.com/yageek/RangeSeekSlider", branch: "master"),
+        .package(url: "https://github.com/TimOliver/TOCropViewController", from: "2.7.3"),
+        .package(url: "https://github.com/devxoul/UITextView-Placeholder", from: "1.4.0"),
+        .package(url: "https://github.com/nobreak/ImageViewer", branch: "master"),
     ],
     targets: [
         .target(
