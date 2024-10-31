@@ -11,50 +11,52 @@ import Extensions
 
 final class CompositionalLayout01ViewController: UIViewController {
     private let items = SampleModel02.samples
-
-    override func loadView() {
-        super.loadView()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(setupLayout),
-                                               name: Notification.Name.injection, object: nil)
-        
-        setupLayout()
-    }
     
-    @objc func setupLayout() {
-        view.backgroundColor = .white
-
-        declarative {
+    private weak var collectionView: UICollectionView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        applyView {
+            $0.backgroundColor(.white)
+        }
+        .declarative {
             UICollectionView {
                 
-                // アイテム(セル)の大きさをグループの大きさと同じにする
                 let itemSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
                     heightDimension: .fractionalHeight(1.0)
                 )
-
-                // アイテム設定に大きさを登録してインスタンスを作る
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                item.contentInsets = .init(top: 0, leading: 0, bottom: 10, trailing: 0)
 
-                // グループサイズの横幅をコレクションビューの横幅と同じ、高さを44にる
                 let groupSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
                     heightDimension: .absolute(44)
                 )
-                // グループの水平設定に大きさとアイテムの種類を登録する
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
 
-                // セクションにグループを登録する
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = .init(top: 10, leading: 0, bottom: 0, trailing: 0)
+                
+                section.visibleItemsInvalidationHandler = {[weak self] items, point, environment in
+                    // 真ん中だけ黄色
+                    let middleIndexPath = items[items.count/2].indexPath
+                    if let cell = self!.collectionView.cellForItem(at: middleIndexPath) {
+                        cell.contentView.backgroundColor = .yellow
+                    }
+                    // 他は白
+                    for indexPath in items.compactMap({ $0.indexPath }).filter({ $0 != middleIndexPath }) {
+                        if let cell = self!.collectionView.cellForItem(at: indexPath) {
+                            cell.contentView.backgroundColor = .white
+                        }
+                    }
+                }
 
-                // レイアウトにセクションを登録する
                 let layout = UICollectionViewCompositionalLayout(section: section)
                 return layout
             }
             .registerCellClass(UICollectionViewCell01.self, forCellWithReuseIdentifier: UICollectionViewCell01.reuseId)
             .backgroundColor(.systemGray)
+            .assign(to: &collectionView)
             .dataSource(self)
             .delegate(self)
         }
@@ -68,15 +70,8 @@ extension CompositionalLayout01ViewController: UICollectionViewDelegate {
 }
 
 extension CompositionalLayout01ViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        2
-    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
-            10
-        } else {
-            items.count
-        }
+        items.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

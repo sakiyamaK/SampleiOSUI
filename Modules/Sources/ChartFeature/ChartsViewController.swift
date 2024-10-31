@@ -7,7 +7,7 @@
 
 import UIKit
 import DeclarativeUIKit
-import Charts
+import DGCharts
 
 public final class ChartsViewController: UIViewController {
 

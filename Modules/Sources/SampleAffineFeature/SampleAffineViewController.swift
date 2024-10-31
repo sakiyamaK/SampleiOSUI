@@ -30,7 +30,7 @@ public final class SampleAffineViewController: UIViewController {
                 UIStackView.vertical {
                                         
                     UIImageView(
-                        R.otherPackage.image.aho()!
+//                        R.otherPackage.image.aho()!
                     )
                     .contentMode(.scaleAspectFit)
                     .backgroundColor(.green)

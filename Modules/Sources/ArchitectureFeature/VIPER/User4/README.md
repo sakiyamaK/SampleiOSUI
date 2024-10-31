@@ -1,0 +1,3 @@
+UIViewControlelrをPresenter
+Delegateを使った
+VIPER

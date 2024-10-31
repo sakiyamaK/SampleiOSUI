@@ -50,6 +50,7 @@ public enum ArrayComposeBuilder {
     }
 }
 
+@MainActor
 public protocol ComposeForiOSNative {
     associatedtype View: UIView
     var view: View { get }

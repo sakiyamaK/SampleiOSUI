@@ -16,6 +16,7 @@ private enum ViewType: String, CaseIterable {
     case SwiftUIHosting01
     case SwiftUIHosting02
 
+    @MainActor
     var viewController: UIViewController {
         switch self {
         case .SwiftUIHosting01:

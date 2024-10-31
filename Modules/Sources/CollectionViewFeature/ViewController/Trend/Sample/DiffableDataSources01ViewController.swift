@@ -8,6 +8,36 @@
 import DeclarativeUIKit
 import UIKit
 
+public extension NSDiffableDataSourceSnapshot where SectionIdentifierType: Hashable, ItemIdentifierType: Hashable {
+    mutating func appendSectionsIfNeed(_ sections: [SectionIdentifierType]) {
+        let newSections = sections.filter({ section in
+            !self.sectionIdentifiers.contains(section)
+        })
+        self.appendSections(newSections)
+    }
+    mutating func reloadItemsOrAppend(items: [ItemIdentifierType], to section: SectionIdentifierType) {
+        // 存在するアイテムと存在しないアイテムを分ける
+        let existingItems = items.filter { self.itemIdentifiers.contains($0) }
+        let newItems = items.filter { !self.itemIdentifiers.contains($0) }
+        
+        // 一度に追加
+        self.appendItems(newItems, toSection: section)
+        // 一度にリロード
+        self.reloadItems(existingItems)
+    }
+
+    mutating func reloadItemOrAppend(item: ItemIdentifierType, to section: SectionIdentifierType) {
+        if self.indexOfItem(item) == nil {
+            // アイテムが存在しない場合、デフォルトのアイテムを追加
+            self.appendItems([item], toSection: section)
+        } else {
+            // アイテムが存在する場合はリロード
+            self.reloadItems([item])
+        }
+    }
+}
+
+
 final class DiffableDataSources01ViewController: UIViewController {
     enum Section: CaseIterable {
         case main

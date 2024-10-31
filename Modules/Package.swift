@@ -26,6 +26,8 @@ let package = Package(
         .library(name: "TabNavigationFeature", targets: ["TabNavigationFeature"]),
         .library(name: "ZoomImageFeature", targets: ["ZoomImageFeature"]),
         .library(name: "ArchitectureFeature", targets: ["ArchitectureFeature"]),
+        .library(name: "TestFeature", targets: ["TestFeature"]),
+        .library(name: "ButtonsFeature", targets: ["ButtonsFeature"]),
     ],
     dependencies: [
         .package(url: "https://github.com/sakiyamaK/DeclarativeUIKit", from: "3.2.0"),
@@ -33,14 +35,15 @@ let package = Package(
         .package(url: "https://github.com/sakiyamaK/UIKitConfiguration", from: "0.0.2"),
         .package(url: "https://github.com/onevcat/Kingfisher", from: "7.6.2"),
         .package(url: "https://github.com/hackiftekhar/IQKeyboardManager", from: "7.0.1"),
-        .package(url: "https://github.com/mac-cain13/R.swift", from: "7.5.0"),
+//        .package(url: "https://github.com/mac-cain13/R.swift", from: "7.5.0"),
         .package(url: "https://github.com/HeroTransitions/Hero", from: "1.6.2"),
-        .package(url: "https://github.com/danielgindi/Charts", from: "4.1.0"),
+        .package(url: "https://github.com/ChartsOrg/Charts", from: "5.1.0"),
         .package(url: "https://github.com/sakiyamaK/ModernCollectionView", from: "0.0.7"),
         .package(url: "https://github.com/eddiekaiger/SwiftyAttributes", from: "5.3.0"),
         .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.5.0"),
         .package(url: "https://github.com/RxSwiftCommunity/RxOptional", from: "5.0.5"),
         .package(url: "https://github.com/RxSwiftCommunity/NSObject-Rx", from: "5.2.2"),
+        .package(url: "https://github.com/yageek/RangeSeekSlider", branch: "master")
     ],
     targets: [
         .target(
@@ -54,13 +57,13 @@ let package = Package(
             name: "Extensions"
         ),
         .target(
-            name: "Files",
-            dependencies: [
-                .product(name: "RswiftLibrary", package: "R.swift"),
-            ],
-            plugins: [
-                .plugin(name: "RswiftGeneratePublicResources", package: "R.swift"),
-            ]
+            name: "Files"
+//            dependencies: [
+//                .product(name: "RswiftLibrary", package: "R.swift"),
+//            ],
+//            plugins: [
+//                .plugin(name: "RswiftGeneratePublicResources", package: "R.swift"),
+//            ]
         ),
         .target(
             name: "Utils"
@@ -89,7 +92,8 @@ let package = Package(
                 "TabNavigationFeature",
                 "SwiftUIHostingFeature",
                 "ComposeForiOSNative",
-                "ArchitectureFeature"
+                "ArchitectureFeature",
+                "ButtonsFeature"
             ]
         ),
         .target(
@@ -104,12 +108,22 @@ let package = Package(
                 .product(name: "ObservableUIKit", package: "ObservableUIKit"),
                 .product(name: "UIKitConfiguration", package: "UIKitConfiguration"),
                 .product(name: "IQKeyboardManagerSwift", package: "IQKeyboardManager"),
+                .product(name: "Kingfisher", package: "Kingfisher"),
+            ],
+            resources: [
+                .process("Resources")
+            ]
+        ),
+        .testTarget(
+            name: "ArchitectureFeatureTest",
+            dependencies: [
+                "ArchitectureFeature",
             ]
         ),
         .target(
             name: "ChartFeature",
             dependencies: [
-                    .product(name: "Charts", package: "Charts"),
+                    .product(name: "DGCharts", package: "Charts"),
                 ] + [
                     .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
                     .product(name: "ObservableUIKit", package: "ObservableUIKit"),
@@ -168,9 +182,6 @@ let package = Package(
                 "Files",
             ] + [
                 .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
-            ],
-            resources: [
-                .copy("C.xcassets"),
             ]
         ),
         .target(
@@ -240,6 +251,34 @@ let package = Package(
                 "Components",
                 "Extensions",
                 "Files",
+            ] + [
+                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
+                .product(name: "ObservableUIKit", package: "ObservableUIKit"),
+                .product(name: "UIKitConfiguration", package: "UIKitConfiguration"),
+                .product(name: "IQKeyboardManagerSwift", package: "IQKeyboardManager"),
+            ]
+        ),
+        .target(
+            name: "TestFeature",
+            dependencies: [
+                "Components",
+                "Extensions",
+                "Files",
+            ] + [
+                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
+                .product(name: "ObservableUIKit", package: "ObservableUIKit"),
+                .product(name: "UIKitConfiguration", package: "UIKitConfiguration"),
+                .product(name: "IQKeyboardManagerSwift", package: "IQKeyboardManager"),
+            ]
+        ),
+        .target(
+            name: "ButtonsFeature",
+            dependencies: [
+                "Components",
+                "Extensions",
+                "Files",
+            ] + [
+                .product(name: "SwiftyAttributes", package: "SwiftyAttributes"),
             ] + [
                 .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
                 .product(name: "ObservableUIKit", package: "ObservableUIKit"),

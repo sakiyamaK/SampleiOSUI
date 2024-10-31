@@ -19,6 +19,7 @@ import ArchitectureFeature
 import UIKit
 import DeclarativeUIKit
 import IQKeyboardManagerSwift
+import ButtonsFeature
 
 private enum ViewType: String, CaseIterable {
     
@@ -63,9 +64,9 @@ private enum ViewType: String, CaseIterable {
         case .ComposeForiOSNative:
             SampleComposeForiOSNativeViewController()
         case .ArchitectureFeature:
-            ObservationVIPERRouterImpl.assembleModules()
-//        default:
-//            UIViewController()
+            UserTab2RouterImpl.assembleModules()
+        default:
+            UIViewController()
         }
     }
 }
@@ -88,11 +89,14 @@ public final class RootViewController: UIViewController {
                                 .baseBackgroundColor(.systemBlue)
                                 .cornerStyle(.capsule)
                             )
-                            .addAction(.touchUpInside, handler: { _ in
-                                DispatchQueue.main.async {
+                            .addAction(.touchUpInside, handler: {[weak self] _ in
+                                Task { @MainActor in
                                     let vc = viewType.viewController
+                                    if vc is UITabBarController {
+                                        self?.navigationController?.setNavigationBarHidden(true, animated: true)
+                                    }
                                     LeakChecker.shared.append(instance: vc)
-                                    self.navigationController?.pushViewController(vc, animated: true)
+                                    self?.navigationController?.pushViewController(vc, animated: true)
                                 }
                             })
                     })

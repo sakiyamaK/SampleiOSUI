@@ -46,8 +46,25 @@ public extension Observablable {
         tracking: @escaping (() -> T),
         onChange: @escaping ((Self, T) -> Void),
         shouldStop: (() -> Bool)? = nil,
-        useInitialValue: Bool = true
+        useInitialValue: Bool = true,
+        mainThread: Bool = true
     ) -> Self {
+        
+        @Sendable func process() {
+            onChange(self, tracking())
+            
+            if let shouldStop, shouldStop() {
+                return
+            }
+            
+            self.observation(
+                tracking: tracking,
+                onChange: onChange,
+                shouldStop: shouldStop,
+                useInitialValue: useInitialValue,
+                mainThread: mainThread
+            )
+        }
         
         if useInitialValue {
             onChange(self, tracking())
@@ -56,18 +73,12 @@ public extension Observablable {
         _ = withObservationTracking({
             tracking()
         }, onChange: {
-            Task { @MainActor [weak self] in
-                onChange(self!, tracking())
-                
-                if let shouldStop, shouldStop() {
-                    return
+            if mainThread {
+                Task { @MainActor in
+                    process()
                 }
-                self?.observation(
-                    tracking: tracking,
-                    onChange: onChange,
-                    shouldStop: shouldStop,
-                    useInitialValue: useInitialValue
-                )
+            } else {
+                process()
             }
         })
         return self

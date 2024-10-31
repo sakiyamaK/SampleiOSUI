@@ -8,6 +8,7 @@
 import SwiftUI
 
 public extension View {
+    @MainActor
     var viewController: UIHostingController<Self> {
         UIHostingController(rootView: self)
     }
