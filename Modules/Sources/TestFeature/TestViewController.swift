@@ -8,6 +8,14 @@
 import UIKit
 import DeclarativeUIKit
 import ObservableUIKit
+import UITextView_Placeholder
+
+public extension UITextView {
+    func placeholder(_ placeholder: String) -> Self {
+        self.placeholder = placeholder
+        return self
+    }
+}
 
 final class TestViewController: UIViewController {
     
@@ -15,8 +23,9 @@ final class TestViewController: UIViewController {
         super.viewDidLoad()
         
         self.declarative {
-            UIButton(configuration: UIButton.Configuration.bordered().title("ボタンです"))
-                .center()
+            UITextView()
+                .placeholder("hogehoge")
+//            UIButton(configuration: UIButton.Configuration.bordered().title("ボタンです"))
         }
     }
 }

@@ -17,8 +17,22 @@
 		B64F507D2C8D4AB3000E11EC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64F507C2C8D4AB3000E11EC /* SceneDelegate.swift */; };
 		B64F50872C8D4AB7000E11EC /* Base in Resources */ = {isa = PBXBuildFile; fileRef = B64F50862C8D4AB7000E11EC /* Base */; };
 		B64F508D2C8D4B01000E11EC /* SampleAffineFeature in Frameworks */ = {isa = PBXBuildFile; productRef = B64F508C2C8D4B01000E11EC /* SampleAffineFeature */; };
+		B66C77412CD48FF5001633AF /* auto_translation_model_download.json in Resources */ = {isa = PBXBuildFile; fileRef = B66C772A2CD48FF5001633AF /* auto_translation_model_download.json */; };
+		B66C77422CD48FF5001633AF /* sticker_paste_3.json in Resources */ = {isa = PBXBuildFile; fileRef = B66C77212CD48FF5001633AF /* sticker_paste_3.json */; };
+		B66C77432CD48FF5001633AF /* sticker_paste_2.json in Resources */ = {isa = PBXBuildFile; fileRef = B66C77202CD48FF5001633AF /* sticker_paste_2.json */; };
+		B66C77442CD48FF5001633AF /* sticker_paste_1.json in Resources */ = {isa = PBXBuildFile; fileRef = B66C771F2CD48FF5001633AF /* sticker_paste_1.json */; };
+		B66C77452CD48FF5001633AF /* sticker_paste_5.json in Resources */ = {isa = PBXBuildFile; fileRef = B66C77232CD48FF5001633AF /* sticker_paste_5.json */; };
+		B66C77462CD48FF5001633AF /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = B66C773A2CD48FF5001633AF /* Localizable.stringsdict */; };
+		B66C77472CD48FF5001633AF /* sticker_strip_3.json in Resources */ = {isa = PBXBuildFile; fileRef = B66C77262CD48FF5001633AF /* sticker_strip_3.json */; };
+		B66C77482CD48FF5001633AF /* sticker_strip_5.json in Resources */ = {isa = PBXBuildFile; fileRef = B66C77282CD48FF5001633AF /* sticker_strip_5.json */; };
+		B66C77492CD48FF5001633AF /* sticker_strip_4.json in Resources */ = {isa = PBXBuildFile; fileRef = B66C77272CD48FF5001633AF /* sticker_strip_4.json */; };
+		B66C774A2CD48FF5001633AF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B66C77352CD48FF5001633AF /* Localizable.strings */; };
+		B66C774B2CD48FF5001633AF /* NoTrans.strings in Resources */ = {isa = PBXBuildFile; fileRef = B66C773F2CD48FF5001633AF /* NoTrans.strings */; };
+		B66C774C2CD48FF5001633AF /* sticker_strip_1.json in Resources */ = {isa = PBXBuildFile; fileRef = B66C77242CD48FF5001633AF /* sticker_strip_1.json */; };
+		B66C774D2CD48FF5001633AF /* sticker_strip_2.json in Resources */ = {isa = PBXBuildFile; fileRef = B66C77252CD48FF5001633AF /* sticker_strip_2.json */; };
+		B66C774E2CD48FF5001633AF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B66C77302CD48FF5001633AF /* InfoPlist.strings */; };
+		B66C774F2CD48FF5001633AF /* sticker_paste_4.json in Resources */ = {isa = PBXBuildFile; fileRef = B66C77222CD48FF5001633AF /* sticker_paste_4.json */; };
 		B6BE71102C8C8701006024E6 /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = B6BE710F2C8C8701006024E6 /* AppFeature */; };
-		B6E2AA902CB02FF400A0E7E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6E2AA8F2CB02FF400A0E7E7 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,8 +65,34 @@
 		B64F50862C8D4AB7000E11EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B64F50882C8D4AB7000E11EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B663B68B2C8D7DA900648223 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
+		B66C771F2CD48FF5001633AF /* sticker_paste_1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sticker_paste_1.json; sourceTree = "<group>"; };
+		B66C77202CD48FF5001633AF /* sticker_paste_2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sticker_paste_2.json; sourceTree = "<group>"; };
+		B66C77212CD48FF5001633AF /* sticker_paste_3.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sticker_paste_3.json; sourceTree = "<group>"; };
+		B66C77222CD48FF5001633AF /* sticker_paste_4.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sticker_paste_4.json; sourceTree = "<group>"; };
+		B66C77232CD48FF5001633AF /* sticker_paste_5.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sticker_paste_5.json; sourceTree = "<group>"; };
+		B66C77242CD48FF5001633AF /* sticker_strip_1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sticker_strip_1.json; sourceTree = "<group>"; };
+		B66C77252CD48FF5001633AF /* sticker_strip_2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sticker_strip_2.json; sourceTree = "<group>"; };
+		B66C77262CD48FF5001633AF /* sticker_strip_3.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sticker_strip_3.json; sourceTree = "<group>"; };
+		B66C77272CD48FF5001633AF /* sticker_strip_4.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sticker_strip_4.json; sourceTree = "<group>"; };
+		B66C77282CD48FF5001633AF /* sticker_strip_5.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sticker_strip_5.json; sourceTree = "<group>"; };
+		B66C772A2CD48FF5001633AF /* auto_translation_model_download.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = auto_translation_model_download.json; sourceTree = "<group>"; };
+		B66C772C2CD48FF5001633AF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B66C772D2CD48FF5001633AF /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B66C772E2CD48FF5001633AF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		B66C772F2CD48FF5001633AF /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		B66C77312CD48FF5001633AF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B66C77322CD48FF5001633AF /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B66C77332CD48FF5001633AF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		B66C77342CD48FF5001633AF /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		B66C77362CD48FF5001633AF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		B66C77372CD48FF5001633AF /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ja; path = ja.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		B66C77382CD48FF5001633AF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.stringsdict"; sourceTree = "<group>"; };
+		B66C77392CD48FF5001633AF /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.stringsdict"; sourceTree = "<group>"; };
+		B66C773B2CD48FF5001633AF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/NoTrans.strings; sourceTree = "<group>"; };
+		B66C773C2CD48FF5001633AF /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/NoTrans.strings; sourceTree = "<group>"; };
+		B66C773D2CD48FF5001633AF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/NoTrans.strings"; sourceTree = "<group>"; };
+		B66C773E2CD48FF5001633AF /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/NoTrans.strings"; sourceTree = "<group>"; };
 		B6CE2F3F2AE3C767001DFEBD /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		B6E2AA8F2CB02FF400A0E7E7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,13 +153,51 @@
 			path = SampleAffinePreview;
 			sourceTree = "<group>";
 		};
+		B66C77292CD48FF5001633AF /* StickerAnimations */ = {
+			isa = PBXGroup;
+			children = (
+				B66C771F2CD48FF5001633AF /* sticker_paste_1.json */,
+				B66C77202CD48FF5001633AF /* sticker_paste_2.json */,
+				B66C77212CD48FF5001633AF /* sticker_paste_3.json */,
+				B66C77222CD48FF5001633AF /* sticker_paste_4.json */,
+				B66C77232CD48FF5001633AF /* sticker_paste_5.json */,
+				B66C77242CD48FF5001633AF /* sticker_strip_1.json */,
+				B66C77252CD48FF5001633AF /* sticker_strip_2.json */,
+				B66C77262CD48FF5001633AF /* sticker_strip_3.json */,
+				B66C77272CD48FF5001633AF /* sticker_strip_4.json */,
+				B66C77282CD48FF5001633AF /* sticker_strip_5.json */,
+			);
+			path = StickerAnimations;
+			sourceTree = "<group>";
+		};
+		B66C772B2CD48FF5001633AF /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				B66C77292CD48FF5001633AF /* StickerAnimations */,
+				B66C772A2CD48FF5001633AF /* auto_translation_model_download.json */,
+			);
+			path = Animations;
+			sourceTree = "<group>";
+		};
+		B66C77402CD48FF5001633AF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B66C772B2CD48FF5001633AF /* Animations */,
+				B66C77302CD48FF5001633AF /* InfoPlist.strings */,
+				B66C77352CD48FF5001633AF /* Localizable.strings */,
+				B66C773A2CD48FF5001633AF /* Localizable.stringsdict */,
+				B66C773F2CD48FF5001633AF /* NoTrans.strings */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		BE6109C1EBE664309EBDB1F4 /* SampleiOSUI */ = {
 			isa = PBXGroup;
 			children = (
 				B22B8EF2967AF4DD4B1B3E37 /* AppDelegate.swift */,
 				411C6398682A4CADBFA16E91 /* Info.plist */,
-				B6E2AA8F2CB02FF400A0E7E7 /* GoogleService-Info.plist */,
 				1A44801751CCF693225B9EA7 /* LaunchScreen.storyboard */,
+				B66C77402CD48FF5001633AF /* Supporting Files */,
 			);
 			path = SampleiOSUI;
 			sourceTree = "<group>";
@@ -236,6 +314,8 @@
 				Base,
 				en,
 				ja,
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = D0A040039CBB607D19319E7F;
 			packageReferences = (
@@ -257,7 +337,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADB39160D7838A2FEB8CE920 /* LaunchScreen.storyboard in Resources */,
-				B6E2AA902CB02FF400A0E7E7 /* GoogleService-Info.plist in Resources */,
+				B66C77412CD48FF5001633AF /* auto_translation_model_download.json in Resources */,
+				B66C77422CD48FF5001633AF /* sticker_paste_3.json in Resources */,
+				B66C77432CD48FF5001633AF /* sticker_paste_2.json in Resources */,
+				B66C77442CD48FF5001633AF /* sticker_paste_1.json in Resources */,
+				B66C77452CD48FF5001633AF /* sticker_paste_5.json in Resources */,
+				B66C77462CD48FF5001633AF /* Localizable.stringsdict in Resources */,
+				B66C77472CD48FF5001633AF /* sticker_strip_3.json in Resources */,
+				B66C77482CD48FF5001633AF /* sticker_strip_5.json in Resources */,
+				B66C77492CD48FF5001633AF /* sticker_strip_4.json in Resources */,
+				B66C774A2CD48FF5001633AF /* Localizable.strings in Resources */,
+				B66C774B2CD48FF5001633AF /* NoTrans.strings in Resources */,
+				B66C774C2CD48FF5001633AF /* sticker_strip_1.json in Resources */,
+				B66C774D2CD48FF5001633AF /* sticker_strip_2.json in Resources */,
+				B66C774E2CD48FF5001633AF /* InfoPlist.strings in Resources */,
+				B66C774F2CD48FF5001633AF /* sticker_paste_4.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +449,50 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		B66C77302CD48FF5001633AF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B66C772C2CD48FF5001633AF /* en */,
+				B66C772D2CD48FF5001633AF /* ja */,
+				B66C772E2CD48FF5001633AF /* zh-Hans */,
+				B66C772F2CD48FF5001633AF /* zh-Hant */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		B66C77352CD48FF5001633AF /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B66C77312CD48FF5001633AF /* en */,
+				B66C77322CD48FF5001633AF /* ja */,
+				B66C77332CD48FF5001633AF /* zh-Hans */,
+				B66C77342CD48FF5001633AF /* zh-Hant */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		B66C773A2CD48FF5001633AF /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B66C77362CD48FF5001633AF /* en */,
+				B66C77372CD48FF5001633AF /* ja */,
+				B66C77382CD48FF5001633AF /* zh-Hans */,
+				B66C77392CD48FF5001633AF /* zh-Hant */,
+			);
+			name = Localizable.stringsdict;
+			sourceTree = "<group>";
+		};
+		B66C773F2CD48FF5001633AF /* NoTrans.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B66C773B2CD48FF5001633AF /* en */,
+				B66C773C2CD48FF5001633AF /* ja */,
+				B66C773D2CD48FF5001633AF /* zh-Hans */,
+				B66C773E2CD48FF5001633AF /* zh-Hant */,
+			);
+			name = NoTrans.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -379,6 +517,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sakiyamaK.hogehoge;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -399,6 +538,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sakiyamaK.hogehoge;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

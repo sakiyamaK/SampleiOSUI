@@ -50,7 +50,7 @@ private enum ViewType: String, CaseIterable {
         case .Chart:
             ChartsViewController()
         case .Sample:
-            SampleViewController()
+            Sample2ViewController()
         case .CollectionView:
             RootCollectionViewController()
         case .SampleAffine:

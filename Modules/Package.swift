@@ -28,9 +28,11 @@ let package = Package(
         .library(name: "ArchitectureFeature", targets: ["ArchitectureFeature"]),
         .library(name: "TestFeature", targets: ["TestFeature"]),
         .library(name: "ButtonsFeature", targets: ["ButtonsFeature"]),
+        .library(name: "Swift6Feature", targets: ["Swift6Feature"]),
+        .library(name: "ConcurrencyFeature", targets: ["ConcurrencyFeature"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/sakiyamaK/DeclarativeUIKit", from: "3.2.0"),
+        .package(url: "https://github.com/sakiyamaK/DeclarativeUIKit", from: "3.4.0"),
         .package(url: "https://github.com/sakiyamaK/ObservableUIKit", from: "0.0.3"),
         .package(url: "https://github.com/sakiyamaK/UIKitConfiguration", from: "0.0.2"),
         .package(url: "https://github.com/onevcat/Kingfisher", from: "7.6.2"),
@@ -45,8 +47,10 @@ let package = Package(
         .package(url: "https://github.com/RxSwiftCommunity/NSObject-Rx", from: "5.2.2"),
         .package(url: "https://github.com/yageek/RangeSeekSlider", branch: "master"),
         .package(url: "https://github.com/TimOliver/TOCropViewController", from: "2.7.3"),
-        .package(url: "https://github.com/devxoul/UITextView-Placeholder", from: "1.4.0"),
+        .package(url: "https://github.com/iAllenC/UITextView-Placeholder", branch: "master"),
         .package(url: "https://github.com/nobreak/ImageViewer", branch: "master"),
+        .package(url: "https://github.com/scalessec/Toast-Swift", from: "5.1.1"),
+        
     ],
     targets: [
         .target(
@@ -195,6 +199,7 @@ let package = Package(
                 .product(name: "RxOptional", package: "RxOptional"),
                 .product(name: "NSObject-Rx", package: "NSObject-Rx"),
                 .product(name: "SwiftyAttributes", package: "SwiftyAttributes"),
+                .product(name: "Toast", package: "Toast-Swift"),
             ] + [
                 "Components",
                 "Extensions",
@@ -272,6 +277,7 @@ let package = Package(
                 .product(name: "ObservableUIKit", package: "ObservableUIKit"),
                 .product(name: "UIKitConfiguration", package: "UIKitConfiguration"),
                 .product(name: "IQKeyboardManagerSwift", package: "IQKeyboardManager"),
+                .product(name: "UITextView+Placeholder", package: "UITextView-Placeholder"),
             ]
         ),
         .target(
@@ -286,6 +292,36 @@ let package = Package(
                 .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
                 .product(name: "ObservableUIKit", package: "ObservableUIKit"),
                 .product(name: "UIKitConfiguration", package: "UIKitConfiguration"),
+                .product(name: "IQKeyboardManagerSwift", package: "IQKeyboardManager"),
+            ]
+        ),
+        .target(
+            name: "Swift6Feature",
+            dependencies: [
+                "Components",
+                "Extensions",
+                "Files",
+            ] + [
+                .product(name: "RxSwift", package: "RxSwift"),
+                .product(name: "RxCocoa", package: "RxSwift"),
+                .product(name: "RxOptional", package: "RxOptional"),
+                .product(name: "NSObject-Rx", package: "NSObject-Rx"),
+                .product(name: "SwiftyAttributes", package: "SwiftyAttributes"),
+            ] + [
+                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
+                .product(name: "ObservableUIKit", package: "ObservableUIKit"),
+                .product(name: "UIKitConfiguration", package: "UIKitConfiguration"),
+                .product(name: "IQKeyboardManagerSwift", package: "IQKeyboardManager"),
+            ]
+        ),
+        .target(
+            name: "ConcurrencyFeature",
+            dependencies: [
+                "Components",
+                "Extensions",
+                "Files",
+            ] + [
+                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
                 .product(name: "IQKeyboardManagerSwift", package: "IQKeyboardManager"),
             ]
         ),

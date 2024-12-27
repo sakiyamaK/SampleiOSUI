@@ -1,13 +1,12 @@
 setup:
-	./script/setup.sh
+	mint bootstrap
 	open SampleiOSUI.xcworkspace
 
 .PHONY: setup
 
 
 clean:
-	./script/clean.sh
-	
+	mint uninstall $(cat Mintfile | awk '{print $1}')	
 .PHONY: clean
 
 component:
