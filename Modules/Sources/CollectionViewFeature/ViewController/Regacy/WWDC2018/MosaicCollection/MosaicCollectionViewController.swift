@@ -21,7 +21,7 @@ final class MosaicCollectionViewController: UIViewController {
             UICollectionView {
                 MosaicLayout()
             }
-            .assign(to: &collectionView)
+            .assign(to: &self.collectionView)
             .alwaysBounceVertical(true)
             .indicatorStyle(.white)
             .delegate(self)

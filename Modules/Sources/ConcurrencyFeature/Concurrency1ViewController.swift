@@ -301,7 +301,7 @@ public class Concurrency1ViewController: UIViewController {
         }.declarative {
             
             UIStackView.vertical {
-                UILabel(assign: &label)
+                UILabel(assign: &self.label)
                     .textAlignment(.center)
                     .padding()
                     .border(color: .black, width: 1)

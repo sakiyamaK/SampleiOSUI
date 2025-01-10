@@ -35,13 +35,13 @@ final class CompositionalLayout08ViewController: UIViewController {
                 .addAction(.valueChanged, handler: { _ in
                     self.changeSegment()
                 })
-                .assign(to: &segmentControll)
+                .assign(to: &self.segmentControll)
                 .padding()
 
                 UICollectionView {
-                    layout
+                    self.layout
                 }
-                .assign(to: &collectionView)
+                .assign(to: &self.collectionView)
                 .registerCellClass(UIImageViewCell.self, forCellWithReuseIdentifier: UIImageViewCell.reuseId)
                 .registerViewClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: UICollectionReusableView.reuseId)
                 .backgroundColor(.systemGray)

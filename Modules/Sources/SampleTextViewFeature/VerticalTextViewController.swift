@@ -115,7 +115,7 @@ public class VerticalTextViewController: UIViewController {
         self.view.backgroundColor = .white
         
         self.declarative {
-            UITextView(assign: &textView)
+            UITextView(assign: &self.textView)
                 .text(SampleTextContents.sample02)
                 .font(UIFont.defaultFontRegular(size: 20))
                 .isDirectionalLockEnabled(true)
@@ -130,7 +130,7 @@ public class VerticalTextViewController: UIViewController {
         textView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor).isActive = true
 
 //        self.declarative(reset: false) {
-//            VerticalTextView(assign: &verticalTextView)
+//            VerticalTextView(assign: &self.verticalTextView)
 //                .backgroundColor(.white)
 //        }
     }

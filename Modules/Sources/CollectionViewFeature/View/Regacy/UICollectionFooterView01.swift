@@ -23,7 +23,7 @@ final class UICollectionFooterView01: UICollectionReusableView {
 
         declarative {
             UIStackView.vertical {
-                UILabel(assign: &textLabel)
+                UILabel(assign: &self.self.textLabel)
                     .contentHuggingPriority(.required, for: .vertical)
                     .contentCompressionResistancePriority(.required, for: .vertical)
             }

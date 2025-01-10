@@ -72,7 +72,7 @@ public final class CustomNavigationPageViewController: UIViewController, UIPageV
         )
         
         self.declarative {
-            customNavigationBar
+            self.customNavigationBar
                 .top()
         }
         
@@ -152,7 +152,7 @@ public final class CustomNavigationViewController: UIViewController {
         }).declarative(safeAreas: .init(top: false, bottom: true), outsideSafeAreaTop: {
             UIView.spacer().backgroundColor(.green)
         }, outsideSafeAreaLeading: { }, outsideSafeAreaBottom: { }, outsideSafeAreaTrailing: { }) {
-            collectionView
+            self.collectionView
         }
                         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()

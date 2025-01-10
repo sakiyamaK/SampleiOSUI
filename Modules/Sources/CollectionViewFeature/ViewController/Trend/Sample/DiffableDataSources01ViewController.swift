@@ -80,7 +80,7 @@ final class DiffableDataSources01ViewController: UIViewController {
                         return section
                     }
                 }
-                .assign(to: &collectionView)
+                .assign(to: &self.collectionView)
                 .registerCellClass(UICollectionViewCell01.self, forCellWithReuseIdentifier: UICollectionViewCell01.reuseId)
                 .backgroundColor(.systemGray)
             }

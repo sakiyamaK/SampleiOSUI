@@ -49,7 +49,7 @@ final class WaterfalCompositionallLayoutCollectionViewController: UIViewControll
                         return size.height
                     })
             }
-            .assign(to: &collectionView)
+            .assign(to: &self.collectionView)
             .registerCellClass(UIImageViewCell.self, forCellWithReuseIdentifier: UIImageViewCell.reuseId)
             .apply { [weak self] in
                 guard let self = self else { return }
@@ -69,7 +69,7 @@ final class WaterfalCompositionallLayoutCollectionViewController: UIViewControll
                 })
             })
         }.declarative {
-            UIActivityIndicatorView(assign: &indicator)
+            UIActivityIndicatorView(assign: &self.indicator)
                 .hidesWhenStopped(true)
                 .apply {
                     $0.startAnimating()

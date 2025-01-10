@@ -77,23 +77,23 @@ class CustomContentView: UIView {
         self.declarative(priorities: .init(bottom: .defaultHigh)) {
             UIStackView.vertical {
                 UIStackView.horizontal {
-                    UIImageView(assign: &imageView)
+                    UIImageView(assign: &self.imageView)
                         .size(width: 40, height: 40)
                         .customSpacing(10)
                     UIStackView.vertical {
                         
-                        UILabel(assign: &nameLabel)
+                        UILabel(assign: &self.nameLabel)
                             .font(UIFont.defaultFontBold(size: 20))
                             .contentPriorities(.init(vertical: .required))
                             .customSpacing(8)
                         
-                        UILabel(assign: &descLabel)
+                        UILabel(assign: &self.descLabel)
                             .font(UIFont.defaultFontBold(size: 20))
                             .contentPriorities(.init(vertical: .required))
                             .numberOfLines(1)
                         
                         UIButton("続きを読む")
-                            .assign(to: &showMore)
+                            .assign(to: &self.showMore)
                             .titleColor(.black)
                             .addAction(.touchUpInside, handler: {[weak self] _ in
                                 guard let self else { return }
@@ -179,7 +179,7 @@ public class CellRegistration03ViewController: UIViewController {
                     .padding(insets: .init(all: 8))
                 
                 CustomContentView(
-                    item: itemsInStackView,
+                    item: self.itemsInStackView,
                     delegate: .init(
                         tapButton: {[weak self] view in
                             guard let self else { return }
@@ -218,7 +218,7 @@ public class CellRegistration03ViewController: UIViewController {
                         )
                     }
                     
-                    dataSource = UICollectionViewDiffableDataSource<Int, Item>(collectionView: collectionView) {
+                    self.dataSource = UICollectionViewDiffableDataSource<Int, Item>(collectionView: collectionView) {
                         (collectionView: UICollectionView, indexPath: IndexPath, item: Item) -> UICollectionViewCell? in
                         collectionView.dequeueConfiguredReusableCell(
                             using: cellRegistration,

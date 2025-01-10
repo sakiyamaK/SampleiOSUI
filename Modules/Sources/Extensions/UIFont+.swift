@@ -44,3 +44,12 @@ public extension UIFont {
         .safeNotoSansCJKjpBold(size: size)
     }
 }
+
+public extension UIFont {
+    func withSymbolicTraits(_ symbolicTraits: UIFontDescriptor.SymbolicTraits) -> UIFont {
+        UIFont(
+            descriptor: self.fontDescriptor.withSymbolicTraits(symbolicTraits)!,
+            size: 0
+        )
+    }
+}

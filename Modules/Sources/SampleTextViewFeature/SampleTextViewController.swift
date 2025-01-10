@@ -42,7 +42,7 @@ public class SampleTextViewController: UIViewController {
         self.view.backgroundColor = .white
 
         self.declarative {
-            UITextView(assign: &textView)
+            UITextView(assign: &self.textView)
                 .apply({
                     $0.textStorage.replaceCharacters(in: NSRange(location: 0, length: 0), with: SampleTextContents.sample01)
                   
@@ -54,7 +54,7 @@ public class SampleTextViewController: UIViewController {
         //中心に配置するレイアウトがDeclarativeUIKitが未対応だったので既存の貼り方
 
         self.view.addSubview(
-            UIView(assign: &circleView)
+            UIView(assign: &self.circleView)
         )
 
         circleView.translatesAutoresizingMaskIntoConstraints = false

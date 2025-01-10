@@ -80,7 +80,7 @@ final class DiffableDataSources02ViewController: UIViewController {
                     }
                 }
                 .registerCellClass(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.reuseId)
-                .assign(to: &collectionView)
+                .assign(to: &self.collectionView)
             }
         }
     }

@@ -35,7 +35,7 @@ public class ScrollNavigationBarPagingViewController: UIViewController, ScrollNa
                 UICollectionView(UICollectionViewCompositionalLayout.list(using: .init(appearance: .plain)))
                     .delegate(self)
                     .dataSource(self)
-                    .assign(to: &collectionView)
+                    .assign(to: &self.collectionView)
             }
 
         scrollHideViewActions = setScrollHideViewActions?(collectionView) ?? []

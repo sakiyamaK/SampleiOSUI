@@ -23,8 +23,8 @@ public final class AnimatedFloatingActionButton: UIView {
             UIStackView.horizontal {
                 UIImageView(UIImage(systemName: "house")?.withTintColor(.black, renderingMode: .alwaysOriginal))
                     .contentMode(.scaleAspectFit)
-                    .assign(to: &imageView)
-                UILabel(assign: &label)
+                    .assign(to: &self.imageView)
+                UILabel(assign: &self.self.label)
             }
             .spacing(4)
             .padding(insets: .init(horizontal: 10))

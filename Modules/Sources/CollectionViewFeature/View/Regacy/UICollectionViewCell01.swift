@@ -25,7 +25,7 @@ final class UICollectionViewCell01: UICollectionViewCell {
         super.init(frame: frame)
         contentView.declarative {
             UIStackView.vertical {
-                UILabel(assign: &textLabel)
+                UILabel(assign: &self.textLabel)
                     .contentHuggingPriority(.required, for: .vertical)
                     .contentCompressionResistancePriority(.required, for: .vertical)
             }

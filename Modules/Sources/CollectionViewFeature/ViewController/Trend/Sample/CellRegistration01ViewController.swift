@@ -38,7 +38,7 @@ final class CellRegistration01ViewController: UIViewController {
             $0.backgroundColor(.white)
         }.declarative {
             UIStackView.vertical {
-                UISearchBar(assign: &searchBar)
+                UISearchBar(assign: &self.searchBar)
                     .searchBarStyle(.minimal)
                     .placeholder("placeholderだよおおん")
                     .barTintColor(.white)
@@ -77,7 +77,7 @@ final class CellRegistration01ViewController: UIViewController {
                 }
                 .dataSource(self)
                 .delegate(self)
-                .assign(to: &collectionView)
+                .assign(to: &self.collectionView)
                 .backgroundColor(.systemGray)
             }
         }

@@ -125,7 +125,7 @@ public final class CellRegistration02ViewController: UIViewController, UICollect
                     // MEMO:
                     // これまでみたいにカスタムセルでレイアウト組んだら
                     // UICollectionView以外では使いづらいみたいなことがない
-                    ContentView(configuration: samples.first!)
+                    ContentView(configuration: self.samples.first!)
                 }
                 .padding(insets: .init(all: 8))
                 .backgroundColor(.lightGray)

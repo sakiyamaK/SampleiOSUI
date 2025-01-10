@@ -56,7 +56,7 @@ final class CompositionalLayout01ViewController: UIViewController {
             }
             .registerCellClass(UICollectionViewCell01.self, forCellWithReuseIdentifier: UICollectionViewCell01.reuseId)
             .backgroundColor(.systemGray)
-            .assign(to: &collectionView)
+            .assign(to: &self.collectionView)
             .dataSource(self)
             .delegate(self)
         }

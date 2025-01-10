@@ -18,7 +18,7 @@ final class UIImageViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.declarative {
-            UIImageView(assign: &imageView)
+            UIImageView(assign: &self.imageView)
         }
 
         contentView

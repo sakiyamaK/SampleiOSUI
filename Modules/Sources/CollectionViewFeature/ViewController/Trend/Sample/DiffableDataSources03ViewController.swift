@@ -83,7 +83,7 @@ final class CollecitonHeader: UICollectionReusableView {
         self.backgroundColor = .white
 
         self.declarative {
-            UILabel(assign: &label)
+            UILabel(assign: &self.label)
                 .contentPriorities(.init(vertical: .required))
                 .isUserInteractionEnabled(true)
                 .padding(insets: .init(top: 20, left: 8, bottom: 20, right: 8))
@@ -131,7 +131,7 @@ final class AccordionCollectionViewCell: UICollectionViewCell {
     @objc func setupLayout() {
 
         self.contentView.declarative {
-            UILabel(assign: &label)
+            UILabel(assign: &self.label)
                 .font(UIFont.defaultFontBold(size: 20))
                 .contentPriorities(.init(vertical: .required))
                 .isUserInteractionEnabled(true)
@@ -179,7 +179,7 @@ final class AccordionCollectionViewCell2: UICollectionViewCell {
     @objc func setupLayout() {
 
         self.contentView.declarative {
-            UILabel(assign: &label)
+            UILabel(assign: &self.label)
                 .font(UIFont.defaultFontBold(size: 20))
                 .contentPriorities(.init(vertical: .required))
                 .isUserInteractionEnabled(true)
@@ -273,7 +273,7 @@ public final class DiffableDataSources03ViewController: UIViewController, UIColl
                         self.performQuery(sampless: self.sampless)
                     })
             })
-            .assign(to: &collectionView)
+            .assign(to: &self.collectionView)
 //            .registerCellClass(AccordionCollectionViewCell.self, forCellWithReuseIdentifier: AccordionCollectionViewCell.className)
 //            .registerCellClass(AccordionCollectionViewCell2.self, forCellWithReuseIdentifier: AccordionCollectionViewCell2.className)
 //            .registerViewClass(CollecitonHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollecitonHeader.className)

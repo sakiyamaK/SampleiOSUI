@@ -42,7 +42,7 @@ public class NavigationTabView: UIView, ScrollNavigationTabBarPageTabViewProtoco
                     UIStackView.horizontal {
                         parameter.buttons
                     }
-                }.assign(to: &navigationTabBarScrollView)
+                }.assign(to: &self.navigationTabBarScrollView)
             }
         
         if !parameter.buttons.isEmpty {

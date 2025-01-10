@@ -32,7 +32,7 @@ let package = Package(
         .library(name: "ConcurrencyFeature", targets: ["ConcurrencyFeature"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/sakiyamaK/DeclarativeUIKit", from: "3.4.0"),
+        .package(url: "https://github.com/sakiyamaK/DeclarativeUIKit", from: "4.3.0"),
         .package(url: "https://github.com/sakiyamaK/ObservableUIKit", from: "0.0.3"),
         .package(url: "https://github.com/sakiyamaK/UIKitConfiguration", from: "0.0.2"),
         .package(url: "https://github.com/onevcat/Kingfisher", from: "7.6.2"),
