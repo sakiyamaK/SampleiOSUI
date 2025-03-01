@@ -30,14 +30,14 @@ let package = Package(
         .library(name: "ButtonsFeature", targets: ["ButtonsFeature"]),
         .library(name: "Swift6Feature", targets: ["Swift6Feature"]),
         .library(name: "ConcurrencyFeature", targets: ["ConcurrencyFeature"]),
+        .library(name: "SampleSwiftDataFeature", targets: ["SampleSwiftDataFeature"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/sakiyamaK/DeclarativeUIKit", from: "4.3.0"),
-        .package(url: "https://github.com/sakiyamaK/ObservableUIKit", from: "0.0.3"),
+        .package(url: "https://github.com/sakiyamaK/DeclarativeUIKit", from: "4.4.0"),
+        .package(url: "https://github.com/sakiyamaK/ObservableUIKit", from: "2.1.0"),
         .package(url: "https://github.com/sakiyamaK/UIKitConfiguration", from: "0.0.2"),
         .package(url: "https://github.com/onevcat/Kingfisher", from: "7.6.2"),
         .package(url: "https://github.com/hackiftekhar/IQKeyboardManager", from: "7.0.1"),
-//        .package(url: "https://github.com/mac-cain13/R.swift", from: "7.5.0"),
         .package(url: "https://github.com/HeroTransitions/Hero", from: "1.6.2"),
         .package(url: "https://github.com/ChartsOrg/Charts", from: "5.1.0"),
         .package(url: "https://github.com/sakiyamaK/ModernCollectionView", from: "0.0.7"),
@@ -50,7 +50,6 @@ let package = Package(
         .package(url: "https://github.com/iAllenC/UITextView-Placeholder", branch: "master"),
         .package(url: "https://github.com/nobreak/ImageViewer", branch: "master"),
         .package(url: "https://github.com/scalessec/Toast-Swift", from: "5.1.1"),
-        
     ],
     targets: [
         .target(
@@ -61,7 +60,12 @@ let package = Package(
             ]
         ),
         .target(
-            name: "Extensions"
+            name: "Extensions",
+            dependencies: [
+                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
+                .product(name: "SwiftyAttributes", package: "SwiftyAttributes")
+            ]
+
         ),
         .target(
             name: "Files"
@@ -100,7 +104,8 @@ let package = Package(
                 "SwiftUIHostingFeature",
                 "ComposeForiOSNative",
                 "ArchitectureFeature",
-                "ButtonsFeature"
+                "ButtonsFeature",
+                "SampleSwiftDataFeature"
             ]
         ),
         .target(
@@ -239,6 +244,9 @@ let package = Package(
             dependencies: [
                 "Components",
                 "Extensions",
+            ] + [
+                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
+                .product(name: "ObservableUIKit", package: "ObservableUIKit"),
             ]
         ),
         .target(
@@ -323,6 +331,18 @@ let package = Package(
             ] + [
                 .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
                 .product(name: "IQKeyboardManagerSwift", package: "IQKeyboardManager"),
+            ]
+        ),
+        .target(
+            name: "SampleSwiftDataFeature",
+            dependencies: [
+                "Components",
+                "Extensions",
+                "Files",
+                "Utils"
+            ] + [
+                .product(name: "DeclarativeUIKit", package: "DeclarativeUIKit"),
+                .product(name: "ObservableUIKit", package: "ObservableUIKit"),
             ]
         ),
     ]

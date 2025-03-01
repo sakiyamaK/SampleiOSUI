@@ -125,11 +125,19 @@ public extension UIButton {
         highlighted hilightedColor: UIColor? = .Button.hilighted,
         cornerRadius: CGFloat = 0
     ) -> Self {
-        self.textBackgroundColors(
-            default: defaultColor,
-            highlighted: hilightedColor,
-            cornerRadius: cornerRadius
-        )
+        self.configurationUpdateHandler({ button in
+            button.configuration?.background = switch button.state {
+            case .highlighted:
+                UIBackgroundConfiguration.clear()
+                    .backgroundColor(hilightedColor)
+                    .cornerRadius(cornerRadius)
+            default:
+                UIBackgroundConfiguration.clear()
+                    .backgroundColor(defaultColor)
+                    .cornerRadius(cornerRadius)
+            }
+        })
+        return self
     }
 }
 
@@ -173,26 +181,15 @@ public extension UIButton {
         highlighted hilightedColor: UIColor? = .Button.hilighted,
         cornerRadius: CGFloat = 0
     ) -> Self {
-        self.configurationUpdateHandler({ button in
-
-            let background = switch button.state {
-            case .highlighted:
-                UIBackgroundConfiguration.clear()
-                    .backgroundColor(hilightedColor)
-                    .cornerRadius(cornerRadius)
-            default:
-                UIBackgroundConfiguration.clear()
-                    .backgroundColor(defaultColor)
-                    .cornerRadius(cornerRadius)
-            }
-
-            button.configuration?.background = background
-        })
-        return self
+        self.planBackgroundColors(
+            default: defaultColor,
+            highlighted: hilightedColor,
+            cornerRadius: cornerRadius
+        )
     }
 }
 
-// MARK: -
+// MARK: - storke
 public extension UIButton.Configuration {
     static func storkeButtonConfiguration(title: String, buttonSize: Size = .large) -> UIButton.Configuration {
         UIButton.Configuration.filled()
@@ -208,4 +205,27 @@ public extension UIButton.Configuration {
                     .strokeWidth(1.0)
             )
     }
+}
+
+public extension UIButton {
+    func strokeBackgroundColors(
+        default defaultColor: UIColor = .Button.white,
+        highlighted hilightedColor: UIColor? = .Button.hilighted
+    ) -> Self {
+        self.configurationUpdateHandler({ button in
+            guard let nowBackground = button.configuration?.background else {
+                return
+            }
+            button.configuration?.background = switch button.state {
+            case .highlighted:
+                nowBackground
+                    .backgroundColor(hilightedColor)
+            default:
+                nowBackground
+                    .backgroundColor(defaultColor)
+            }
+        })
+        return self
+    }
+
 }

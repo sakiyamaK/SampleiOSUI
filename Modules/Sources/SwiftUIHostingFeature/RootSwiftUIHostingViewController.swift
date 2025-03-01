@@ -8,8 +8,8 @@
 
 import UIKit
 import DeclarativeUIKit
-import Hero
-import Extensions
+//import Hero
+//import Extensions
 
 private enum ViewType: String, CaseIterable {
     

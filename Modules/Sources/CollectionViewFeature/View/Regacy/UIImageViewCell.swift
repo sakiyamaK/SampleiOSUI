@@ -57,11 +57,39 @@ final class UIImageViewCell: UICollectionViewCell {
     }
 }
 
+
+final class CustomCell: UITableViewCell {
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        self.contentView.backgroundColor = .systemBlue
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+}
+
 #Preview {
-    UIViewController()
-        .declarative {
-            UIImageViewCell()
-                .configure(sample: .init(image: UIImage(systemName: "square.and.arrow.up")))
-                .center()
-        }
+    {
+        let vc = UIViewController()
+        vc.view.backgroundColor = .systemBackground
+
+        let cell = CustomCell(style: .default, reuseIdentifier: nil)
+        vc.view.addSubview(cell)
+
+        cell.contentView.backgroundColor = .systemBlue
+
+        cell.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            cell.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor),
+            cell.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor),
+            cell.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor),
+            cell.heightAnchor.constraint(equalToConstant: 100)
+        ])
+        
+        return vc
+    }()
 }

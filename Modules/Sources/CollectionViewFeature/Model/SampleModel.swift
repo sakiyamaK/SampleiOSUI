@@ -75,12 +75,12 @@ extension SampleModel {
     }
 }
 
-struct SampleModel02: Hashable {
+struct SampleModel02: Hashable, Identifiable {
     var text: String
 
-    let identifier = UUID()
+    let id = UUID()
     func hash(into hasher: inout Hasher) {
-        hasher.combine(identifier)
+        hasher.combine(id)
     }
 
 //    static func == (lhs: Self, rhs: Self) -> Bool {

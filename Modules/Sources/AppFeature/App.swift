@@ -20,9 +20,11 @@ import UIKit
 import DeclarativeUIKit
 import IQKeyboardManagerSwift
 import ButtonsFeature
+import SwiftData
+import SampleSwiftDataFeature
 
 private enum ViewType: String, CaseIterable {
-    
+    case SwiftData
     case Hero
     case SampleTextView
     case ScrollNavigationBar
@@ -39,6 +41,8 @@ private enum ViewType: String, CaseIterable {
 
     var viewController: UIViewController {
         switch self {
+        case .SwiftData:
+            SampleSwiftDataViewController()
         case .Hero:
             SampleHeroViewContreoller()
         case .SampleTextView:
@@ -51,6 +55,7 @@ private enum ViewType: String, CaseIterable {
             ChartsViewController()
         case .Sample:
             UIViewController()
+//            SampleViewController()
         case .CollectionView:
             RootCollectionViewController()
         case .SampleAffine:
@@ -65,14 +70,15 @@ private enum ViewType: String, CaseIterable {
             SampleComposeForiOSNativeViewController()
         case .ArchitectureFeature:
             UserTab2RouterImpl.assembleModules()
-        default:
-            UIViewController()
         }
     }
 }
 
 public final class RootViewController: UIViewController {
-            
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+
     public override func loadView() {
         super.loadView()
 
@@ -95,7 +101,13 @@ public final class RootViewController: UIViewController {
                                     if vc is UITabBarController {
                                         self?.navigationController?.setNavigationBarHidden(true, animated: true)
                                     }
-                                    LeakChecker.shared.append(instance: vc)
+                                    if let vc = vc as? SampleSwiftDataViewController {
+                                        print(#line)
+                                        vc.set(
+                                            viewModel: SampleSwiftDataViewModel()
+                                        )
+                                    }
+//                                    LeakChecker.shared.append(instance: vc)
                                     self?.navigationController?.pushViewController(vc, animated: true)
                                 }
                             })
@@ -114,28 +126,19 @@ public final class RootViewController: UIViewController {
 @MainActor
 public class App {
     public static let shared: App = .init()
+
     private init() {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableDebugging = true
     }
 
     private(set) var window: UIWindow?
-    
+
     public func showRoot(window: UIWindow) {
 
-//        let naviCon = UINavigationController(navigationBarClass: CustomNavigationBar.self, toolbarClass: nil)
-//        naviCon.setViewControllers([CustomNavigationViewController()], animated: false)
         window.rootViewController = RootViewController().withNavigationController
+
         window.makeKeyAndVisible()
         self.window = window
     }
-}
-
-#Preview {
-    {
-//        let naviCon = UINavigationController(navigationBarClass: CustomNavigationBar.self, toolbarClass: nil)
-//        naviCon.setViewControllers([RootViewController()], animated: false)
-//        return naviCon
-        RootViewController().withNavigationController
-    }()
 }

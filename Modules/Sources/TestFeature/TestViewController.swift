@@ -1,6 +1,6 @@
 //
 //  CoreLibraries.swift
-//  
+//
 //
 //  Created by sakiyamaK on 2024/08/24.
 //
@@ -18,16 +18,30 @@ public extension UITextView {
 }
 
 final class TestViewController: UIViewController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.declarative {
+
+        self.declarative(layoutGuides: .init(all: .margins)) {
             UITextView()
                 .placeholder("hogehoge")
-//            UIButton(configuration: UIButton.Configuration.bordered().title("ボタンです"))
+            //            UIButton(configuration: UIButton.Configuration.bordered().title("ボタンです"))
         }
+//        .applyView {
+//            $0.layoutMargins(UIEdgeInsets.zero)
+//        }
     }
+
+    override func viewWillLayoutSubviews() {
+            super.viewWillLayoutSubviews()
+            let trait = view.traitCollection
+            // 向きに応じた処理
+            if trait.horizontalSizeClass == .compact && trait.verticalSizeClass == .regular {
+                print("|")
+            } else if trait.horizontalSizeClass == .regular && trait.verticalSizeClass == .compact {
+                print("-")
+            }
+        }
 }
 
 #Preview {

@@ -43,7 +43,7 @@ final class DiffableDataSources01ViewController: UIViewController {
         case main
     }
 
-    var dataSource: UICollectionViewDiffableDataSource<Section, SampleModel02>!
+    var dataSource: UICollectionViewDiffableDataSource<Section, SampleModel02.ID>!
 
     private weak var collectionView: UICollectionView!
 
@@ -97,10 +97,14 @@ final class DiffableDataSources01ViewController: UIViewController {
 extension DiffableDataSources01ViewController {
     func configureDataSource() {
         // データソースを定義
-        dataSource = UICollectionViewDiffableDataSource<Section, SampleModel02>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, sample: SampleModel02) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<Section, SampleModel02.ID>(collectionView: collectionView) { (
+            collectionView: UICollectionView,
+            indexPath: IndexPath,
+            id: SampleModel02.ID
+        ) -> UICollectionViewCell? in
             // ここでこれまでDataSoucesプロトコルでやっていたセルの構築を行う
             (collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell01.reuseId, for: indexPath) as! UICollectionViewCell01)
-                .configure(sample: sample)
+                .configure(sample: SampleModel02.samples.first(where: { $0.id == id })!)
         }
     }
 
@@ -113,11 +117,11 @@ extension DiffableDataSources01ViewController {
 //            .sorted { $0.text < $1.text }
 
         // 新しいsnapshotを用意する
-        var snapshot = NSDiffableDataSourceSnapshot<Section, SampleModel02>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, SampleModel02.ID>()
         // セクションの数を登録する
         snapshot.appendSections([.main])
         // セルの配列を登録する
-        snapshot.appendItems(samples)
+        snapshot.appendItems(samples.compactMap(\.id))
         // データソースにsnapshotを適応させる
         dataSource.apply(snapshot, animatingDifferences: true)
     }
